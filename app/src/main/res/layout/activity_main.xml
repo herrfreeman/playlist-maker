@@ -30,6 +30,7 @@
         android:padding="16dp">
 
         <Button
+            android:id="@+id/search_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="16dp"
@@ -47,6 +48,7 @@
             app:iconTint="@color/black" />
 
         <Button
+            android:id="@+id/media_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="16dp"
@@ -64,6 +66,7 @@
             app:iconTint="@color/black" />
 
         <Button
+            android:id="@+id/settings_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="12dp"
