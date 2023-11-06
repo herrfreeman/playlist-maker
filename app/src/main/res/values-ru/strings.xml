@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_btn_title">Поиск</string>
+    <string name="media_btn_title">Медиатека</string>
+    <string name="settings_btn_title">Настройки</string>
+    <string name="settings_title">Настройки</string>
+    <string name="darktheme_switch">Темная тема</string>
+    <string name="share_application">Поделиться приложением</string>
+    <string name="write_to_support">Написать в поддержку</string>
+    <string name="license_agreement">Пользовательское соглашение</string>
+    <string name="search_title">Поиск</string>
+    <string name="media_library_title">Медиатека</string>
+</resources>
