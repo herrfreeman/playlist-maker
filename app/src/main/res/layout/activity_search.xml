@@ -2,25 +2,16 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    style="@style/BackgroundLayout">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        style="@style/RegularToolbarLayout">
 
         <com.google.android.material.appbar.MaterialToolbar
+            style="@style/RegularToolbar"
             android:id="@+id/searchToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/toolbar_minimum_height"
-            app:navigationIcon="@drawable/arrow_left"
-            app:navigationIconTint="@color/yp_black"
-            app:title="@string/search_title"
-            app:titleTextColor="@color/yp_black"
-            android:background="@color/white"/>
-
+            app:title="@string/search_title"/>
     </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+

@@ -1,70 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:gravity="top"
-    android:orientation="vertical">
-
+    style="@style/BackgroundLinearLayout">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        style="@style/RegularToolbarLayout">
         <com.google.android.material.appbar.MaterialToolbar
+            style="@style/RegularToolbar"
             android:id="@+id/settingsToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:minHeight="@dimen/toolbar_minimum_height"
-            app:navigationIcon="@drawable/arrow_left"
-            app:navigationIconTint="@color/yp_black"
-            app:title="@string/settings_title"
-            app:titleTextColor="@color/yp_black" />
-
+            app:title="@string/settings_title"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <androidx.appcompat.widget.SwitchCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/BasicListStyle"
         android:paddingVertical="18dp"
         android:paddingStart="18dp"
         android:paddingEnd="6dp"
-        android:text="@string/darktheme_switch"
-        android:textColor="@color/yp_black"
-        android:textSize="@dimen/textBoxTextSize" />
+        android:text="@string/darktheme_switch"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|center_vertical"
-        android:padding="@dimen/textBoxPadding"
+        style="@style/BasicListStyle"
         android:text="@string/share_application"
-        android:textColor="@color/yp_black"
-        android:textSize="@dimen/textBoxTextSize"
         app:drawableEndCompat="@drawable/graph"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|center_vertical"
-        android:padding="@dimen/textBoxPadding"
+        style="@style/BasicListStyle"
         android:text="@string/write_to_support"
-        android:textColor="@color/yp_black"
-        android:textSize="@dimen/textBoxTextSize"
         app:drawableEndCompat="@drawable/caller"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|center_vertical"
-        android:padding="@dimen/textBoxPadding"
+        style="@style/BasicListStyle"
         android:text="@string/license_agreement"
-        android:textColor="@color/yp_black"
-        android:textSize="@dimen/textBoxTextSize"
         app:drawableEndCompat="@drawable/smallarrow_right"/>
 
 </LinearLayout>
