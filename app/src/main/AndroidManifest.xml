@@ -19,7 +19,7 @@
             android:name=".MediaLibraryActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.practicum.playlistmaker.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

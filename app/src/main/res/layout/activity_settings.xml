@@ -11,24 +11,26 @@
             app:title="@string/settings_title"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.appcompat.widget.SwitchCompat
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/theme_switcher"
         style="@style/BasicListStyle"
-        android:paddingVertical="18dp"
-        android:paddingStart="18dp"
-        android:paddingEnd="6dp"
+        android:checked="false"
         android:text="@string/darktheme_switch"/>
 
     <TextView
+        android:id="@+id/share_application"
         style="@style/BasicListStyle"
         android:text="@string/share_application"
         app:drawableEndCompat="@drawable/graph"/>
 
     <TextView
+        android:id="@+id/write_to_support"
         style="@style/BasicListStyle"
         android:text="@string/write_to_support"
         app:drawableEndCompat="@drawable/caller"/>
 
     <TextView
+        android:id="@+id/read_agreement"
         style="@style/BasicListStyle"
         android:text="@string/license_agreement"
         app:drawableEndCompat="@drawable/smallarrow_right"/>
