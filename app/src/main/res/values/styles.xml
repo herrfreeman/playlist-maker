@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="BasicListStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -14,7 +15,8 @@
     <style name="RegularToolbarLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="backgroundColor">?attr/colorPrimary</item>
+        <item name="backgroundColor">?attr/colorBackgroundFloating</item>
+        <item name="android:background">?attr/colorBackgroundFloating</item>
     </style>
 
     <style name="RegularToolbar" parent="RegularToolbarLayout">
@@ -29,7 +31,8 @@
     <style name="BackgroundLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="backgroundColor">?attr/colorPrimary</item>
+        <item name="android:background">?attr/colorBackgroundFloating</item>
+        <item name="backgroundColor">?attr/colorBackgroundFloating</item>
     </style>
 
     <style name="BackgroundLinearLayout" parent="BackgroundLayout">
@@ -39,7 +42,6 @@
 
 
     <style name="ButtonStyle">
-
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_marginBottom">16dp</item>
@@ -58,5 +60,38 @@
 
     </style>
 
+    <style name="Searchlayout">
 
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+
+        <item name="boxBackgroundColor">?attr/search_background</item>
+
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="hintEnabled">false</item>
+        <item name="startIconDrawable">@drawable/loupe</item>
+        <item name="startIconTint">?attr/search_hint_color</item>
+        <item name="endIconDrawable">@drawable/cancel</item>
+        <item name="endIconTint">?attr/search_hint_color</item>
+        <item name="endIconMode">clear_text</item>
+
+    </style>
+
+
+    <style name="SearchTextInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/search_text_color</item>
+        <item name="android:textColorHint">?attr/search_hint_color</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">@dimen/textBoxTextSize</item>
+        <item name="android:fontFamily">@font/ys_text_regular</item>
+        <item name="android:textFontWeight">400</item>
+    </style>
 </resources>

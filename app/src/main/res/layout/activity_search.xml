@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/BackgroundLayout">
+    style="@style/BackgroundLayout"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        style="@style/RegularToolbarLayout">
+        style="@style/RegularToolbarLayout"        >
 
         <com.google.android.material.appbar.MaterialToolbar
             style="@style/RegularToolbar"
@@ -13,5 +14,26 @@
             app:title="@string/search_title"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField"
+        style="@style/Searchlayout"
+
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_edit_text"
+            style="@style/SearchTextInput"
+            android:hint="@string/search_title"
+            android:maxLength="100"
+            android:maxLines="1"
+            android:inputType="text"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+</LinearLayout>
 
