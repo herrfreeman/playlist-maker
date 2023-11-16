@@ -16,6 +16,6 @@
     <string name="mailto_support_subject">Message to Playlist Maker application developers</string>
     <string name="mailto_support_text">Thank you for the awesome application!</string>
     <string name="agreement_link" translatable="false">https://yandex.ru/legal/practicum_offer</string>
-    <string name="application_link" translatable="false">https://github.com/herrfreeman/playlist-maker</string>
+    <string name="application_link" translatable="false">https://practicum.yandex.ru/android-developer</string>
 
 </resources>

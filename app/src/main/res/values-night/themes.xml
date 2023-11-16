@@ -7,8 +7,9 @@
         <item name="colorSecondary">@color/yp_black</item>
 
         <item name="search_background">@color/white</item>
-        <item name="search_hint_color">@color/yp_gray</item>
+        <item name="search_hint_color">@color/yp_black</item>
         <item name="search_text_color">@color/yp_black</item>
+        <item name="dark_mode">true</item>
 
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:windowLightStatusBar">false</item>

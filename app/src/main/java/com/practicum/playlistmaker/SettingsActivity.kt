@@ -2,6 +2,7 @@ package com.practicum.playlistmaker
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -24,9 +25,17 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.theme_switcher)
+        val nightModeOn = getResources().getConfiguration().uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+        //Instead if this used android:checked="?attr/dark_mode" in layout
+        //themeSwitcher.isChecked = nightModeOn
+        Log.d("MANUAL_DEBUG", "On activity create nightModeOn = $nightModeOn")
 
         themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
-            AppCompatDelegate.setDefaultNightMode(if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+            Log.d("MANUAL_DEBUG", "Dark mode switcher changed to $isChecked")
+            val nightModeOn = getResources().getConfiguration().uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+            if (isChecked != nightModeOn) {
+                AppCompatDelegate.setDefaultNightMode(if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
 
         val shareButton = findViewById<TextView>(R.id.share_application)
