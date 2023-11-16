@@ -14,7 +14,7 @@
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/theme_switcher"
         style="@style/BasicListStyle"
-        android:checked="?attr/dark_mode"
+        android:saveEnabled="false"
         android:text="@string/darktheme_switch"/>
 
     <TextView

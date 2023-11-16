@@ -26,12 +26,9 @@ class SettingsActivity : AppCompatActivity() {
 
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.theme_switcher)
         val nightModeOn = getResources().getConfiguration().uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-        //Instead if this used android:checked="?attr/dark_mode" in layout
-        //themeSwitcher.isChecked = nightModeOn
-        Log.d("MANUAL_DEBUG", "On activity create nightModeOn = $nightModeOn")
+        themeSwitcher.isChecked = nightModeOn
 
         themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
-            Log.d("MANUAL_DEBUG", "Dark mode switcher changed to $isChecked")
             val nightModeOn = getResources().getConfiguration().uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
             if (isChecked != nightModeOn) {
                 AppCompatDelegate.setDefaultNightMode(if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
