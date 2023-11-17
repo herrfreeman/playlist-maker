@@ -2,7 +2,7 @@
     <string name="app_title" translatable="false">Playlist maker</string>
     <string name="app_name" translatable="false">Playlist Maker</string>
     <string name="search_btn_title">Search</string>
-    <string name="media_btn_title">Media lidrary</string>
+    <string name="media_btn_title">Media library</string>
     <string name="settings_btn_title">Settings</string>
     <string name="settings_title">Settings</string>
     <string name="darktheme_switch">Dark theme</string>
@@ -11,4 +11,11 @@
     <string name="license_agreement">Terms of use</string>
     <string name="search_title">Search</string>
     <string name="media_library_title">Media library</string>
+
+    <string name="support_email" translatable="false">freeman@blackmesa.ru</string>
+    <string name="mailto_support_subject">Message to Playlist Maker application developers</string>
+    <string name="mailto_support_text">Thank you for the awesome application!</string>
+    <string name="agreement_link" translatable="false">https://yandex.ru/legal/practicum_offer</string>
+    <string name="application_link" translatable="false">https://practicum.yandex.ru/android-developer</string>
+
 </resources>

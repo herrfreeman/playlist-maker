@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="search_background" format="color" />
+    <attr name="search_hint_color" format="color" />
+    <attr name="search_text_color" format="color" />
+    <attr name="dark_mode" format="boolean" />
+</resources>
