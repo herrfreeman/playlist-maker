@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/searchTopView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/BackgroundLayout"
+    style="@style/Widget.PlayListMaker.CommonActivity"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        style="@style/RegularToolbarLayout"        >
-
+        style="@style/Widget.PlayListMaker.CommonActivity.Toolbar">
         <com.google.android.material.appbar.MaterialToolbar
-            style="@style/RegularToolbar"
-            android:id="@+id/searchToolbar"
+            android:id="@+id/search_toolbar"
+            style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
             app:title="@string/search_title"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/searchEditTextLayout"
-        style="@style/Searchlayout">
+        android:id="@+id/search_edit_text_layout"
+        style="@style/Widget.PlayListMaker.SearchWidget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/searchEditText"
-            style="@style/SearchTextInput"
+            android:id="@+id/search_edit_text"
+            style="@style/Widget.PlayListMaker.SearchWidget.Input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
             android:hint="@string/search_title"
             android:maxLength="100"
             android:maxLines="1"

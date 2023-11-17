@@ -1,15 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Base.Theme.PlaylistMaker" parent="Theme.Material3.DayNight.NoActionBar">
+
         <item name="colorPrimary">@color/yp_black</item>
-        <item name="colorBackgroundFloating">@color/yp_black</item>
+        <item name="main_background_color">@color/yp_black</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/yp_black</item>
+        <item name="colorOnSecondary">@color/white</item>
 
         <item name="search_background">@color/white</item>
         <item name="search_hint_color">@color/yp_black</item>
         <item name="search_text_color">@color/yp_black</item>
-        <item name="dark_mode">true</item>
 
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:windowLightStatusBar">false</item>
@@ -19,6 +20,5 @@
     <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker" />
 
     <style name="Theme.PlaylistMaker.MainActivity" parent="Theme.PlaylistMaker"/>
-
 
 </resources>

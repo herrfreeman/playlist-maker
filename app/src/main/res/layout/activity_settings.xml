@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/BackgroundLinearLayout">
+    style="@style/Widget.PlayListMaker.CommonActivity"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        style="@style/RegularToolbarLayout">
+        style="@style/Widget.PlayListMaker.CommonActivity.Toolbar">
         <com.google.android.material.appbar.MaterialToolbar
-            style="@style/RegularToolbar"
-            android:id="@+id/settingsToolbar"
+            android:id="@+id/settings_toolbar"
+            style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
             app:title="@string/settings_title"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/theme_switcher"
-        style="@style/BasicListStyle"
+        style="@style/Widget.PlayListMaker.SettingsItem"
         android:saveEnabled="false"
         android:text="@string/darktheme_switch"/>
 
     <TextView
         android:id="@+id/share_application"
-        style="@style/BasicListStyle"
+        style="@style/Widget.PlayListMaker.SettingsItem"
         android:text="@string/share_application"
         app:drawableEndCompat="@drawable/graph"/>
 
     <TextView
         android:id="@+id/write_to_support"
-        style="@style/BasicListStyle"
+        style="@style/Widget.PlayListMaker.SettingsItem"
         android:text="@string/write_to_support"
         app:drawableEndCompat="@drawable/caller"/>
 
     <TextView
         android:id="@+id/read_agreement"
-        style="@style/BasicListStyle"
+        style="@style/Widget.PlayListMaker.SettingsItem"
         android:text="@string/license_agreement"
         app:drawableEndCompat="@drawable/smallarrow_right"/>
 

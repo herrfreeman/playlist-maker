@@ -4,13 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toolbar
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -25,12 +21,12 @@ class SearchActivity : AppCompatActivity() {
 
         setCleanSearchButtonVisibility()
 
-        val topToolbar = findViewById<MaterialToolbar>(R.id.searchToolbar)
+        val topToolbar = findViewById<MaterialToolbar>(R.id.search_toolbar)
         topToolbar.setNavigationOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        val searchTextEdit = findViewById<TextInputEditText>(R.id.searchEditText)
+        val searchTextEdit = findViewById<TextInputEditText>(R.id.search_edit_text)
         val searchTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -41,9 +37,9 @@ class SearchActivity : AppCompatActivity() {
         }
         searchTextEdit.addTextChangedListener(searchTextWatcher)
 
-        val searchTextEditLayout = findViewById<TextInputLayout>(R.id.searchEditTextLayout)
+        val searchTextEditLayout = findViewById<TextInputLayout>(R.id.search_edit_text_layout)
         searchTextEditLayout.setEndIconOnClickListener {
-            val searchTextEdit = findViewById<TextInputEditText>(R.id.searchEditText)
+//            val searchTextEdit = findViewById<TextInputEditText>(R.id.search_edit_text)
             searchTextEdit.setText(SEARCH_STRING_DEFAULT)
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(searchTextEdit.windowToken, 0)
@@ -52,8 +48,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     fun setCleanSearchButtonVisibility() {
-        val searchTextEditLayout = findViewById<TextInputLayout>(R.id.searchEditTextLayout)
-        searchTextEditLayout.setEndIconVisible(!searchString.isEmpty())
+        val searchTextEditLayout = findViewById<TextInputLayout>(R.id.search_edit_text_layout)
+        searchTextEditLayout.isEndIconVisible = !searchString.isEmpty()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -64,7 +60,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         searchString = savedInstanceState.getString(SEARCH_STRING, SEARCH_STRING_DEFAULT) ?: SEARCH_STRING_DEFAULT
-        val searchTextEdit = findViewById<TextInputEditText>(R.id.searchEditText)
+        val searchTextEdit = findViewById<TextInputEditText>(R.id.search_edit_text)
         searchTextEdit.setText(searchString)
     }
 

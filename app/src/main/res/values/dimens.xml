@@ -1,14 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="counter_text_size">20sp</dimen>
-    <dimen name="toolbar_height">56dp</dimen>
-    <dimen name="toolbar_minimum_height">56dp</dimen>
-    <dimen name="textBoxPadding">18dp</dimen>
-    <dimen name="textBoxTextSize">16sp</dimen>
-    <dimen name="imageDefaultSize">24dp</dimen>
-    <dimen name="imageMargin">12dp</dimen>
-    <dimen name="mainButtonTextSize">22sp</dimen>
-    <dimen name="mainIconSize">24dp</dimen>
-    <dimen name="mainIconPadding">8dp</dimen>
-    <dimen name="buttonRadius">16dp</dimen>
-</resources>
+<resources/>
