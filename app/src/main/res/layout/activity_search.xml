@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.PlayListMaker.CommonActivity"
     android:orientation="vertical">
 
@@ -34,7 +34,14 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/track_recycler_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    android:orientation="vertical"
+    tools:listitem="@layout/activity_track_item"/>
 
 
 </LinearLayout>

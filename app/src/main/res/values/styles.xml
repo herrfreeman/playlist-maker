@@ -73,7 +73,22 @@
                     <item name="android:background"/>
                 </style>
 
-        <style name="Widget.PlayListMaker.SettingsItem">
+            <style name="Widget.PlayListMaker.Track">
+                <item name="android:tint">?attr/track_description_color</item>
+                <item name="android:lines">1</item>
+                <item name="android:ellipsize">end</item>
+            </style>
+
+            <style name="Widget.PlayListMaker.Track.Name">
+                <item name="android:textSize">16sp</item>
+            </style>
+
+            <style name="Widget.PlayListMaker.Track.Description">
+                <item name="android:textSize">11sp</item>
+                <item name="android:textColor">?attr/track_description_color</item>
+            </style>
+
+    <style name="Widget.PlayListMaker.SettingsItem">
             <item name="android:layout_width">match_parent</item>
             <item name="android:layout_height">wrap_content</item>
             <item name="android:layout_gravity">left|center_vertical</item>

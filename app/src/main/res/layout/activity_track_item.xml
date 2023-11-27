@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/track_image"
+        android:layout_width="@dimen/track_image_size"
+        android:layout_height="@dimen/track_image_size"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="@dimen/small_margins"
+        android:layout_marginEnd="@dimen/small_margins"
+        android:layout_marginBottom="@dimen/small_margins"
+        android:src="@drawable/track_placeholder" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Widget.PlayListMaker.Track.Name"
+            android:id="@+id/track_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="test" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+            style="@style/Widget.PlayListMaker.Track.Description"
+            android:id="@+id/track_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="test" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <ImageView
+        style="@style/Widget.PlayListMaker.Track"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/smallarrow_right" />
+
+</LinearLayout>

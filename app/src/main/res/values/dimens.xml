@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources/>
+<resources>
+
+
+    <dimen name="small_margins">8dp</dimen>
+    <dimen name="track_image_size">45dp</dimen>
+</resources>

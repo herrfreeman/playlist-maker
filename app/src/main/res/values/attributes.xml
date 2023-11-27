@@ -4,4 +4,5 @@
     <attr name="search_background"/>
     <attr name="search_hint_color"/>
     <attr name="search_text_color"/>
+    <attr name="track_description_color"/>
 </resources>
