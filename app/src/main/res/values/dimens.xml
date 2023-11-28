@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+   <dimen name="margin_xs">8dp</dimen>
+    <dimen name="margin_s">12dp</dimen>
+    <dimen name="margin_m">14dp</dimen>
+    <dimen name="margin_l">16dp</dimen>
+    <dimen name="margin_xl">24dp</dimen>
 
-
-    <dimen name="small_margins">8dp</dimen>
-    <dimen name="track_image_size">45dp</dimen>
+    <dimen name="image_m">24dp</dimen>
+    <dimen name="image_l">45dp</dimen>
 </resources>

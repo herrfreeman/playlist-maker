@@ -17,5 +17,6 @@
     <string name="mailto_support_text">Thank you for the awesome application!</string>
     <string name="agreement_link" translatable="false">https://yandex.ru/legal/practicum_offer</string>
     <string name="application_link" translatable="false">https://practicum.yandex.ru/android-developer</string>
+    <string name="test_string" translatable="false">test</string>
 
 </resources>

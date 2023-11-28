@@ -8,12 +8,11 @@
 
     <ImageView
         android:id="@+id/track_image"
-        android:layout_width="@dimen/track_image_size"
-        android:layout_height="@dimen/track_image_size"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="@dimen/small_margins"
-        android:layout_marginEnd="@dimen/small_margins"
-        android:layout_marginBottom="@dimen/small_margins"
+        android:layout_width="@dimen/image_l"
+        android:layout_height="@dimen/image_l"
+        android:layout_marginStart="@dimen/margin_m"
+        android:layout_marginEnd="@dimen/margin_xs"
+        android:layout_marginVertical="@dimen/margin_xs"
         android:src="@drawable/track_placeholder" />
 
     <LinearLayout
@@ -27,8 +26,8 @@
             android:id="@+id/track_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="test" />
+            android:layout_marginTop="@dimen/margin_m"
+            android:text="@string/test_string" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,7 +39,7 @@
             android:id="@+id/track_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="test" />
+            android:text="@string/test_string" />
         </LinearLayout>
 
     </LinearLayout>
@@ -48,11 +47,10 @@
 
     <ImageView
         style="@style/Widget.PlayListMaker.Track"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/image_m"
+        android:layout_height="@dimen/image_m"
         android:layout_gravity="center"
-        android:layout_marginStart="13dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginHorizontal="@dimen/margin_s"
         android:src="@drawable/smallarrow_right" />
 
 </LinearLayout>

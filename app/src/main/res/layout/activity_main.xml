@@ -15,10 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginBottom="24dp"
-        android:paddingTop="14dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:layout_marginBottom="@dimen/margin_xl"
+        android:paddingTop="@dimen/margin_m"
+        android:paddingHorizontal="@dimen/margin_l"
         android:text="@string/app_title"/>
 
     <LinearLayout
@@ -27,37 +26,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="16dp">
+        android:padding="@dimen/margin_l">
 
         <Button
             android:id="@+id/search_button"
             style="@style/Widget.PlayListMaker.MainActivity.Button"
             android:text="@string/search_btn_title"
-            app:icon="@drawable/loupe"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"/>
+            app:icon="@drawable/loupe"/>
 
         <Button
             style="@style/Widget.PlayListMaker.MainActivity.Button"
             android:id="@+id/media_button"
             android:text="@string/media_btn_title"
-            app:icon="@drawable/notepack"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"/>
+            app:icon="@drawable/notepack"/>
 
         <Button
             style="@style/Widget.PlayListMaker.MainActivity.Button"
             android:id="@+id/settings_button"
             android:text="@string/settings_btn_title"
-            app:icon="@drawable/gear"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"/>
+            app:icon="@drawable/gear"/>
 
     </LinearLayout>
 </LinearLayout>

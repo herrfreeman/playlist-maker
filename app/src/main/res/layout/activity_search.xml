@@ -18,14 +18,14 @@
         style="@style/Widget.PlayListMaker.SearchWidget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="@dimen/margin_l">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/search_edit_text"
             style="@style/Widget.PlayListMaker.SearchWidget.Input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="@dimen/margin_xs"
             android:hint="@string/search_title"
             android:maxLength="100"
             android:maxLines="1"
@@ -38,7 +38,7 @@
     android:id="@+id/track_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="@dimen/margin_l"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     android:orientation="vertical"
     tools:listitem="@layout/activity_track_item"/>
