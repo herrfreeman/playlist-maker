@@ -1,14 +1,10 @@
 package com.practicum.playlistmaker
 
-import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.appbar.MaterialToolbar
@@ -19,17 +15,17 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val topToolbar = findViewById<MaterialToolbar>(R.id.settingsToolbar)
+        val topToolbar = findViewById<MaterialToolbar>(R.id.settings_toolbar)
         topToolbar.setNavigationOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.theme_switcher)
-        val nightModeOn = getResources().getConfiguration().uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+        val nightModeOn = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
         themeSwitcher.isChecked = nightModeOn
 
         themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
-            val nightModeOn = getResources().getConfiguration().uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+//            val nightModeOn = getResources().getConfiguration().uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
             if (isChecked != nightModeOn) {
                 AppCompatDelegate.setDefaultNightMode(if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
             }
@@ -52,7 +48,6 @@ class SettingsActivity : AppCompatActivity() {
             sendToIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mailto_support_subject))
             startActivity(sendToIntent)
         }
-
 
         val agreementReader = findViewById<TextView>(R.id.read_agreement)
         agreementReader.setOnClickListener {

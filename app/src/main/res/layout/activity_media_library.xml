@@ -2,15 +2,14 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/BackgroundLayout">
+    style="@style/Widget.PlayListMaker.CommonActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        style="@style/RegularToolbarLayout">
-
+        style="@style/Widget.PlayListMaker.CommonActivity.Toolbar">
         <com.google.android.material.appbar.MaterialToolbar
-            style="@style/RegularToolbar"
-            android:id="@+id/mediaLibraryToolbar"
-            app:title="@string/media_library_title"/>
+            android:id="@+id/media_library_toolbar"
+            style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
+            app:title="@string/media_library_title" />
     </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -4,18 +4,23 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toolbar
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class SearchActivity : AppCompatActivity() {
+
+
 
     private var searchString = SEARCH_STRING_DEFAULT
 
@@ -25,35 +30,40 @@ class SearchActivity : AppCompatActivity() {
 
         setCleanSearchButtonVisibility()
 
-        val topToolbar = findViewById<MaterialToolbar>(R.id.searchToolbar)
+        val topToolbar = findViewById<MaterialToolbar>(R.id.search_toolbar)
         topToolbar.setNavigationOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        val searchTextEdit = findViewById<TextInputEditText>(R.id.searchEditText)
+        val searchTextEdit = findViewById<TextInputEditText>(R.id.search_edit_text)
         val searchTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 searchString = p0.toString()
                 setCleanSearchButtonVisibility()
             }
+
             override fun afterTextChanged(p0: Editable?) {}
         }
         searchTextEdit.addTextChangedListener(searchTextWatcher)
 
-        val searchTextEditLayout = findViewById<TextInputLayout>(R.id.searchEditTextLayout)
+        val searchTextEditLayout = findViewById<TextInputLayout>(R.id.search_edit_text_layout)
         searchTextEditLayout.setEndIconOnClickListener {
-            val searchTextEdit = findViewById<TextInputEditText>(R.id.searchEditText)
             searchTextEdit.setText(SEARCH_STRING_DEFAULT)
-            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            val inputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(searchTextEdit.windowToken, 0)
             searchTextEdit.clearFocus()
         }
+
+        val recycler = findViewById<RecyclerView>(R.id.track_recycler_view)
+        recycler.adapter = TrackAdapter(TrackListMock.create())
+
     }
 
     fun setCleanSearchButtonVisibility() {
-        val searchTextEditLayout = findViewById<TextInputLayout>(R.id.searchEditTextLayout)
-        searchTextEditLayout.setEndIconVisible(!searchString.isEmpty())
+        val searchTextEditLayout = findViewById<TextInputLayout>(R.id.search_edit_text_layout)
+        searchTextEditLayout.isEndIconVisible = !searchString.isEmpty()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -63,8 +73,9 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        searchString = savedInstanceState.getString(SEARCH_STRING, SEARCH_STRING_DEFAULT) ?: SEARCH_STRING_DEFAULT
-        val searchTextEdit = findViewById<TextInputEditText>(R.id.searchEditText)
+        searchString = savedInstanceState.getString(SEARCH_STRING, SEARCH_STRING_DEFAULT)
+            ?: SEARCH_STRING_DEFAULT
+        val searchTextEdit = findViewById<TextInputEditText>(R.id.search_edit_text)
         searchTextEdit.setText(searchString)
     }
 
@@ -73,3 +84,4 @@ class SearchActivity : AppCompatActivity() {
         const val SEARCH_STRING_DEFAULT = ""
     }
 }
+

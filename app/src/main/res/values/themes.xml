@@ -1,15 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Base.Theme.PlaylistMaker" parent="Theme.Material3.DayNight.NoActionBar">
+
+        //Don't change. It's only way to set text edit cursor color
         <item name="colorPrimary">@color/yp_black</item>
-        <item name="colorBackgroundFloating">@color/white</item>
+        <item name="main_background_color">@color/white</item>
         <item name="colorOnPrimary">@color/yp_black</item>
         <item name="colorSecondary">@color/yp_blue</item>
+        <item name="colorOnSecondary">@color/white</item>
 
         <item name="search_background">@color/yp_light_gray</item>
         <item name="search_hint_color">@color/yp_gray</item>
         <item name="search_text_color">@color/yp_black</item>
-        <item name="dark_mode">false</item>
+        <item name="track_description_color">@color/yp_gray</item>
 
         <item name="android:statusBarColor">?attr/colorBackgroundFloating</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -23,4 +26,5 @@
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:navigationBarColor">?attr/colorSecondary</item>
     </style>
+
 </resources>
