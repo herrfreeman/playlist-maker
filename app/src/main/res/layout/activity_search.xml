@@ -29,10 +29,15 @@
             android:hint="@string/search_title"
             android:maxLength="100"
             android:maxLines="1"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/track_recycler_view"
@@ -43,6 +48,62 @@
     android:orientation="vertical"
     tools:listitem="@layout/activity_track_item"/>
 
+    <LinearLayout
+        android:id="@+id/nothing_found_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nothing_found"/>
+        <TextView
+            style="@style/Widget.PlayListMaker.SearchError"
+            android:padding="@dimen/margin_l"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nothing_found"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/connection_error_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/connection_error"/>
+        <TextView
+            style="@style/Widget.PlayListMaker.SearchError"
+            android:text="@string/no_internet_connection"/>
+
+        <TextView
+            style="@style/Widget.PlayListMaker.SearchError"
+            android:text="@string/load_failed"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/repeat_search_button"
+            style="@style/Widget.PlayListMaker.SearchUpdateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/update"/>
+
+    </LinearLayout>
+</FrameLayout>
+
 
 </LinearLayout>
+
+
 

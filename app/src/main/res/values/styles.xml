@@ -77,6 +77,25 @@
                     <item name="android:background"/>
                 </style>
 
+            <style name="Widget.PlayListMaker.SearchError">
+                <item name="android:fontFamily">@font/ys_text_medium</item>
+                <item name="android:textSize">19sp</item>
+                <item name="android:padding">@dimen/margin_l</item>
+                <item name="android:layout_width">wrap_content</item>
+                <item name="android:layout_height">wrap_content</item>
+                <item name="android:layout_marginHorizontal">@dimen/margin_xl</item>
+            </style>
+
+            <style name="Widget.PlayListMaker.SearchUpdateButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+                <item name="backgroundTint">?attr/colorOnPrimary</item>
+                <item name="cornerRadius">54dp</item>
+                <item name="android:textAllCaps">false</item>
+                <item name="android:fontFamily">@font/ys_text_medium</item>
+                <item name="android:textSize">14sp</item>
+                <item name="android:textFontWeight">400</item>
+                <item name="android:textColor">?attr/main_background_color</item>
+            </style>
+
             <style name="Widget.PlayListMaker.Track">
                 <item name="android:tint">?attr/track_description_color</item>
                 <item name="android:lines">1</item>
