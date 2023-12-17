@@ -22,5 +22,5 @@
     <string name="update">Update</string>
     <string name="no_internet_connection">No Internet connection</string>
     <string name="load_failed">Load failed. Check your internet connection</string>
-
+    <string name="track_duration_mask" translatable="false">mm:ss</string>
 </resources>

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
@@ -63,7 +64,6 @@ class SearchActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-
         val searchTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -108,8 +108,8 @@ class SearchActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(SEARCH_STRING, searchString)
-        outState.putInt(CONNECTION_ERROR_VISIBLE, connectionErrorFrame.visibility)
-        outState.putInt(NOTHING_FOUND_VISIBLE, nothingFoundFrame.visibility)
+        outState.putBoolean(CONNECTION_ERROR_VISIBLE, connectionErrorFrame.isVisible)
+        outState.putBoolean(NOTHING_FOUND_VISIBLE, nothingFoundFrame.isVisible)
         outState.putString(TRACK_LIST, gson.toJson(Tracks(trackList)))
     }
 
@@ -122,8 +122,8 @@ class SearchActivity : AppCompatActivity() {
         trackList.clear()
         trackList.addAll(gson.fromJson(savedInstanceState.getString(TRACK_LIST), Tracks::class.java).list)
         adapter.notifyDataSetChanged()
-        connectionErrorFrame.visibility = savedInstanceState.getInt(CONNECTION_ERROR_VISIBLE, View.GONE)
-        nothingFoundFrame.visibility = savedInstanceState.getInt(NOTHING_FOUND_VISIBLE, View.GONE)
+        connectionErrorFrame.isVisible = savedInstanceState.getBoolean(CONNECTION_ERROR_VISIBLE, false)
+        nothingFoundFrame.isVisible = savedInstanceState.getBoolean(NOTHING_FOUND_VISIBLE, false)
 
     }
 
@@ -136,21 +136,21 @@ class SearchActivity : AppCompatActivity() {
                 ) {
                     val searchResponse = response.body()
 
-                    if (response.code() == HTML_OK) {
+                    if (response.isSuccessful) {
                         trackList.clear()
                         trackList.addAll(
-                            searchResponse?.results ?: emptyList<Track>().toMutableList()
+                            searchResponse?.results ?: emptyList<Track>()
                         )
                         adapter.notifyDataSetChanged()
-                        connectionErrorFrame.visibility = View.GONE
-                        nothingFoundFrame.visibility = if (trackList.isEmpty()) View.VISIBLE else View.GONE
+                        connectionErrorFrame.isVisible = false
+                        nothingFoundFrame.isVisible = trackList.isEmpty()
                     }
 
                 }
 
                 override fun onFailure(call: Call<SongSearchResponse>, t: Throwable) {
-                    connectionErrorFrame.visibility = View.VISIBLE
-                    nothingFoundFrame.visibility = View.GONE
+                    connectionErrorFrame.isVisible = true
+                    nothingFoundFrame.isVisible = false
                 }
             })
     }
@@ -161,7 +161,6 @@ class SearchActivity : AppCompatActivity() {
         const val CONNECTION_ERROR_VISIBLE = "CONNECTION_ERROR_VISIBLE"
         const val NOTHING_FOUND_VISIBLE = "NOTHING_FOUND_VISIBLE"
         const val TRACK_LIST = "TRACK_LIST"
-        const val HTML_OK = 200
     }
 }
 
