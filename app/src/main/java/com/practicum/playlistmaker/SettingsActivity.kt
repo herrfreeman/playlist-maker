@@ -1,16 +1,18 @@
 package com.practicum.playlistmaker
 
 import android.content.Intent
-import android.content.res.Configuration
+import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
+    private lateinit var appPreferences: SharedPreferences
+    private lateinit var themeSwitcher: SwitchMaterial
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -20,15 +22,13 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        val themeSwitcher = findViewById<SwitchMaterial>(R.id.theme_switcher)
-        val nightModeOn = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-        themeSwitcher.isChecked = nightModeOn
+        themeSwitcher = findViewById(R.id.theme_switcher)
+        appPreferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
 
+        val app = applicationContext as App
+        themeSwitcher.isChecked = app.darkTheme
         themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
-//            val nightModeOn = getResources().getConfiguration().uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-            if (isChecked != nightModeOn) {
-                AppCompatDelegate.setDefaultNightMode(if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-            }
+            app.switchTheme(isChecked)
         }
 
         val shareButton = findViewById<TextView>(R.id.share_application)
@@ -56,4 +56,10 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(reedAgreementIntent)
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        appPreferences.edit().putBoolean(NIGHT_MODE, themeSwitcher.isChecked).apply()
+    }
+
 }

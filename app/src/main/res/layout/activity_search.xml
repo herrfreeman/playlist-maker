@@ -5,12 +5,12 @@
     style="@style/Widget.PlayListMaker.CommonActivity"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        style="@style/Widget.PlayListMaker.CommonActivity.Toolbar">
+    <com.google.android.material.appbar.AppBarLayout style="@style/Widget.PlayListMaker.CommonActivity.Toolbar">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/search_toolbar"
             style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
-            app:title="@string/search_title"/>
+            app:title="@string/search_title" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -25,82 +25,125 @@
             style="@style/Widget.PlayListMaker.SearchWidget.Input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_xs"
             android:hint="@string/search_title"
+            android:imeOptions="actionDone"
+            android:inputType="text"
             android:maxLength="100"
             android:maxLines="1"
-            android:inputType="text"
-            android:imeOptions="actionDone"
-            android:singleLine="true"/>
+            android:padding="@dimen/margin_xs"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/track_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/track_recycler_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/margin_l"
-    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    android:orientation="vertical"
-    tools:listitem="@layout/activity_track_item"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/nothing_found_frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:visibility="gone">
+            <LinearLayout
+                android:id="@+id/history_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
 
-        <ImageView
+                <TextView
+                    style="@style/Widget.PlayListMaker.MainText"
+                    android:text="@string/you_searched" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/history_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/margin_l"
+
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/activity_track_item" />
+
+                <Button
+                    android:id="@+id/clear_history_button"
+                    style="@style/Widget.PlayListMaker.SearchUpdateButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/clear_history" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/track_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_l"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/activity_track_item" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nothing_found_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/nothing_found"/>
-        <TextView
-            style="@style/Widget.PlayListMaker.SearchError"
-            android:padding="@dimen/margin_l"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nothing_found" />
+
+            <TextView
+                style="@style/Widget.PlayListMaker.MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_l"
+                android:text="@string/nothing_found" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/connection_error_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nothing_found"/>
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/connection_error" />
 
-    <LinearLayout
-        android:id="@+id/connection_error_frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:visibility="gone">
+            <TextView
+                style="@style/Widget.PlayListMaker.MainText"
+                android:text="@string/no_internet_connection" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/connection_error"/>
-        <TextView
-            style="@style/Widget.PlayListMaker.SearchError"
-            android:text="@string/no_internet_connection"/>
+            <TextView
+                style="@style/Widget.PlayListMaker.MainText"
+                android:text="@string/load_failed"
+                android:textAlignment="center" />
 
-        <TextView
-            style="@style/Widget.PlayListMaker.SearchError"
-            android:text="@string/load_failed"
-            android:textAlignment="center" />
+            <Button
+                android:id="@+id/repeat_search_button"
+                style="@style/Widget.PlayListMaker.SearchUpdateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/update" />
 
-        <Button
-            android:id="@+id/repeat_search_button"
-            style="@style/Widget.PlayListMaker.SearchUpdateButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/update"/>
-
-    </LinearLayout>
-</FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
 
 
 </LinearLayout>
