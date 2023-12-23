@@ -10,9 +10,9 @@
         android:id="@+id/track_image"
         android:layout_width="@dimen/image_l"
         android:layout_height="@dimen/image_l"
+        android:layout_marginVertical="@dimen/margin_xs"
         android:layout_marginStart="@dimen/margin_m"
         android:layout_marginEnd="@dimen/margin_xs"
-        android:layout_marginVertical="@dimen/margin_xs"
         android:src="@drawable/track_placeholder" />
 
     <LinearLayout
@@ -22,28 +22,41 @@
         android:orientation="vertical">
 
         <TextView
-            style="@style/Widget.PlayListMaker.Track.Name"
             android:id="@+id/track_name"
+            style="@style/Widget.PlayListMaker.Track.Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_m"
             android:text="@string/test_string" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-        <TextView
-            style="@style/Widget.PlayListMaker.Track.Description"
-            android:id="@+id/track_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/test_string" />
+            <TextView
+                android:id="@+id/track_description"
+                style="@style/Widget.PlayListMaker.Track.Description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageView
+                style="@style/Widget.PlayListMaker.Track"
+                android:layout_width="13dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/dot_13" />
+
+            <TextView
+                android:id="@+id/track_duration"
+                style="@style/Widget.PlayListMaker.Track.Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
     </LinearLayout>
-
 
     <ImageView
         style="@style/Widget.PlayListMaker.Track"

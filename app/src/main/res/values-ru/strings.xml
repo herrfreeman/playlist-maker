@@ -12,4 +12,8 @@
     <string name="media_library_title">Медиатека</string>
     <string name="mailto_support_subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="mailto_support_text">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="update">Обновить</string>
+    <string name="no_internet_connection">Проблемы со связью</string>
+    <string name="load_failed">Загрузка не удалась. Проверьте подключение к интернету</string>
 </resources>
