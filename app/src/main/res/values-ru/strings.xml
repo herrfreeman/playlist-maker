@@ -18,4 +18,9 @@
     <string name="load_failed">Загрузка не удалась. Проверьте подключение к интернету</string>
     <string name="clear_history">Очистить историю</string>
     <string name="you_searched">Вы искали</string>
+    <string name="duration_caption">Длительность</string>
+    <string name="album_caption">Альбом</string>
+    <string name="year_caption">Год</string>
+    <string name="genre_caption">Жанр</string>
+    <string name="country_caption">Страна</string>
 </resources>
