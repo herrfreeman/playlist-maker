@@ -228,9 +228,8 @@ class SearchActivity : AppCompatActivity() {
 
     private fun openTrack(track: Track) {
         val intent = Intent(this, PlayerActivity::class.java)
-        intent.putExtra(Track.EXTRAS_KEY, gson.toJson(track))
+        intent.putExtra(Track.EXTRAS_KEY, track)
         startActivity(intent)
-
     }
 
     companion object {
