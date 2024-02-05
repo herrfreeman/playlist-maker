@@ -25,4 +25,10 @@
     <string name="track_duration_mask" translatable="false">mm:ss</string>
     <string name="clear_history">Clear history</string>
     <string name="you_searched">You searched</string>
+    <string name="duration_caption">Duration</string>
+    <string name="album_caption">Album</string>
+    <string name="year_caption">Year</string>
+    <string name="genre_caption">Genre</string>
+    <string name="country_caption">Country</string>
+    <string name="duration_placeholder" translatable="false">0:30</string>
 </resources>

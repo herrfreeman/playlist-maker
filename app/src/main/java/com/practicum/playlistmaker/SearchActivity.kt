@@ -38,9 +38,9 @@ class SearchActivity : AppCompatActivity() {
 
     private val itunesService = retrofit.create(ItunesApi::class.java)
     private val trackList: MutableList<Track> = emptyList<Track>().toMutableList()
-    private val adapter = TrackAdapter(trackList) { addToHistory(it) }
+    private val adapter = TrackAdapter(trackList) { addToHistory(it); openTrack(it) }
     private val historyTrackList: MutableList<Track> = emptyList<Track>().toMutableList()
-    private val historyAdapter = TrackAdapter(historyTrackList) {}
+    private val historyAdapter = TrackAdapter(historyTrackList) { openTrack(it) }
 
     private lateinit var searchTextEditLayout: TextInputLayout
     private lateinit var searchTextEdit: TextInputEditText
@@ -224,6 +224,12 @@ class SearchActivity : AppCompatActivity() {
             historyAdapter.notifyItemMoved(existingIndex, 0)
         }
         setHistoryVisibility()
+    }
+
+    private fun openTrack(track: Track) {
+        val intent = Intent(this, PlayerActivity::class.java)
+        intent.putExtra(Track.EXTRAS_KEY, track)
+        startActivity(intent)
     }
 
     companion object {

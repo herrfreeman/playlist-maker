@@ -26,7 +26,7 @@ class TrackViewHolder(parent: ViewGroup, val trackClickListener: TrackClickListe
         Glide.with(itemView)
             .load(model.artworkUrl100)
             .centerCrop()
-            .placeholder(R.drawable.track_placeholder)
+            .placeholder(R.drawable.track_placeholder_45)
             .transform(RoundedCorners(2))
             .into(trackImage)
 

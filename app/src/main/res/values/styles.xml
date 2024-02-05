@@ -111,6 +111,39 @@
                 <item name="android:textColor">?attr/track_description_color</item>
             </style>
 
+    <style name="Widget.PlayListMaker.Player">
+        <item name="android:textSize">13sp</item>
+        <item name="android:lines">1</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Player.MainButton">
+        <item name="android:tint">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Player.SecondaryButton">
+        <item name="android:tint">@color/yp_gray</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Player.Title1">
+        <item name="android:fontFamily">@font/ys_text_medium</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Player.Title2">
+        <item name="android:fontFamily">@font/ys_text_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Player.Caption">
+        <item name="android:textColor">@color/yp_gray</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Player.Value">
+        <item name="android:gravity">end</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+
     <style name="Widget.PlayListMaker.SettingsItem">
             <item name="android:layout_width">match_parent</item>
             <item name="android:layout_height">wrap_content</item>
