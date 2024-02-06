@@ -14,4 +14,6 @@
 
     <dimen name="button_m">51dp</dimen>
     <dimen name="button_l">100dp</dimen>
+
+    <dimen name="progress_bar">44dp</dimen>
 </resources>

@@ -8,8 +8,12 @@
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="backgroundColor">?attr/main_background_color</item>
         <item name="android:background">?attr/main_background_color</item>
-
+        <item name="android:indeterminateTint">@color/yp_blue</item>
     </style>
+
+        <style name="Widget.PlayListMaker.ProgressBar">
+            <item name="android:backgroundTint">@color/transparent</item>
+        </style>
 
         <style name="Widget.PlayListMaker.MainActivity">
             <item name="backgroundColor">?attr/colorSecondary</item>
