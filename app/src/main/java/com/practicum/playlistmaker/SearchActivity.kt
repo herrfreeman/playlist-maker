@@ -75,7 +75,7 @@ class SearchActivity : AppCompatActivity() {
                 setHistoryVisibility()
                 hideErrorFrames()
                 handler.removeCallbacks(runSearch)
-                handler.postDelayed(runSearch, SEARCH_DEBOUNCE)
+                handler.postDelayed(runSearch, SEARCH_DEBOUNCE_MILLS)
             }
 
             override fun afterTextChanged(p0: Editable?) {}
@@ -235,7 +235,7 @@ class SearchActivity : AppCompatActivity() {
         const val TRACK_LIST = "TRACK_LIST"
         const val HISTORY_SIZE = 10
         const val HISTORY_LIST = "SEARCH_HISTORY"
-        const val SEARCH_DEBOUNCE = 1000L
+        const val SEARCH_DEBOUNCE_MILLS = 1000L
         const val OPEN_TRACK_DEBOUNCE = 300L
     }
 }

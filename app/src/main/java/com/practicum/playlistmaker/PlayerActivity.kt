@@ -19,12 +19,12 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayerBinding
     private var mediaPlayer = MediaPlayer()
     private var playerState = STATE_DEFAULT
-    private lateinit var handler: Handler
-    private val runUpdateCouter = object : Runnable {
+    private var handler: Handler? = null
+    private val runUpdateCounter = object : Runnable {
         override fun run() {
             if (playerState == STATE_PLAYING) {
                 setTimer(mediaPlayer.currentPosition)
-                handler.postDelayed(this, TIMER_DURATION)
+                handler?.postDelayed(this, TIMER_DURATION_MILLS)
             }
         }
     }
@@ -76,7 +76,8 @@ class PlayerActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release()
-        handler.removeCallbacks(runUpdateCouter)
+        handler?.removeCallbacks(runUpdateCounter)
+        handler = null
     }
 
     private fun setPlayButtonVisibility(isVisible: Boolean) {
@@ -90,14 +91,14 @@ class PlayerActivity : AppCompatActivity() {
         mediaPlayer.start()
         playerState = STATE_PLAYING
         setPlayButtonVisibility(false)
-        handler.post(runUpdateCouter)
+        handler?.post(runUpdateCounter)
     }
 
     private fun pausePlayer() {
         mediaPlayer.pause()
         playerState = STATE_PAUSED
         setPlayButtonVisibility(true)
-        handler.removeCallbacks(runUpdateCouter)
+        handler?.removeCallbacks(runUpdateCounter)
     }
 
     private fun setTimer(timerPosition: Int) {
@@ -117,7 +118,7 @@ class PlayerActivity : AppCompatActivity() {
         mediaPlayer.setOnCompletionListener {
             setPlayButtonVisibility(true)
             playerState = STATE_PREPARED
-            handler.removeCallbacks(runUpdateCouter)
+            handler?.removeCallbacks(runUpdateCounter)
             setTimer(0)
         }
         binding.trackPlayButton.setOnClickListener {playPlayer()}
@@ -129,6 +130,6 @@ class PlayerActivity : AppCompatActivity() {
         private const val STATE_PREPARED = 1
         private const val STATE_PLAYING = 2
         private const val STATE_PAUSED = 3
-        private const val TIMER_DURATION = 300L
+        private const val TIMER_DURATION_MILLS = 300L
     }
 }
