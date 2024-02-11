@@ -143,6 +143,15 @@
                 android:text="@string/update" />
 
         </LinearLayout>
+
+        <ProgressBar android:id="@+id/progress_bar"
+            style="@style/Widget.PlayListMaker.ProgressBar"
+            android:layout_width="@dimen/progress_bar"
+            android:layout_height="@dimen/progress_bar"
+            android:layout_marginTop="150dp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"/>
+
     </FrameLayout>
 
 

@@ -5,18 +5,15 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
+import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,36 +39,31 @@ class SearchActivity : AppCompatActivity() {
     private val historyTrackList: MutableList<Track> = emptyList<Track>().toMutableList()
     private val historyAdapter = TrackAdapter(historyTrackList) { openTrack(it) }
 
-    private lateinit var searchTextEditLayout: TextInputLayout
-    private lateinit var searchTextEdit: TextInputEditText
-    private lateinit var nothingFoundFrame: View
-    private lateinit var connectionErrorFrame: View
-    private lateinit var historyLayout: View
+    lateinit var binding: ActivitySearchBinding
+
     private lateinit var appPreferences: SharedPreferences
+    lateinit var handler: Handler
+    val runSearch = Runnable { songSearch() }
+    private var openTrackAllowed = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+
+        handler = Handler(Looper.getMainLooper())
+        binding = ActivitySearchBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         appPreferences = (applicationContext as App).appPreferences
         appPreferences.getString(HISTORY_LIST, null)?.let {
             historyTrackList.addAll(gson.fromJson(it, Array<Track>::class.java))
         }
 
-        searchTextEditLayout = findViewById(R.id.search_edit_text_layout)
-        searchTextEdit = findViewById(R.id.search_edit_text)
-        nothingFoundFrame = findViewById(R.id.nothing_found_frame)
-        connectionErrorFrame = findViewById(R.id.connection_error_frame)
-        historyLayout = findViewById(R.id.history_layout)
-
-        val updateButton = findViewById<Button>(R.id.repeat_search_button)
-        updateButton.setOnClickListener { songSearch() }
+        binding.repeatSearchButton.setOnClickListener { songSearch() }
 
         setCleanSearchButtonVisibility()
         setHistoryVisibility()
 
-        val topToolbar = findViewById<MaterialToolbar>(R.id.search_toolbar)
-        topToolbar.setNavigationOnClickListener {
+        binding.searchToolbar.setNavigationOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
@@ -82,26 +74,28 @@ class SearchActivity : AppCompatActivity() {
                 setCleanSearchButtonVisibility()
                 setHistoryVisibility()
                 hideErrorFrames()
+                handler.removeCallbacks(runSearch)
+                handler.postDelayed(runSearch, SEARCH_DEBOUNCE_MILLS)
             }
 
             override fun afterTextChanged(p0: Editable?) {}
         }
-        searchTextEdit.addTextChangedListener(searchTextWatcher)
+        binding.searchEditText.addTextChangedListener(searchTextWatcher)
 
-        searchTextEdit.setOnEditorActionListener { _, actionId, _ ->
+        binding.searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 songSearch()
-                searchTextEdit.clearFocus()
+                binding.searchEditText.clearFocus()
                 true
             }
             false
         }
 
-        searchTextEdit.setOnFocusChangeListener { _, _ -> setHistoryVisibility() }
+        binding.searchEditText.setOnFocusChangeListener { _, _ -> setHistoryVisibility() }
 
 
-        searchTextEditLayout.setEndIconOnClickListener {
-            searchTextEdit.setText(SEARCH_STRING_DEFAULT)
+        binding.searchEditTextLayout.setEndIconOnClickListener {
+            binding.searchEditText.setText(SEARCH_STRING_DEFAULT)
             trackList.clear()
             adapter.notifyDataSetChanged()
             hideErrorFrames()
@@ -109,18 +103,14 @@ class SearchActivity : AppCompatActivity() {
             //Hide keyboard when clear button clicked
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.hideSoftInputFromWindow(searchTextEdit.windowToken, 0)
-            searchTextEdit.clearFocus()
+            inputMethodManager?.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
+            binding.searchEditText.clearFocus()
         }
 
-        val recycler = findViewById<RecyclerView>(R.id.track_recycler_view)
-        recycler.adapter = adapter
+        binding.trackRecyclerView.adapter = adapter
+        binding.historyRecyclerView.adapter = historyAdapter
 
-        val historyRecycler = findViewById<RecyclerView>(R.id.history_recycler_view)
-        historyRecycler.adapter = historyAdapter
-
-        val clearHistoryButton = findViewById<Button>(R.id.clear_history_button)
-        clearHistoryButton.setOnClickListener {
+        binding.clearHistoryButton.setOnClickListener {
             historyTrackList.clear()
             historyAdapter.notifyDataSetChanged()
             setHistoryVisibility()
@@ -129,19 +119,19 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setCleanSearchButtonVisibility() {
-        searchTextEditLayout.isEndIconVisible = searchString.isNotEmpty()
+        binding.searchEditTextLayout.isEndIconVisible = searchString.isNotEmpty()
     }
 
     private fun setHistoryVisibility() {
-        historyLayout.isVisible =
-            historyTrackList.isNotEmpty() && searchString.isEmpty() && searchTextEdit.hasFocus()
+        binding.historyLayout.isVisible =
+            historyTrackList.isNotEmpty() && searchString.isEmpty() && binding.searchEditText.hasFocus()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(SEARCH_STRING, searchString)
-        outState.putBoolean(CONNECTION_ERROR_VISIBLE, connectionErrorFrame.isVisible)
-        outState.putBoolean(NOTHING_FOUND_VISIBLE, nothingFoundFrame.isVisible)
+        outState.putBoolean(CONNECTION_ERROR_VISIBLE, binding.connectionErrorFrame.isVisible)
+        outState.putBoolean(NOTHING_FOUND_VISIBLE, binding.nothingFoundFrame.isVisible)
         outState.putString(TRACK_LIST, gson.toJson(trackList))
     }
 
@@ -149,7 +139,7 @@ class SearchActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         searchString = savedInstanceState.getString(SEARCH_STRING, SEARCH_STRING_DEFAULT)
             ?: SEARCH_STRING_DEFAULT
-        searchTextEdit.setText(searchString)
+        binding.searchEditText.setText(searchString)
 
         trackList.clear()
         trackList.addAll(
@@ -159,9 +149,9 @@ class SearchActivity : AppCompatActivity() {
             )
         )
         adapter.notifyDataSetChanged()
-        connectionErrorFrame.isVisible =
+        binding.connectionErrorFrame.isVisible =
             savedInstanceState.getBoolean(CONNECTION_ERROR_VISIBLE, false)
-        nothingFoundFrame.isVisible = savedInstanceState.getBoolean(NOTHING_FOUND_VISIBLE, false)
+        binding.nothingFoundFrame.isVisible = savedInstanceState.getBoolean(NOTHING_FOUND_VISIBLE, false)
 
     }
 
@@ -174,12 +164,13 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun hideErrorFrames() {
-        connectionErrorFrame.isVisible = false
-        nothingFoundFrame.isVisible = false
+        binding.connectionErrorFrame.isVisible = false
+        binding.nothingFoundFrame.isVisible = false
     }
 
     private fun songSearch() {
         if (searchString.isNotEmpty()) {
+            binding.progressBar.isVisible = true
             itunesService.songSearch(searchString)
                 .enqueue(object : Callback<SongSearchResponse> {
                     override fun onResponse(
@@ -194,15 +185,15 @@ class SearchActivity : AppCompatActivity() {
                                 searchResponse?.results ?: emptyList<Track>()
                             )
                             adapter.notifyDataSetChanged()
-                            connectionErrorFrame.isVisible = false
-                            nothingFoundFrame.isVisible = trackList.isEmpty()
+                            binding.connectionErrorFrame.isVisible = false
+                            binding.nothingFoundFrame.isVisible = trackList.isEmpty()
                         }
-
+                        binding.progressBar.isVisible = false
                     }
 
                     override fun onFailure(call: Call<SongSearchResponse>, t: Throwable) {
-                        connectionErrorFrame.isVisible = true
-                        nothingFoundFrame.isVisible = false
+                        binding.connectionErrorFrame.isVisible = true
+                        binding.nothingFoundFrame.isVisible = false
                     }
                 })
         }
@@ -227,9 +218,13 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun openTrack(track: Track) {
-        val intent = Intent(this, PlayerActivity::class.java)
-        intent.putExtra(Track.EXTRAS_KEY, track)
-        startActivity(intent)
+        if (openTrackAllowed) {
+            openTrackAllowed = false
+            handler.postDelayed({openTrackAllowed = true}, OPEN_TRACK_DEBOUNCE)
+            val intent = Intent(this, PlayerActivity::class.java)
+            intent.putExtra(Track.EXTRAS_KEY, track)
+            startActivity(intent)
+        }
     }
 
     companion object {
@@ -240,6 +235,8 @@ class SearchActivity : AppCompatActivity() {
         const val TRACK_LIST = "TRACK_LIST"
         const val HISTORY_SIZE = 10
         const val HISTORY_LIST = "SEARCH_HISTORY"
+        const val SEARCH_DEBOUNCE_MILLS = 1000L
+        const val OPEN_TRACK_DEBOUNCE = 300L
     }
 }
 
