@@ -1,7 +1,6 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.presentation
 
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,7 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.practicum.playlistmaker.Creator
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.SearchActivity
+import com.practicum.playlistmaker.domain.models.Track
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
+import com.practicum.playlistmaker.domain.api.AudioPlayer
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -17,13 +21,13 @@ import java.util.Locale
 class PlayerActivity : AppCompatActivity() {
     private lateinit var track: Track
     private lateinit var binding: ActivityPlayerBinding
-    private var mediaPlayer = MediaPlayer()
+    private var mediaPlayer: AudioPlayer = Creator.providePlayer()
     private var playerState = STATE_DEFAULT
     private var handler: Handler? = null
     private val runUpdateCounter = object : Runnable {
         override fun run() {
             if (playerState == STATE_PLAYING) {
-                setTimer(mediaPlayer.currentPosition)
+                setTimer(mediaPlayer.currentPosition())
                 handler?.postDelayed(this, TIMER_DURATION_MILLS)
             }
         }
@@ -63,7 +67,19 @@ class PlayerActivity : AppCompatActivity() {
                 startActivity(Intent(this@PlayerActivity, SearchActivity::class.java))
             }
 
-            preparePlayer()
+            mediaPlayer.prepare(track.previewUrl,
+                {
+                    setPlayButtonVisibility(true)
+                    playerState = STATE_PREPARED
+                }, {
+                    setPlayButtonVisibility(true)
+                    playerState = STATE_PREPARED
+                    handler?.removeCallbacks(runUpdateCounter)
+                    setTimer(0)
+                })
+
+            binding.trackPlayButton.setOnClickListener { playPlayer() }
+            binding.trackPauseButton.setOnClickListener { pausePlayer() }
 
         }
     }
@@ -75,7 +91,7 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer.release()
+        mediaPlayer.destroy()
         handler?.removeCallbacks(runUpdateCounter)
         handler = null
     }
@@ -88,7 +104,7 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun playPlayer() {
-        mediaPlayer.start()
+        mediaPlayer.play()
         playerState = STATE_PLAYING
         setPlayButtonVisibility(false)
         handler?.post(runUpdateCounter)
@@ -106,23 +122,6 @@ class PlayerActivity : AppCompatActivity() {
             getString(R.string.track_duration_mask),
             Locale.getDefault()
         ).format(timerPosition)
-    }
-
-    private fun preparePlayer() {
-        mediaPlayer.setDataSource(track.previewUrl)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
-            setPlayButtonVisibility(true)
-            playerState = STATE_PREPARED
-        }
-        mediaPlayer.setOnCompletionListener {
-            setPlayButtonVisibility(true)
-            playerState = STATE_PREPARED
-            handler?.removeCallbacks(runUpdateCounter)
-            setTimer(0)
-        }
-        binding.trackPlayButton.setOnClickListener {playPlayer()}
-        binding.trackPauseButton.setOnClickListener {pausePlayer()}
     }
 
     companion object {
