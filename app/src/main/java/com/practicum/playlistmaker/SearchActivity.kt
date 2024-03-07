@@ -14,6 +14,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import com.google.gson.Gson
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
+import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.presentation.PlayerActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
