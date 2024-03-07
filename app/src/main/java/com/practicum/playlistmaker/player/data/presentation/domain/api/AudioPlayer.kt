@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.domain.api
+package com.practicum.playlistmaker.player.data.presentation.domain.api
 
 interface AudioPlayer {
     fun currentPosition(): Int

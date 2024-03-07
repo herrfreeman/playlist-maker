@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation
+package com.practicum.playlistmaker.player.data.presentation
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.practicum.playlistmaker.Creator
+import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.SearchActivity
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.search.ui.TrackSearchActivity
+import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
-import com.practicum.playlistmaker.domain.api.AudioPlayer
+import com.practicum.playlistmaker.player.data.presentation.domain.api.AudioPlayer
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -37,7 +37,7 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         handler = Handler(Looper.getMainLooper())
-        track = intent.extras?.getSerializable(Track.EXTRAS_KEY, Track::class.java) ?: Track()
+        track = intent.extras?.getSerializable(Track.EXTRAS_KEY, Track::class.java) ?: Track("","","","",0L,"","","","","",)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
 
         with(binding) {
@@ -64,7 +64,7 @@ class PlayerActivity : AppCompatActivity() {
                 .into(trackImage)
 
             backButton.setOnClickListener {
-                startActivity(Intent(this@PlayerActivity, SearchActivity::class.java))
+                startActivity(Intent(this@PlayerActivity, TrackSearchActivity::class.java))
             }
 
             mediaPlayer.prepare(track.previewUrl,

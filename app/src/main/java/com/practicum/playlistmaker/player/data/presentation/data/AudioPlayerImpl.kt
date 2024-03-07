@@ -1,7 +1,7 @@
-package com.practicum.playlistmaker.data
+package com.practicum.playlistmaker.player.data.presentation.data
 
 import android.media.MediaPlayer
-import com.practicum.playlistmaker.domain.api.AudioPlayer
+import com.practicum.playlistmaker.player.data.presentation.domain.api.AudioPlayer
 
 class AudioPlayerImpl: AudioPlayer {
     private val player = MediaPlayer()

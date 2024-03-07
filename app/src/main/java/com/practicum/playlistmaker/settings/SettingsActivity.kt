@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.settings
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +8,11 @@ import android.os.Bundle
 import android.widget.TextView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.practicum.playlistmaker.APP_PREFERENCES
+import com.practicum.playlistmaker.App
+import com.practicum.playlistmaker.NIGHT_MODE
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.main.ui.MainActivity
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var appPreferences: SharedPreferences
