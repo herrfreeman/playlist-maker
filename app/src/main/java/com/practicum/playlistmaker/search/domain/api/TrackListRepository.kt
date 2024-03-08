@@ -5,6 +5,4 @@ import com.practicum.playlistmaker.utils.Resource
 
 interface TrackListRepository {
     fun searchTracks(expression: String): Resource<List<Track>>
-    fun addTrackToHistory(track: Track)
-    fun removeTrackFromHistory(track: Track)
 }

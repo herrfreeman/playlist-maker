@@ -17,7 +17,7 @@ class TrackSearchAdapter(private val trackClickListener: TrackClickListener) : R
         holder.bind(trackList[position])
     }
 
-    interface TrackClickListener {
+    fun interface TrackClickListener {
         fun onTrackClick(track: Track)
         //fun onFavoriteToggleClick(movie: Movie)
     }

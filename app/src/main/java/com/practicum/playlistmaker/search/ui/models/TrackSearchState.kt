@@ -10,12 +10,8 @@ sealed interface TrackSearchState {
         val trackList: List<Track>
     ) : TrackSearchState
 
-    data class Error(
-        val errorMessage: String
-    ) : TrackSearchState
+    object Error : TrackSearchState
 
-    data class Empty(
-        val message: String
-    ) : TrackSearchState
+    object Empty : TrackSearchState
 
 }

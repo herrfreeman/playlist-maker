@@ -1,29 +1,33 @@
 package com.practicum.playlistmaker.search.data
 
 import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.practicum.playlistmaker.search.data.dto.TrackDto
 
 class LocalStorage(private val sharedPreferences: SharedPreferences) {
 
+    private val gson = Gson()
+
     private companion object {
         const val SEARCH_HISTORY = "SEARCH_HISTORY"
+
     }
 
-    fun addToHistory(trackId: String) {
-        changeFavorites(trackId = trackId, remove = false)
+    fun saveSearchHistory(searchHistory: List<TrackDto>) {
+        sharedPreferences.edit()
+            .putString(SEARCH_HISTORY, gson.toJson(searchHistory))
+            .apply()
     }
 
-    fun removeFromHistory(trackId: String) {
-        changeFavorites(trackId = trackId, remove = true)
+    fun getSearchHistory(): List<TrackDto> {
+        return gson.fromJson(
+                sharedPreferences.getString(SEARCH_HISTORY, ""),
+                Array<TrackDto>::class.java
+            )?.asList() ?: emptyList<TrackDto>()
     }
 
-    fun getSearchHistory(): Set<String> {
-        return sharedPreferences.getStringSet(SEARCH_HISTORY, emptySet()) ?: emptySet()
-    }
-
-    private fun changeFavorites(trackId: String, remove: Boolean) {
-        val mutableSet = getSearchHistory().toMutableSet()
-        val modified = if (remove) mutableSet.remove(trackId) else mutableSet.add(trackId)
-        if (modified) sharedPreferences.edit().putStringSet(SEARCH_HISTORY, mutableSet).apply()
+    fun clearHistory() {
+        sharedPreferences.edit().remove(SEARCH_HISTORY).apply()
     }
 
 }

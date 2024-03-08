@@ -10,6 +10,10 @@ import com.practicum.playlistmaker.search.domain.impl.TrackSearchInteractorImpl
 
 import com.practicum.playlistmaker.search.data.network.RetrofitNetworkClient
 import com.practicum.playlistmaker.search.data.LocalStorage
+import com.practicum.playlistmaker.search.data.impl.TrackSearchHistoryRepositoryImpl
+import com.practicum.playlistmaker.search.domain.api.TrackSearchHistoryInteractor
+import com.practicum.playlistmaker.search.domain.api.TrackSearchHistoryRepository
+import com.practicum.playlistmaker.search.domain.impl.TrackSearchHistoryInteractorImpl
 
 object Creator {
 
@@ -20,12 +24,22 @@ object Creator {
     private fun getTrackListRepository(context: Context): TrackListRepository {
         return TrackListRepositoryImpl(
             RetrofitNetworkClient(context),
-            LocalStorage(context.getSharedPreferences("local_storage", Context.MODE_PRIVATE)),
         )
     }
 
     fun provideTrackSearchInteractor(context: Context): TrackSearchInteractor {
         return TrackSearchInteractorImpl(getTrackListRepository(context))
+    }
+
+    private fun getTrackSearchHistoryRepository(context: Context): TrackSearchHistoryRepository {
+        return TrackSearchHistoryRepositoryImpl(
+            LocalStorage(context.getSharedPreferences("local_storage", Context.MODE_PRIVATE)),
+            searchHistorySize = 5,
+        )
+    }
+
+    fun provideTrackSearchHistoryInteractor(context: Context): TrackSearchHistoryInteractor {
+        return TrackSearchHistoryInteractorImpl(getTrackSearchHistoryRepository(context))
     }
 
 }

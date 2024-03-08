@@ -14,36 +14,28 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.search.data.dto.TrackSearchResponse
+import com.practicum.playlistmaker.search.domain.api.TrackSearchHistoryInteractor
 import com.practicum.playlistmaker.search.domain.api.TrackSearchInteractor
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
+import com.practicum.playlistmaker.utils.SingleLiveEvent
 
 class TrackSearchViewModel(application: Application) : AndroidViewModel(application) {
 
     private var latestSearchText: String? = null
     private val trackSearchInteractor = Creator.provideTrackSearchInteractor(getApplication<Application>())
+    private val trackHistoryInteractor = Creator.provideTrackSearchHistoryInteractor(getApplication<Application>())
     private val handler = Handler(Looper.getMainLooper())
     private val trackList = mutableListOf<Track>()
 
     private val stateLiveData = MutableLiveData<TrackSearchState>()
-
-//    private val mediatorStateLiveData = MediatorLiveData<MoviesState>().also { liveData ->
-//        liveData.addSource(stateLiveData) { movieState ->
-//            liveData.value = when (movieState) {
-//                is MoviesState.Content -> MoviesState.Content(movieState.movies.sortedByDescending { it.inFavorite })
-//                is MoviesState.Empty -> movieState
-//                is MoviesState.Error -> movieState
-//                is MoviesState.Loading -> movieState
-//            }
-//        }
-//    }
-
     fun observeState(): LiveData<TrackSearchState> = stateLiveData
-//    fun observeState(): LiveData<TrackSearchState> = mediatorStateLiveData
 
-    //private val toastState = MutableLiveData<String>()
-//    private val toastState = SingleLiveEvent<String>()
-//    fun observeToastState(): LiveData<String> = toastState
+    private val historyLiveData = MutableLiveData<List<Track>>()
+    fun observeHistory(): LiveData<List<Track>> = historyLiveData
+
+    private val toastState = SingleLiveEvent<String>()
+    fun observeToastState(): LiveData<String> = toastState
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
@@ -56,6 +48,10 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
+    init {
+        getSearchHistory()
+    }
+
     override fun onCleared() {
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
     }
@@ -65,13 +61,13 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun searchNow(queryText: String) {
-        searchDebounce(queryText, 0)
+        searchDebounce(queryText, debounceDelay = 0, force = true)
     }
 
-    fun searchDebounce(changedText: String, debounceDelay: Long = SEARCH_DEBOUNCE_DELAY) {
+    fun searchDebounce(changedText: String, debounceDelay: Long = SEARCH_DEBOUNCE_DELAY, force: Boolean = false) {
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
 
-        if (latestSearchText == changedText) {
+        if (latestSearchText == changedText && !force) {
             return
         }
 
@@ -85,6 +81,38 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
             SEARCH_REQUEST_TOKEN,
             postTime,
         )
+    }
+
+    fun addToHistory(track: Track) {
+        trackHistoryInteractor.addToHistory(track,
+            object : TrackSearchHistoryInteractor.HistoryChangeConsumer {
+                override fun consume(tracks: List<Track>?) {
+                    historyLiveData.postValue(tracks)
+                }
+            })
+    }
+
+    fun getSearchHistory() {
+        trackHistoryInteractor.getSearchHistory(
+            object : TrackSearchHistoryInteractor.HistoryChangeConsumer {
+                override fun consume(tracks: List<Track>?) {
+                    historyLiveData.postValue(tracks)
+                }
+            })
+    }
+
+    fun clearHistory() {
+        trackHistoryInteractor.clearHistory(
+            object : TrackSearchHistoryInteractor.HistoryChangeConsumer {
+                override fun consume(tracks: List<Track>?) {
+                    historyLiveData.postValue(tracks)
+                }
+            })
+    }
+
+    fun clearTrackList() {
+        trackList.clear()
+        stateLiveData.postValue(TrackSearchState.Content(trackList))
     }
 
     fun searchRequest(queryText: String) {
@@ -103,29 +131,11 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
 
                         when {
                             errorMessage != null -> {
-                                renderState(
-                                    TrackSearchState.Error(
-                                        getApplication<Application>().getString(
-                                            R.string.something_went_wrong
-                                        )
-                                    )
-                                )
-                                //showToast(errorMessage)
+                                renderState(TrackSearchState.Error)
+                                showToast(errorMessage)
                             }
-
-                            trackList.isEmpty() -> {
-                                renderState(
-                                    TrackSearchState.Empty(
-                                        getApplication<Application>().getString(
-                                            R.string.nothing_found
-                                        )
-                                    )
-                                )
-                            }
-
-                            else -> {
-                                renderState(TrackSearchState.Content(trackList))
-                            }
+                            trackList.isEmpty() -> renderState(TrackSearchState.Empty)
+                            else -> renderState(TrackSearchState.Content(trackList))
                         }
 
                     }
@@ -133,33 +143,8 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-//    fun showToast(message: String) {
-//        toastState.postValue(message)
-//    }
-
-//    fun toggleFavorite(movie: Movie) {
-//        if (movie.inFavorite) {
-//            moviesInteractor.removeMovieFromFavorites(movie)
-//        } else {
-//            moviesInteractor.addMovieToFavorites(movie)
-//        }
-//        updateMovieContent(movie.id, movie.copy(inFavorite = !movie.inFavorite))
-//    }
-
-//    private fun updateMovieContent(movieId: String, newMovie: Movie) {
-//        val currentState = stateLiveData.value
-//
-//        if (currentState is TrackSearchState.Content) {
-//            val movieIndex = currentState.movies.indexOfFirst { it.id == movieId }
-//            if (movieIndex != -1) {
-//                stateLiveData.value = TrackSearchState.Content(
-//                    currentState.movies.toMutableList().also {
-//                        it[movieIndex] = newMovie
-//                    }
-//                )
-//            }
-//        }
-//    }
-
+    fun showToast(message: String) {
+        toastState.postValue(message)
+    }
 
 }
