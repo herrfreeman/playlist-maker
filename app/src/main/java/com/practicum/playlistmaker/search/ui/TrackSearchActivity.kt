@@ -2,7 +2,6 @@ package com.practicum.playlistmaker.search.ui
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -15,20 +14,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.google.gson.Gson
-import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.main.ui.MainActivity
 import com.practicum.playlistmaker.player.data.presentation.PlayerActivity
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
 
 class TrackSearchActivity : AppCompatActivity() {
 

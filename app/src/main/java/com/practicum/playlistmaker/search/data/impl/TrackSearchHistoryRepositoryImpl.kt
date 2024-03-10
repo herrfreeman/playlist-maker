@@ -1,19 +1,12 @@
 package com.practicum.playlistmaker.search.data.impl
 
-import android.hardware.camera2.params.LensShadingMap
-import com.practicum.playlistmaker.search.data.LocalStorage
-import com.practicum.playlistmaker.search.data.NetworkClient
-import com.practicum.playlistmaker.search.data.dto.TrackDto
-import com.practicum.playlistmaker.search.data.dto.TrackSearchRequest
-import com.practicum.playlistmaker.search.data.dto.TrackSearchResponse
+import com.practicum.playlistmaker.search.data.LocalHistoryStorage
 import com.practicum.playlistmaker.search.data.mapper.TrackMapper
-import com.practicum.playlistmaker.search.domain.api.TrackListRepository
 import com.practicum.playlistmaker.search.domain.api.TrackSearchHistoryRepository
 import com.practicum.playlistmaker.search.domain.models.Track
-import com.practicum.playlistmaker.utils.Resource
 
 class TrackSearchHistoryRepositoryImpl(
-    private val localStorage: LocalStorage,
+    private val localStorage: LocalHistoryStorage,
     private val searchHistorySize: Int,
 ) : TrackSearchHistoryRepository {
 
