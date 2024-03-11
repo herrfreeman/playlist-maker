@@ -6,14 +6,11 @@ import android.os.Looper
 import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.creator.Creator
-import com.practicum.playlistmaker.search.data.dto.TrackSearchResponse
+import com.practicum.playlistmaker.utils.Creator
 import com.practicum.playlistmaker.search.domain.api.TrackSearchHistoryInteractor
 import com.practicum.playlistmaker.search.domain.api.TrackSearchInteractor
 import com.practicum.playlistmaker.search.domain.models.Track

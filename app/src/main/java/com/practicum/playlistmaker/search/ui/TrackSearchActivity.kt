@@ -17,21 +17,23 @@ import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.main.ui.MainActivity
-import com.practicum.playlistmaker.player.data.presentation.PlayerActivity
+import com.practicum.playlistmaker.player.ui.PlayerActivity
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
 
+@Suppress("notifyDataSetChanged")
 class TrackSearchActivity : AppCompatActivity() {
 
     private var searchString = SEARCH_STRING_DEFAULT
     private val adapter = TrackSearchAdapter { addToHistory(it); openTrack(it) }
     private val historyAdapter = TrackSearchAdapter { openTrack(it) }
 
-    lateinit var binding: ActivitySearchBinding
-    lateinit var viewModel: TrackSearchViewModel
+    private lateinit var binding: ActivitySearchBinding
+    var viewModel: TrackSearchViewModel? = null
     private val handler = Handler(Looper.getMainLooper())
-    lateinit var searchTextWatcher: TextWatcher
+    private lateinit var searchTextWatcher: TextWatcher
     private var openTrackAllowed = true
 
+    @Suppress("notifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,14 +41,14 @@ class TrackSearchActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this, TrackSearchViewModel.getViewModelFactory())[TrackSearchViewModel::class.java]
-        viewModel.observeState().observe(this) {render(it)}
-        viewModel.observeHistory().observe(this) {
+        viewModel?.observeState()?.observe(this) {render(it)}
+        viewModel?.observeHistory()?.observe(this) {
             historyAdapter.trackList.clear()
             historyAdapter.trackList.addAll(it)
             historyAdapter.notifyDataSetChanged()
             setHistoryVisibility()
         }
-        viewModel.observeToastState().observe(this) {showToast(it)}
+        viewModel?.observeToastState()?.observe(this) {showToast(it)}
 
         binding.trackRecyclerView.adapter = adapter
         binding.historyRecyclerView.adapter = historyAdapter
@@ -152,7 +154,7 @@ class TrackSearchActivity : AppCompatActivity() {
         binding.connectionErrorFrame.visibility = View.VISIBLE
     }
 
-    fun showContent(trackList: List<Track>) {
+    private fun showContent(trackList: List<Track>) {
         binding.progressBar.visibility = View.GONE
         binding.nothingFoundFrame.visibility = View.GONE
         binding.connectionErrorFrame.visibility = View.GONE
@@ -162,7 +164,7 @@ class TrackSearchActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
-    fun showToast(text: String) {
+    private fun showToast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 

@@ -15,11 +15,11 @@ class TrackListRepositoryImpl(
      override fun searchTracks(expression: String): Resource<List<Track>> {
         val response = networkClient.doRequest(TrackSearchRequest(expression))
         return when (response.resultCode) {
-            -1 -> Resource.Error("Проверьте подключение к интернету")
+            -1 -> Resource.Error("Check your internet connection")
             200 -> {
                 return Resource.Success((response as TrackSearchResponse).results.map {TrackMapper.trackDtoToTrackMap(it)})
             }
-            else -> return Resource.Error("Ошибка сервера")
+            else -> return Resource.Error("Server error")
         }
     }
 

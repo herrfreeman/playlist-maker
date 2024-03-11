@@ -7,6 +7,7 @@ data class Track(
     val trackName: String,
     val artistName: String,
     val artworkUrl100: String,
+    val artworkUrl512: String,
     val trackTimeMillis: Long,
     val collectionName: String,
     val releaseDate: String,
@@ -15,10 +16,12 @@ data class Track(
     val previewUrl: String,
 
 ) : Serializable {
-    val artworkUrl512: String
-        get() = artworkUrl100.replaceAfterLast('/',"512x512bb.jpg")
 
     companion object {
         const val EXTRAS_KEY = "TRACK_CLASS"
+
+        fun getEmpty() = Track("","","","","",0L,"","","","","",)
     }
+
+
 }

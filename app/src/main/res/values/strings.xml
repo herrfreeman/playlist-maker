@@ -32,4 +32,11 @@
     <string name="genre_caption">Genre</string>
     <string name="country_caption">Country</string>
     <string name="duration_placeholder" translatable="false">00:00</string>
+
+    <string name="back_button_description" translatable="false">back_button</string>
+    <string name="track_holder_description" translatable="false">track_holder</string>
+    <string name="add_track_button_description" translatable="false">add_button</string>
+    <string name="play_button_description" translatable="false">play_button</string>
+    <string name="pause_button_description" translatable="false">pause_button</string>
+    <string name="like_button_description" translatable="false">like_button</string>
 </resources>

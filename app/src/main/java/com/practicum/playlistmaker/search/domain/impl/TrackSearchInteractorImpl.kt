@@ -17,10 +17,5 @@ class TrackSearchInteractorImpl(private val repository: TrackListRepository) : T
                 is Resource.Error -> consumer.consume(null, resource.message)
             }
         }
-//        The same way to start in thread
-//        val t = Thread {
-//            consumer.consume(repository.searchMovies(expression))
-//        }
-//        t.start()
     }
 }

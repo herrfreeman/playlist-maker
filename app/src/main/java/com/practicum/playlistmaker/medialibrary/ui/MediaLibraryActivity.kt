@@ -1,18 +1,22 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.medialibrary.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.android.material.appbar.MaterialToolbar
+import com.practicum.playlistmaker.databinding.ActivityMediaLibraryBinding
 import com.practicum.playlistmaker.main.ui.MainActivity
 
 class MediaLibraryActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_media_library)
 
-        val topToolbar = findViewById<MaterialToolbar>(R.id.media_library_toolbar)
-        topToolbar.setNavigationOnClickListener  {
+    lateinit var binding: ActivityMediaLibraryBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
+        binding = ActivityMediaLibraryBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.mediaLibraryToolbar.setNavigationOnClickListener  {
             startActivity(Intent(this, MainActivity::class.java))
         }
     }

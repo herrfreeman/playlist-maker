@@ -1,13 +1,10 @@
-package com.practicum.playlistmaker.creator
+package com.practicum.playlistmaker.utils
 
 import android.content.Context
-import com.practicum.playlistmaker.player.data.presentation.domain.api.AudioPlayer
-import com.practicum.playlistmaker.player.data.presentation.data.AudioPlayerImpl
 import com.practicum.playlistmaker.search.data.impl.TrackListRepositoryImpl
 import com.practicum.playlistmaker.search.domain.api.TrackListRepository
 import com.practicum.playlistmaker.search.domain.api.TrackSearchInteractor
 import com.practicum.playlistmaker.search.domain.impl.TrackSearchInteractorImpl
-
 import com.practicum.playlistmaker.search.data.network.RetrofitNetworkClient
 import com.practicum.playlistmaker.search.data.LocalHistoryStorage
 import com.practicum.playlistmaker.search.data.impl.TrackSearchHistoryRepositoryImpl
@@ -25,9 +22,6 @@ import com.practicum.playlistmaker.settings.domain.impl.SharingInteractorImpl
 
 object Creator {
 
-    fun providePlayer() : AudioPlayer {
-        return AudioPlayerImpl()
-    }
 
     private fun getTrackListRepository(context: Context): TrackListRepository {
         return TrackListRepositoryImpl(
@@ -49,8 +43,6 @@ object Creator {
     fun provideTrackSearchHistoryInteractor(context: Context): TrackSearchHistoryInteractor {
         return TrackSearchHistoryInteractorImpl(getTrackSearchHistoryRepository(context))
     }
-
-////////////////////////////////
 
     private fun getSettingsRepository(context: Context) : SettingsRepository {
         return SettingsRepositoryImpl(LocalSettingsStorage(context.getSharedPreferences("local_storage", Context.MODE_PRIVATE)))

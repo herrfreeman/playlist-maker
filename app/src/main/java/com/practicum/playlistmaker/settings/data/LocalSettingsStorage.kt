@@ -2,7 +2,6 @@ package com.practicum.playlistmaker.settings.data
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.practicum.playlistmaker.search.data.dto.TrackDto
 import com.practicum.playlistmaker.settings.domain.models.AppSettings
 
 class LocalSettingsStorage(private val sharedPreferences: SharedPreferences) {
