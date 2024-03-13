@@ -22,6 +22,7 @@
     <string name="update">Update</string>
     <string name="no_internet_connection">No Internet connection</string>
     <string name="load_failed">Load failed. Check your internet connection</string>
+    <string name="something_went_wrong">something_went_wrong</string>
     <string name="track_duration_mask" translatable="false">mm:ss</string>
     <string name="clear_history">Clear history</string>
     <string name="you_searched">You searched</string>
@@ -31,4 +32,11 @@
     <string name="genre_caption">Genre</string>
     <string name="country_caption">Country</string>
     <string name="duration_placeholder" translatable="false">00:00</string>
+
+    <string name="back_button_description" translatable="false">back_button</string>
+    <string name="track_holder_description" translatable="false">track_holder</string>
+    <string name="add_track_button_description" translatable="false">add_button</string>
+    <string name="play_button_description" translatable="false">play_button</string>
+    <string name="pause_button_description" translatable="false">pause_button</string>
+    <string name="like_button_description" translatable="false">like_button</string>
 </resources>

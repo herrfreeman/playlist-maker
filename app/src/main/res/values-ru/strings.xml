@@ -23,4 +23,5 @@
     <string name="year_caption">Год</string>
     <string name="genre_caption">Жанр</string>
     <string name="country_caption">Страна</string>
+    <string name="something_went_wrong">something_went_wrong</string>
 </resources>
