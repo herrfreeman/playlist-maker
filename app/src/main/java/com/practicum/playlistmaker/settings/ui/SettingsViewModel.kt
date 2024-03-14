@@ -4,18 +4,15 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicum.playlistmaker.PlayListApplication
-import com.practicum.playlistmaker.utils.Creator
 import com.practicum.playlistmaker.settings.domain.api.SettingsInteractor
 import com.practicum.playlistmaker.settings.domain.api.SharingInteractor
 import com.practicum.playlistmaker.settings.domain.models.AppSettings
+import org.koin.java.KoinJavaComponent.getKoin
 
 class SettingsViewModel(private val application: Application) : AndroidViewModel(application) {
-    private val sharingInteractor: SharingInteractor = Creator.provideSharingInteractor(getApplication<Application>())
-    private val settingsInteractor: SettingsInteractor = Creator.provideSettingsInteractor(getApplication<Application>())
+    private val sharingInteractor: SharingInteractor = getKoin().get()
+    private val settingsInteractor: SettingsInteractor = getKoin().get()
 
     private val appSettingsLiveData = MutableLiveData<AppSettings>()
     fun observeAppSettings(): LiveData<AppSettings> = appSettingsLiveData
@@ -38,11 +35,4 @@ class SettingsViewModel(private val application: Application) : AndroidViewModel
     fun openSupport() = sharingInteractor.openSupport()
     fun openTerms() = sharingInteractor.openTerms()
 
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SettingsViewModel(this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application)
-            }
-        }
-    }
 }

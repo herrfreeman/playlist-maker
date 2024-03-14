@@ -7,21 +7,18 @@ import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.practicum.playlistmaker.utils.Creator
 import com.practicum.playlistmaker.search.domain.api.TrackSearchHistoryInteractor
 import com.practicum.playlistmaker.search.domain.api.TrackSearchInteractor
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
 import com.practicum.playlistmaker.utils.SingleLiveEvent
+import org.koin.java.KoinJavaComponent.getKoin
 
 class TrackSearchViewModel(application: Application) : AndroidViewModel(application) {
 
     private var latestSearchText: String? = null
-    private val trackSearchInteractor = Creator.provideTrackSearchInteractor(getApplication<Application>())
-    private val trackHistoryInteractor = Creator.provideTrackSearchHistoryInteractor(getApplication<Application>())
+    private val trackSearchInteractor: TrackSearchInteractor = getKoin().get()
+    private val trackHistoryInteractor: TrackSearchHistoryInteractor = getKoin().get()
     private val handler = Handler(Looper.getMainLooper())
     private val trackList = mutableListOf<Track>()
 
@@ -37,12 +34,6 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
-
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                TrackSearchViewModel(this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application)
-            }
-        }
     }
 
     init {
@@ -83,7 +74,7 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
     fun addToHistory(track: Track) {
         trackHistoryInteractor.addToHistory(track,
             object : TrackSearchHistoryInteractor.HistoryChangeConsumer {
-                override fun consume(tracks: List<Track>?) {
+                override fun consume(tracks: List<Track>) {
                     historyLiveData.postValue(tracks)
                 }
             })
@@ -92,7 +83,7 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
     fun getSearchHistory() {
         trackHistoryInteractor.getSearchHistory(
             object : TrackSearchHistoryInteractor.HistoryChangeConsumer {
-                override fun consume(tracks: List<Track>?) {
+                override fun consume(tracks: List<Track>) {
                     historyLiveData.postValue(tracks)
                 }
             })
@@ -101,7 +92,7 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
     fun clearHistory() {
         trackHistoryInteractor.clearHistory(
             object : TrackSearchHistoryInteractor.HistoryChangeConsumer {
-                override fun consume(tracks: List<Track>?) {
+                override fun consume(tracks: List<Track>) {
                     historyLiveData.postValue(tracks)
                 }
             })

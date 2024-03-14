@@ -1,11 +1,12 @@
 package com.practicum.playlistmaker.search.data
 
-import android.content.SharedPreferences
+import android.content.Context
 import com.google.gson.Gson
 import com.practicum.playlistmaker.search.data.dto.TrackDto
 
-class LocalHistoryStorage(private val sharedPreferences: SharedPreferences) {
+class LocalHistoryStorage(context: Context) {
 
+    private val sharedPreferences = context.getSharedPreferences("local_storage", Context.MODE_PRIVATE)
     private val gson = Gson()
 
     private companion object {

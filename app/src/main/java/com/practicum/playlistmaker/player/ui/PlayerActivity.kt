@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
@@ -18,31 +17,35 @@ import com.practicum.playlistmaker.player.ui.models.TrackProgress
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
+
 class PlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlayerBinding
-    var viewModel: PlayerViewModel? = null
+
+    private val viewModel: PlayerViewModel by viewModel {
+        parametersOf(intent.extras?.getSerializable(Track.EXTRAS_KEY, Track::class.java) ?: Track.getEmpty())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val startTrack = intent.extras?.getSerializable(Track.EXTRAS_KEY, Track::class.java) ?: Track.getEmpty()
         binding = ActivityPlayerBinding.inflate(layoutInflater)
 
-        viewModel = ViewModelProvider(this, PlayerViewModel.getViewModelFactory(startTrack))[PlayerViewModel::class.java]
-        viewModel?.observeState()?.observe(this) {renderTrackState(it)}
-        viewModel?.observeProgress()?.observe(this) {renderTrackProgress(it)}
+        viewModel.observeState().observe(this) {renderTrackState(it)}
+        viewModel.observeProgress().observe(this) {renderTrackProgress(it)}
 
         with(binding) {
             setContentView(root)
 
             backButton.setOnClickListener {
                 startActivity(Intent(this@PlayerActivity, TrackSearchActivity::class.java))
-                viewModel?.pause()
+                viewModel.pause()
             }
 
-            trackPlayButton.setOnClickListener { viewModel?.play() }
-            trackPauseButton.setOnClickListener { viewModel?.pause() }
+            trackPlayButton.setOnClickListener { viewModel.play() }
+            trackPauseButton.setOnClickListener { viewModel.pause() }
 
         }
     }

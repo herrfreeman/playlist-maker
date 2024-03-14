@@ -7,9 +7,6 @@ import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicum.playlistmaker.player.ui.models.PlayerState
 import com.practicum.playlistmaker.player.ui.models.TrackProgress
 import com.practicum.playlistmaker.search.domain.models.Track
@@ -71,11 +68,11 @@ class PlayerViewModel(application: Application, private var currentTrack: Track)
     companion object {
         private const val TIMER_DURATION_MILLS = 300L
 
-        fun getViewModelFactory(startTrack: Track): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                PlayerViewModel(this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application, startTrack)
-            }
-        }
+//        fun getViewModelFactory(startTrack: Track): ViewModelProvider.Factory = viewModelFactory {
+//            initializer {
+//                PlayerViewModel(this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application, startTrack)
+//            }
+//        }
     }
 
 }
