@@ -13,22 +13,23 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.main.ui.MainActivity
 import com.practicum.playlistmaker.player.ui.PlayerActivity
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
 
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 @Suppress("notifyDataSetChanged")
 class TrackSearchActivity : AppCompatActivity() {
 
     private var searchString = SEARCH_STRING_DEFAULT
     private val adapter = TrackSearchAdapter { addToHistory(it); openTrack(it) }
-    private val historyAdapter = TrackSearchAdapter { openTrack(it) }
+    private val historyAdapter = TrackSearchAdapter { addToHistory(it); openTrack(it) }
 
     private lateinit var binding: ActivitySearchBinding
-    var viewModel: TrackSearchViewModel? = null
+    private val viewModel: TrackSearchViewModel by viewModel()
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var searchTextWatcher: TextWatcher
     private var openTrackAllowed = true
@@ -40,19 +41,18 @@ class TrackSearchActivity : AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this, TrackSearchViewModel.getViewModelFactory())[TrackSearchViewModel::class.java]
-        viewModel?.observeState()?.observe(this) {render(it)}
-        viewModel?.observeHistory()?.observe(this) {
+        viewModel.observeState().observe(this) {render(it)}
+        viewModel.observeHistory().observe(this) {
             historyAdapter.trackList.clear()
             historyAdapter.trackList.addAll(it)
             historyAdapter.notifyDataSetChanged()
             setHistoryVisibility()
         }
-        viewModel?.observeToastState()?.observe(this) {showToast(it)}
+        viewModel.observeToastState().observe(this) {showToast(it)}
 
         binding.trackRecyclerView.adapter = adapter
         binding.historyRecyclerView.adapter = historyAdapter
-        binding.repeatSearchButton.setOnClickListener { viewModel?.searchNow(searchString) }
+        binding.repeatSearchButton.setOnClickListener { viewModel.searchNow(searchString) }
 
         setCleanSearchButtonVisibility()
 
@@ -67,7 +67,7 @@ class TrackSearchActivity : AppCompatActivity() {
                 setCleanSearchButtonVisibility()
                 setHistoryVisibility()
                 hideErrorFrames()
-                viewModel?.searchDebounce(searchString)
+                viewModel.searchDebounce(searchString)
             }
             override fun afterTextChanged(p0: Editable?) {}
         }
@@ -76,7 +76,7 @@ class TrackSearchActivity : AppCompatActivity() {
 
         binding.searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewModel?.searchNow(searchString)
+                viewModel.searchNow(searchString)
                 binding.searchEditText.clearFocus()
                 true
             } else false
@@ -87,7 +87,7 @@ class TrackSearchActivity : AppCompatActivity() {
 
         binding.searchEditTextLayout.setEndIconOnClickListener {
             binding.searchEditText.setText(SEARCH_STRING_DEFAULT)
-            viewModel?.clearTrackList()
+            viewModel.clearTrackList()
 
             //Hide keyboard when clear button clicked
             val inputMethodManager =
@@ -97,7 +97,7 @@ class TrackSearchActivity : AppCompatActivity() {
         }
 
         binding.clearHistoryButton.setOnClickListener {
-            viewModel?.clearHistory()
+            viewModel.clearHistory()
         }
 
     }
@@ -116,7 +116,7 @@ class TrackSearchActivity : AppCompatActivity() {
     }
 
     private fun addToHistory(track: Track) {
-        viewModel?.addToHistory(track)
+        viewModel.addToHistory(track)
     }
 
     private fun openTrack(track: Track) {

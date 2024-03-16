@@ -29,6 +29,6 @@ class TrackSearchHistoryInteractorImpl(private val repository: TrackSearchHistor
             repository.clearHistory()
         }
         t.start()
-        consumer.consume(emptyList())
+        consumer.consume(emptyList<Track>())
     }
 }

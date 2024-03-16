@@ -1,11 +1,11 @@
 package com.practicum.playlistmaker.settings.data
 
-import android.content.SharedPreferences
+import android.content.Context
 import com.google.gson.Gson
 import com.practicum.playlistmaker.settings.domain.models.AppSettings
 
-class LocalSettingsStorage(private val sharedPreferences: SharedPreferences) {
-
+class LocalSettingsStorage(context: Context) {
+    private val sharedPreferences = context.getSharedPreferences("local_storage", Context.MODE_PRIVATE)
     private val gson = Gson()
 
     private companion object {

@@ -9,6 +9,6 @@ interface TrackSearchHistoryInteractor {
     fun clearHistory(consumer: HistoryChangeConsumer)
 
     interface HistoryChangeConsumer {
-        fun consume(tracks: List<Track>?)
+        fun consume(tracks: List<Track>)
     }
 }
