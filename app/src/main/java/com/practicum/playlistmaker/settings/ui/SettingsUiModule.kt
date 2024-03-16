@@ -5,6 +5,10 @@ import org.koin.dsl.module
 
 val settingsUiModule = module {
     viewModel {
-        SettingsViewModel(get())
+        SettingsViewModel(
+            application = get(),
+            sharingInteractor = get(),
+            settingsInteractor = get(),
+        )
     }
 }

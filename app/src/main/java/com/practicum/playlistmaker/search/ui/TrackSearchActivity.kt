@@ -26,7 +26,7 @@ class TrackSearchActivity : AppCompatActivity() {
 
     private var searchString = SEARCH_STRING_DEFAULT
     private val adapter = TrackSearchAdapter { addToHistory(it); openTrack(it) }
-    private val historyAdapter = TrackSearchAdapter { openTrack(it) }
+    private val historyAdapter = TrackSearchAdapter { addToHistory(it); openTrack(it) }
 
     private lateinit var binding: ActivitySearchBinding
     private val viewModel: TrackSearchViewModel by viewModel()

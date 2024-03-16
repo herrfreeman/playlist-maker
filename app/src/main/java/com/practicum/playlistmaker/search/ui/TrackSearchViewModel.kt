@@ -12,13 +12,14 @@ import com.practicum.playlistmaker.search.domain.api.TrackSearchInteractor
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
 import com.practicum.playlistmaker.utils.SingleLiveEvent
-import org.koin.java.KoinJavaComponent.getKoin
 
-class TrackSearchViewModel(application: Application) : AndroidViewModel(application) {
+class TrackSearchViewModel(
+    application: Application,
+    private val trackSearchInteractor: TrackSearchInteractor,
+    private val trackHistoryInteractor: TrackSearchHistoryInteractor,
+) : AndroidViewModel(application) {
 
     private var latestSearchText: String? = null
-    private val trackSearchInteractor: TrackSearchInteractor = getKoin().get()
-    private val trackHistoryInteractor: TrackSearchHistoryInteractor = getKoin().get()
     private val handler = Handler(Looper.getMainLooper())
     private val trackList = mutableListOf<Track>()
 
@@ -52,7 +53,11 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
         searchDebounce(queryText, debounceDelay = 0, force = true)
     }
 
-    fun searchDebounce(changedText: String, debounceDelay: Long = SEARCH_DEBOUNCE_DELAY, force: Boolean = false) {
+    fun searchDebounce(
+        changedText: String,
+        debounceDelay: Long = SEARCH_DEBOUNCE_DELAY,
+        force: Boolean = false
+    ) {
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
 
         if (latestSearchText == changedText && !force) {
@@ -122,6 +127,7 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
                                 renderState(TrackSearchState.Error)
                                 showToast(errorMessage)
                             }
+
                             trackList.isEmpty() -> renderState(TrackSearchState.Empty)
                             else -> renderState(TrackSearchState.Content(trackList))
                         }

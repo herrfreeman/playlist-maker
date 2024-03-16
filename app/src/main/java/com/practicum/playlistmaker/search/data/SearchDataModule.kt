@@ -10,18 +10,27 @@ import org.koin.dsl.module
 val searchDataModule = module {
 
     single<NetworkClient> {
-        RetrofitNetworkClient(get())
+        RetrofitNetworkClient(
+            context = get(),
+        )
     }
 
     single<TrackListRepository> {
-        TrackListRepositoryImpl(get())
+        TrackListRepositoryImpl(
+            networkClient = get(),
+        )
     }
 
     single {
-        LocalHistoryStorage(get())
+        LocalHistoryStorage(
+            context = get(),
+        )
     }
 
     single<TrackSearchHistoryRepository> {
-        TrackSearchHistoryRepositoryImpl(get(), 10)
+        TrackSearchHistoryRepositoryImpl(
+            localStorage = get(),
+            searchHistorySize = 10,
+            )
     }
 }

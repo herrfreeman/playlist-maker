@@ -10,14 +10,21 @@ import org.koin.dsl.module
 val settingsDomainModule = module {
 
     single<SettingsInteractor> {
-        SettingsInteractorImpl(get())
+        SettingsInteractorImpl(
+            repository = get(),
+        )
     }
 
     single {
-        ExternalNavigator(get())
+        ExternalNavigator(
+            context = get(),
+        )
     }
 
     single<SharingInteractor> {
-        SharingInteractorImpl(get(), get())
+        SharingInteractorImpl(
+            externalNavigator = get(),
+            context = get(),
+        )
     }
 }

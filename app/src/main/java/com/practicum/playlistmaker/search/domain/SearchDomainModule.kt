@@ -9,11 +9,15 @@ import org.koin.dsl.module
 val searchDomainModule = module {
 
     single<TrackSearchHistoryInteractor> {
-        TrackSearchHistoryInteractorImpl(get())
+        TrackSearchHistoryInteractorImpl(
+            repository = get(),
+            )
     }
 
     single<TrackSearchInteractor> {
-        TrackSearchInteractorImpl(get())
+        TrackSearchInteractorImpl(
+            repository = get(),
+            )
     }
 
 }

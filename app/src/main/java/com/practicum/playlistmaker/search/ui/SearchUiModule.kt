@@ -5,6 +5,10 @@ import org.koin.dsl.module
 
 val searchUiModule = module {
     viewModel {
-        TrackSearchViewModel(get())
+        TrackSearchViewModel(
+            application = get(),
+            trackSearchInteractor = get(),
+            trackHistoryInteractor = get(),
+        )
     }
 }

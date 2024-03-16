@@ -8,11 +8,12 @@ import com.practicum.playlistmaker.PlayListApplication
 import com.practicum.playlistmaker.settings.domain.api.SettingsInteractor
 import com.practicum.playlistmaker.settings.domain.api.SharingInteractor
 import com.practicum.playlistmaker.settings.domain.models.AppSettings
-import org.koin.java.KoinJavaComponent.getKoin
 
-class SettingsViewModel(private val application: Application) : AndroidViewModel(application) {
-    private val sharingInteractor: SharingInteractor = getKoin().get()
-    private val settingsInteractor: SettingsInteractor = getKoin().get()
+class SettingsViewModel(
+    private val application: Application,
+    private val sharingInteractor: SharingInteractor,
+    private val settingsInteractor: SettingsInteractor,
+) : AndroidViewModel(application) {
 
     private val appSettingsLiveData = MutableLiveData<AppSettings>()
     fun observeAppSettings(): LiveData<AppSettings> = appSettingsLiveData

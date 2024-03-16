@@ -67,12 +67,6 @@ class PlayerViewModel(application: Application, private var currentTrack: Track)
 
     companion object {
         private const val TIMER_DURATION_MILLS = 300L
-
-//        fun getViewModelFactory(startTrack: Track): ViewModelProvider.Factory = viewModelFactory {
-//            initializer {
-//                PlayerViewModel(this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application, startTrack)
-//            }
-//        }
     }
 
 }

@@ -15,8 +15,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
-    private val viewModel: SettingsViewModel by viewModel()
     private val handler = Handler(Looper.getMainLooper())
+    private val viewModel: SettingsViewModel by viewModel()
 
     private var isClickAllowed = true
 

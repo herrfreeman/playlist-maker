@@ -6,6 +6,9 @@ import org.koin.dsl.module
 
 val playerUiModule = module {
     viewModel {(currentTrack: Track) ->
-        PlayerViewModel(get(), currentTrack)
+        PlayerViewModel(
+            application = get(),
+            currentTrack = currentTrack,
+        )
     }
 }

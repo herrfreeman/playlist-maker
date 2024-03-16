@@ -6,11 +6,15 @@ import org.koin.dsl.module
 val settingsDataModule = module {
 
     single {
-        LocalSettingsStorage(get())
+        LocalSettingsStorage(
+            context = get(),
+        )
     }
 
     single<SettingsRepository> {
-        SettingsRepositoryImpl(get())
+        SettingsRepositoryImpl(
+            localStorage = get(),
+        )
     }
 
 
