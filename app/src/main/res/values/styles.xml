@@ -11,7 +11,16 @@
         <item name="android:indeterminateTint">@color/yp_blue</item>
     </style>
 
-        <style name="Widget.PlayListMaker.ProgressBar">
+    <style name="Widget.PlayListMaker.TabLayout">
+        <item name="android:fontFamily">@font/ys_text_regular</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">14sp</item>
+        <item name="tabIndicatorColor">?attr/colorOnPrimary</item>
+        <item name="tabTextColor">?attr/colorOnPrimary</item>
+        <item name="tabIndicatorFullWidth">true</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.ProgressBar">
             <item name="android:backgroundTint">@color/transparent</item>
         </style>
 

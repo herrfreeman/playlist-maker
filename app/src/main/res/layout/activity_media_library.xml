@@ -1,15 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Widget.PlayListMaker.CommonActivity">
 
+
     <com.google.android.material.appbar.AppBarLayout
-        style="@style/Widget.PlayListMaker.CommonActivity.Toolbar">
+        android:id="@+id/media_library_toolbar_layout"
+        style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/media_library_toolbar"
             style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
             app:title="@string/media_library_title" />
     </com.google.android.material.appbar.AppBarLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <com.google.android.material.tabs.TabLayout
+
+
+
+
+        android:id="@+id/media_library_tab"
+        style="@style/Widget.PlayListMaker.TabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/media_library_toolbar_layout"
+        app:tabInlineLabel="false" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/media_library_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/media_library_tab" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
