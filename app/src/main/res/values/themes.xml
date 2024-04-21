@@ -22,9 +22,9 @@
     <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker" />
 
     <style name="Theme.PlaylistMaker.MainActivity" parent="Theme.PlaylistMaker">
-        <item name="android:statusBarColor">?attr/colorSecondary</item>
+        <item name="android:statusBarColor">?attr/colorOnSecondary</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:navigationBarColor">?attr/colorSecondary</item>
+        <item name="android:navigationBarColor">?attr/colorOnSecondary</item>
     </style>
 
 </resources>

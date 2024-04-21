@@ -25,8 +25,8 @@
         </style>
 
         <style name="Widget.PlayListMaker.MainActivity">
-            <item name="backgroundColor">?attr/colorSecondary</item>
-            <item name="android:background">?attr/colorSecondary</item>
+            <item name="backgroundColor">?attr/colorOnSecondary</item>
+            <item name="android:background">?attr/colorOnSecondary</item>
             <item name="android:textColor">?attr/colorOnSecondary</item>
             <item name="android:fontFamily">@font/ys_text_medium</item>
             <item name="android:textFontWeight">500</item>
@@ -59,13 +59,11 @@
             <style name="Widget.PlayListMaker.CommonActivity.Toolbar">
                 <item name="android:layout_width">match_parent</item>
                 <item name="android:layout_height">wrap_content</item>
-                <item name="android:minHeight">56dp</item>
-                <item name="navigationIcon">@drawable/arrow_left</item>
-                <item name="navigationIconTint">?attr/colorOnPrimary</item>
                 <item name="android:titleTextColor">?attr/colorOnPrimary</item>
                 <item name="android:fontFamily">@font/ys_text_medium</item>
                 <item name="android:textFontWeight">500</item>
                 <item name="android:textSize">22sp</item>
+                <item name="android:padding">@dimen/margin_l</item>
             </style>
 
             <style name="Widget.PlayListMaker.SearchWidget">

@@ -6,19 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.search.ui.TrackSearchActivity
-import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
+import com.practicum.playlistmaker.main.ui.MainActivity
 import com.practicum.playlistmaker.player.ui.models.PlayerState
 import com.practicum.playlistmaker.player.ui.models.TrackProgress
-
-import java.text.SimpleDateFormat
-import java.util.Locale
-
+import com.practicum.playlistmaker.search.domain.models.Track
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
 
@@ -40,7 +37,7 @@ class PlayerActivity : AppCompatActivity() {
             setContentView(root)
 
             backButton.setOnClickListener {
-                startActivity(Intent(this@PlayerActivity, TrackSearchActivity::class.java))
+                startActivity(Intent(this@PlayerActivity, MainActivity::class.java))
                 viewModel.pause()
             }
 

@@ -5,23 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.practicum.playlistmaker.databinding.FragmentFavoritesBinding
+import com.practicum.playlistmaker.databinding.FragmentPlaylistsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FragmentFavorites : Fragment() {
+
+class PlayListsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = FragmentFavorites()
+        fun newInstance() = PlayListsFragment()
     }
 
-    private var _binding: FragmentFavoritesBinding? = null
-    private val binding get() = _binding!!
+    private var _binding: FragmentPlaylistsBinding? = null
+    private val binding: FragmentPlaylistsBinding get() = _binding!!
 
-    private val favoritesViewModel: FavoritesViewModel by viewModel()
+    private val playlistsViewModel: PlaylistsViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        _binding = FragmentPlaylistsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -29,6 +30,5 @@ class FragmentFavorites : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 
 }

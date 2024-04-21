@@ -2,63 +2,68 @@ package com.practicum.playlistmaker.search.ui
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
-import com.practicum.playlistmaker.databinding.ActivitySearchBinding
-import com.practicum.playlistmaker.search.domain.models.Track
-import com.practicum.playlistmaker.main.ui.MainActivity
+import com.practicum.playlistmaker.core.BindingFragment
+import com.practicum.playlistmaker.databinding.FragmentTrackSearchBinding
 import com.practicum.playlistmaker.player.ui.PlayerActivity
+import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
-
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@Suppress("notifyDataSetChanged")
-class TrackSearchActivity : AppCompatActivity() {
+
+class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
+
+    companion object {
+        const val SEARCH_STRING_DEFAULT = ""
+        const val OPEN_TRACK_DEBOUNCE = 300L
+    }
 
     private var searchString = SEARCH_STRING_DEFAULT
     private val adapter = TrackSearchAdapter { addToHistory(it); openTrack(it) }
     private val historyAdapter = TrackSearchAdapter { addToHistory(it); openTrack(it) }
 
-    private lateinit var binding: ActivitySearchBinding
     private val viewModel: TrackSearchViewModel by viewModel()
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var searchTextWatcher: TextWatcher
     private var openTrackAllowed = true
 
+
+    override fun createInflatedBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentTrackSearchBinding {
+        return FragmentTrackSearchBinding.inflate(inflater, container, false)
+    }
+
     @Suppress("notifyDataSetChanged")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        viewModel.observeState().observe(this) {render(it)}
-        viewModel.observeHistory().observe(this) {
+        viewModel.observeState().observe(viewLifecycleOwner) {render(it)}
+        viewModel.observeHistory().observe(viewLifecycleOwner) {
             historyAdapter.trackList.clear()
             historyAdapter.trackList.addAll(it)
             historyAdapter.notifyDataSetChanged()
             setHistoryVisibility()
         }
-        viewModel.observeToastState().observe(this) {showToast(it)}
+        viewModel.observeToastState().observe(viewLifecycleOwner) {showToast(it)}
 
         binding.trackRecyclerView.adapter = adapter
         binding.historyRecyclerView.adapter = historyAdapter
         binding.repeatSearchButton.setOnClickListener { viewModel.searchNow(searchString) }
 
         setCleanSearchButtonVisibility()
-
-        binding.searchToolbar.setNavigationOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-        }
 
         searchTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -84,14 +89,12 @@ class TrackSearchActivity : AppCompatActivity() {
 
         binding.searchEditText.setOnFocusChangeListener { _, _ -> setHistoryVisibility() }
 
-
         binding.searchEditTextLayout.setEndIconOnClickListener {
             binding.searchEditText.setText(SEARCH_STRING_DEFAULT)
             viewModel.clearTrackList()
 
             //Hide keyboard when clear button clicked
-            val inputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
             binding.searchEditText.clearFocus()
         }
@@ -123,7 +126,8 @@ class TrackSearchActivity : AppCompatActivity() {
         if (openTrackAllowed) {
             openTrackAllowed = false
             handler.postDelayed({ openTrackAllowed = true }, OPEN_TRACK_DEBOUNCE)
-            val intent = Intent(this, PlayerActivity::class.java)
+
+            val intent = Intent(requireContext(), PlayerActivity::class.java)
             intent.putExtra(Track.EXTRAS_KEY, track)
             startActivity(intent)
         }
@@ -154,6 +158,7 @@ class TrackSearchActivity : AppCompatActivity() {
         binding.connectionErrorFrame.visibility = View.VISIBLE
     }
 
+    @Suppress("notifyDataSetChanged")
     private fun showContent(trackList: List<Track>) {
         binding.progressBar.visibility = View.GONE
         binding.nothingFoundFrame.visibility = View.GONE
@@ -165,14 +170,7 @@ class TrackSearchActivity : AppCompatActivity() {
     }
 
     private fun showToast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
     }
-
-    companion object {
-        const val SEARCH_STRING_DEFAULT = ""
-        const val OPEN_TRACK_DEBOUNCE = 300L
-    }
-
 
 }
-

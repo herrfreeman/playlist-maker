@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.PlayListMaker.CommonActivity"
+    tools:context=".settings.ui.SettingsFragment"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        style="@style/Widget.PlayListMaker.CommonActivity.Toolbar">
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/settings_toolbar"
-            style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
-            app:title="@string/settings_title"/>
-    </com.google.android.material.appbar.AppBarLayout>
+    <TextView
+        android:id="@+id/settings_title"
+        style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_title" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/theme_switcher"
