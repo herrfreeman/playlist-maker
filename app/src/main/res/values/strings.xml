@@ -39,4 +39,10 @@
     <string name="play_button_description" translatable="false">play_button</string>
     <string name="pause_button_description" translatable="false">pause_button</string>
     <string name="like_button_description" translatable="false">like_button</string>
+
+    <string name="favorites_tab">Favorite tracks</string>
+    <string name="playlists_tab">Playlists</string>
+    <string name="message_medialibrary_isempty">Library is empty</string>
+    <string name="message_noplaylist">No playlist created</string>
+    <string name="new_playlist_button">New playlist</string>
 </resources>

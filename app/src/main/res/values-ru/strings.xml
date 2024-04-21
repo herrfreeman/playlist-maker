@@ -24,4 +24,9 @@
     <string name="genre_caption">Жанр</string>
     <string name="country_caption">Страна</string>
     <string name="something_went_wrong">something_went_wrong</string>
+    <string name="favorites_tab">Избранные треки</string>
+    <string name="playlists_tab">Плейлисты</string>
+    <string name="message_medialibrary_isempty">Ваша медиатека пуста</string>
+    <string name="message_noplaylist">Вы не создали \\nни одного плейлиста</string>
+    <string name="new_playlist_button">Новый плейлист</string>
 </resources>
