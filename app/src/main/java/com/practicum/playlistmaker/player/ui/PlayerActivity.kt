@@ -37,8 +37,8 @@ class PlayerActivity : AppCompatActivity() {
             setContentView(root)
 
             backButton.setOnClickListener {
-                startActivity(Intent(this@PlayerActivity, MainActivity::class.java))
                 viewModel.pause()
+                finish()
             }
 
             trackPlayButton.setOnClickListener { viewModel.play() }

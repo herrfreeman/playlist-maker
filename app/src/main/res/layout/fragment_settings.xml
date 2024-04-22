@@ -17,6 +17,8 @@
         android:id="@+id/theme_switcher"
         style="@style/Widget.PlayListMaker.SettingsItem"
         android:saveEnabled="false"
+        app:thumbTint="@color/thumb_switch_color"
+        app:trackTint="@color/thumbtrack_switch_color"
         android:text="@string/darktheme_switch"/>
 
     <TextView

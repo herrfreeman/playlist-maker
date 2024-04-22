@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.PlayListMaker.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/yp_gray"
     tools:context=".main.ui.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
-
         android:id="@+id/main_fragment_container"
         android:name="androidx.navigation.fragment.NavHostFragment"
+        style="@style/Widget.PlayListMaker"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,13 +23,24 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
-        style="@style/Widget.PlayListMaker"
+        style="@style/Widget.PlayListMaker.MainBottomNavigator"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginTop="0.5dp"
+        app:itemActiveIndicatorStyle="@null"
+        app:itemIconSize="@dimen/image_m"
+        app:itemIconTint="@color/navbar_item_color"
+        app:itemPaddingBottom="8dp"
+        app:itemPaddingTop="8dp"
+        app:itemTextAppearanceActive="@style/BottomNavigationText"
+        app:itemTextAppearanceInactive="@style/BottomNavigationText"
+        app:itemTextColor="@color/navbar_item_color"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_fragment_container"
         app:menu="@menu/main_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

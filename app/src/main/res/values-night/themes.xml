@@ -2,7 +2,10 @@
 
     <style name="Base.Theme.PlaylistMaker" parent="Theme.Material3.DayNight.NoActionBar">
 
-        <item name="colorPrimary">@color/yp_black</item>
+        <item name="colorPrimary">@color/yp_blue</item>
+        <item name="colorSurface">?attr/main_background_color</item>
+        <item name="colorOnSurface">@color/white</item>
+
         <item name="main_background_color">@color/yp_black</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/yp_black</item>
@@ -13,9 +16,10 @@
         <item name="search_text_color">@color/yp_black</item>
         <item name="track_description_color">@color/white</item>
 
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:statusBarColor">?attr/main_background_color</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?attr/main_background_color</item>
+
     </style>
 
     <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker" />
