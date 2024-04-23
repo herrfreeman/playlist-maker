@@ -18,7 +18,7 @@ class TrackSearchViewHolder(
 ) : RecyclerView.ViewHolder(
     LayoutInflater
         .from(parent.context)
-        .inflate(R.layout.activity_track_item, parent, false)
+        .inflate(R.layout.track_item, parent, false)
 ) {
 
     private val trackImage: ImageView = itemView.findViewById(R.id.track_image)

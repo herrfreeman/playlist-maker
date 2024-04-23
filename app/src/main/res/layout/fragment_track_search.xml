@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.PlayListMaker.CommonActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".search.ui.TrackSearchFragment">
 
-    <com.google.android.material.appbar.AppBarLayout style="@style/Widget.PlayListMaker.CommonActivity.Toolbar">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/search_toolbar"
-            style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
-            app:title="@string/search_title" />
-    </com.google.android.material.appbar.AppBarLayout>
+    <TextView
+        style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_title"
+        android:padding="@dimen/margin_l" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_edit_text_layout"
@@ -67,7 +67,7 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/activity_track_item" />
+                    tools:listitem="@layout/track_item" />
 
                 <Button
                     android:id="@+id/clear_history_button"
@@ -85,7 +85,7 @@
                 android:layout_marginTop="@dimen/margin_l"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/activity_track_item" />
+                tools:listitem="@layout/track_item" />
 
         </LinearLayout>
 
@@ -144,13 +144,14 @@
 
         </LinearLayout>
 
-        <ProgressBar android:id="@+id/progress_bar"
+        <ProgressBar
+            android:id="@+id/progress_bar"
             style="@style/Widget.PlayListMaker.ProgressBar"
             android:layout_width="@dimen/progress_bar"
             android:layout_height="@dimen/progress_bar"
-            android:layout_marginTop="150dp"
             android:layout_gravity="center_horizontal"
-            android:visibility="gone"/>
+            android:layout_marginTop="150dp"
+            android:visibility="gone" />
 
     </FrameLayout>
 
