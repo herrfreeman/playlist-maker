@@ -1,17 +1,18 @@
 package com.practicum.playlistmaker.player.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
-import com.practicum.playlistmaker.main.ui.MainActivity
 import com.practicum.playlistmaker.player.ui.models.PlayerState
 import com.practicum.playlistmaker.player.ui.models.TrackProgress
 import com.practicum.playlistmaker.search.domain.models.Track
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
@@ -20,6 +21,7 @@ import java.util.Locale
 class PlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlayerBinding
+    private var isClickAllowed = true
 
     private val viewModel: PlayerViewModel by viewModel {
         parametersOf(intent.extras?.getSerializable(Track.EXTRAS_KEY, Track::class.java) ?: Track.getEmpty())
@@ -41,8 +43,8 @@ class PlayerActivity : AppCompatActivity() {
                 finish()
             }
 
-            trackPlayButton.setOnClickListener { viewModel.play() }
-            trackPauseButton.setOnClickListener { viewModel.pause() }
+            trackPlayButton.setOnClickListener { clickDebounce { viewModel.play() } }
+            trackPauseButton.setOnClickListener { clickDebounce { viewModel.pause() } }
 
         }
     }
@@ -97,6 +99,18 @@ class PlayerActivity : AppCompatActivity() {
             trackPlayButton.isVisible = isVisible
             trackPauseButton.isVisible = !trackPlayButton.isVisible
         }
+    }
+
+    private fun clickDebounce(listener: () -> Unit) {
+        if (isClickAllowed) {
+            isClickAllowed = false
+            listener()
+            lifecycleScope.launch { isClickAllowed = true; delay(CLICK_DEBOUNCE_DELAY) }
+        }
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 300L
     }
 
 }
