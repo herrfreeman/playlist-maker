@@ -18,6 +18,7 @@ val searchDataModule = module {
     single<TrackListRepository> {
         TrackListRepositoryImpl(
             networkClient = get(),
+            context = get(),
         )
     }
 

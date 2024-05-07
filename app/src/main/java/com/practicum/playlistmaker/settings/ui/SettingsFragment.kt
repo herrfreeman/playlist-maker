@@ -43,7 +43,7 @@ class SettingsFragment : BindingFragment<FragmentSettingsBinding>() {
         if (isClickAllowed) {
             isClickAllowed = false
             listener()
-            lifecycleScope.launch { isClickAllowed = true; delay(CLICK_DEBOUNCE_DELAY) }
+            lifecycleScope.launch { delay(CLICK_DEBOUNCE_DELAY); isClickAllowed = true }
         }
     }
 

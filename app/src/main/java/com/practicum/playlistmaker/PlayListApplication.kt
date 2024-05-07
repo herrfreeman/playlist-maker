@@ -46,8 +46,8 @@ class PlayListApplication : Application() {
             if (appSettings.nightMode) {
                 AppCompatDelegate.MODE_NIGHT_YES
             } else {
-                //AppCompatDelegate.MODE_NIGHT_NO
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                AppCompatDelegate.MODE_NIGHT_NO
+                //AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             }
         )
     }
