@@ -29,4 +29,6 @@
     <string name="message_medialibrary_isempty">Ваша медиатека пуста</string>
     <string name="message_noplaylist">Вы не создали \\nни одного плейлиста</string>
     <string name="new_playlist_button">Новый плейлист</string>
+    <string name="check_connection_message">Проверьте соединение с интернет</string>
+    <string name="server_error_message">Ошибка сервера</string>
 </resources>

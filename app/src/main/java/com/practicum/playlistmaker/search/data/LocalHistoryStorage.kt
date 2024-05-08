@@ -22,13 +22,14 @@ class LocalHistoryStorage(context: Context) {
 
     fun getSearchHistory(): List<TrackDto> {
         return gson.fromJson(
-                sharedPreferences.getString(SEARCH_HISTORY, ""),
-                Array<TrackDto>::class.java
-            )?.asList() ?: emptyList<TrackDto>()
+            sharedPreferences.getString(SEARCH_HISTORY, ""),
+            Array<TrackDto>::class.java
+        )?.asList() ?: emptyList<TrackDto>()
     }
 
-    fun clearHistory() {
+    fun clearHistory(): List<TrackDto> {
         sharedPreferences.edit().remove(SEARCH_HISTORY).apply()
+        return emptyList<TrackDto>()
     }
 
 }

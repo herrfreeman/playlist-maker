@@ -3,8 +3,6 @@ package com.practicum.playlistmaker.search.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -14,30 +12,26 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.practicum.playlistmaker.core.BindingFragment
 import com.practicum.playlistmaker.databinding.FragmentTrackSearchBinding
 import com.practicum.playlistmaker.player.ui.PlayerActivity
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
 
-    companion object {
-        const val SEARCH_STRING_DEFAULT = ""
-        const val OPEN_TRACK_DEBOUNCE = 300L
-    }
-
     private var searchString = SEARCH_STRING_DEFAULT
-    private val adapter = TrackSearchAdapter { addToHistory(it); openTrack(it) }
-    private val historyAdapter = TrackSearchAdapter { addToHistory(it); openTrack(it) }
+    private val adapter = TrackSearchAdapter { clickDebounce { addToHistory(it); openTrack(it) } }
+    private val historyAdapter = TrackSearchAdapter { clickDebounce { addToHistory(it); openTrack(it) } }
+    private var isClickAllowed = true
 
     private val viewModel: TrackSearchViewModel by viewModel()
-    private val handler = Handler(Looper.getMainLooper())
     private lateinit var searchTextWatcher: TextWatcher
-    private var openTrackAllowed = true
-
 
     override fun createInflatedBinding(
         inflater: LayoutInflater,
@@ -61,7 +55,7 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
 
         binding.trackRecyclerView.adapter = adapter
         binding.historyRecyclerView.adapter = historyAdapter
-        binding.repeatSearchButton.setOnClickListener { viewModel.searchNow(searchString) }
+        binding.repeatSearchButton.setOnClickListener { clickDebounce { viewModel.searchNow(searchString) } }
 
         setCleanSearchButtonVisibility()
 
@@ -123,14 +117,9 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
     }
 
     private fun openTrack(track: Track) {
-        if (openTrackAllowed) {
-            openTrackAllowed = false
-            handler.postDelayed({ openTrackAllowed = true }, OPEN_TRACK_DEBOUNCE)
-
-            val intent = Intent(requireContext(), PlayerActivity::class.java)
-            intent.putExtra(Track.EXTRAS_KEY, track)
-            startActivity(intent)
-        }
+        val intent = Intent(requireContext(), PlayerActivity::class.java)
+        intent.putExtra(Track.EXTRAS_KEY, track)
+        startActivity(intent)
     }
 
     fun render(state: TrackSearchState) {
@@ -171,6 +160,19 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
 
     private fun showToast(text: String) {
         Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
+    }
+
+    private fun clickDebounce(listener: () -> Unit) {
+        if (isClickAllowed) {
+            isClickAllowed = false
+            listener()
+            lifecycleScope.launch { delay(CLICK_DEBOUNCE_DELAY); isClickAllowed = true }
+        }
+    }
+
+    companion object {
+        const val SEARCH_STRING_DEFAULT = ""
+        private const val CLICK_DEBOUNCE_DELAY = 300L
     }
 
 }

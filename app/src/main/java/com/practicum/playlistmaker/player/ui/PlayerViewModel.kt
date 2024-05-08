@@ -2,19 +2,20 @@ package com.practicum.playlistmaker.player.ui
 
 import android.app.Application
 import android.media.MediaPlayer
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.player.ui.models.PlayerState
 import com.practicum.playlistmaker.player.ui.models.TrackProgress
 import com.practicum.playlistmaker.search.domain.models.Track
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PlayerViewModel(application: Application, private var currentTrack: Track) : AndroidViewModel(application) {
 
     private var mediaPlayer = MediaPlayer()
-    private val handler = Handler(Looper.getMainLooper())
 
     private val stateLiveData = MutableLiveData<PlayerState>()
     fun observeState(): LiveData<PlayerState> = stateLiveData
@@ -22,12 +23,7 @@ class PlayerViewModel(application: Application, private var currentTrack: Track)
     private val progressLiveData = MutableLiveData<TrackProgress>()
     fun observeProgress(): LiveData<TrackProgress> = progressLiveData
 
-    private val infiniteUpdateProgress = object : Runnable {
-        override fun run() {
-            progressLiveData.postValue(TrackProgress(mediaPlayer.currentPosition.toLong()))
-            handler.postDelayed(this, TIMER_DURATION_MILLS)
-        }
-    }
+    private var updateProgressJob: Job? = null
 
     init {
         setTrack(currentTrack)
@@ -43,7 +39,7 @@ class PlayerViewModel(application: Application, private var currentTrack: Track)
         }
         mediaPlayer.setOnCompletionListener {
             stateLiveData.postValue(PlayerState.Paused(currentTrack))
-            handler.removeCallbacks(infiniteUpdateProgress)
+            updateProgressJob?.cancel()
             progressLiveData.postValue(TrackProgress(0))
         }
     }
@@ -51,18 +47,25 @@ class PlayerViewModel(application: Application, private var currentTrack: Track)
     fun play() {
         mediaPlayer.start()
         stateLiveData.postValue(PlayerState.Playing(currentTrack))
-        handler.post(infiniteUpdateProgress)
+        updateProgressJob = infiniteUpdatingProgress()
     }
 
     fun pause() {
         mediaPlayer.pause()
         stateLiveData.postValue(PlayerState.Paused(currentTrack))
-        handler.removeCallbacks(infiniteUpdateProgress)
+        updateProgressJob?.cancel()
     }
 
     override fun onCleared() {
-        handler.removeCallbacks(infiniteUpdateProgress)
+        updateProgressJob?.cancel()
         mediaPlayer.release()
+    }
+
+    private fun infiniteUpdatingProgress() = viewModelScope.launch {
+        while (mediaPlayer.isPlaying) {
+            progressLiveData.postValue(TrackProgress(mediaPlayer.currentPosition.toLong()))
+            delay(TIMER_DURATION_MILLS)
+        }
     }
 
     companion object {
