@@ -3,8 +3,6 @@ package com.practicum.playlistmaker.search.data
 import android.content.Context
 import com.google.gson.Gson
 import com.practicum.playlistmaker.search.data.dto.TrackDto
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class LocalHistoryStorage(context: Context) {
 
@@ -16,22 +14,22 @@ class LocalHistoryStorage(context: Context) {
 
     }
 
-    suspend fun saveSearchHistory(searchHistory: List<TrackDto>) = withContext(Dispatchers.IO) {
+    fun saveSearchHistory(searchHistory: List<TrackDto>) {
         sharedPreferences.edit()
             .putString(SEARCH_HISTORY, gson.toJson(searchHistory))
             .apply()
     }
 
-    suspend fun getSearchHistory(): List<TrackDto> = withContext(Dispatchers.IO) {
-        gson.fromJson(
+    fun getSearchHistory(): List<TrackDto> {
+        return gson.fromJson(
             sharedPreferences.getString(SEARCH_HISTORY, ""),
             Array<TrackDto>::class.java
         )?.asList() ?: emptyList<TrackDto>()
     }
 
-    suspend fun clearHistory(): List<TrackDto> = withContext(Dispatchers.IO) {
+    fun clearHistory(): List<TrackDto> {
         sharedPreferences.edit().remove(SEARCH_HISTORY).apply()
-        emptyList<TrackDto>()
+        return emptyList<TrackDto>()
     }
 
 }
