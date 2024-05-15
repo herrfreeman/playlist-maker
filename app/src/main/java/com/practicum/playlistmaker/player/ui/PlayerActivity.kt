@@ -34,6 +34,7 @@ class PlayerActivity : AppCompatActivity() {
 
         viewModel.observeState().observe(this) {renderTrackState(it)}
         viewModel.observeProgress().observe(this) {renderTrackProgress(it)}
+        viewModel.observeTrack().observe(this) {showTrack(it)}
 
         with(binding) {
             setContentView(root)
@@ -45,7 +46,7 @@ class PlayerActivity : AppCompatActivity() {
 
             trackPlayButton.setOnClickListener { clickDebounce { viewModel.play() } }
             trackPauseButton.setOnClickListener { clickDebounce { viewModel.pause() } }
-
+            trackLikeButton.setOnClickListener { clickDebounce { viewModel.likeUnlike() } }
         }
     }
 
@@ -53,11 +54,11 @@ class PlayerActivity : AppCompatActivity() {
         when(playerState) {
             is PlayerState.Paused -> {
                 setPlayButtonVisibility(true)
-                showTrack(playerState.track)
+                //showTrack(playerState.track)
             }
             is PlayerState.Playing -> {
                 setPlayButtonVisibility(false)
-                showTrack(playerState.track)
+                //showTrack(playerState.track)
             }
         }
     }
@@ -83,6 +84,11 @@ class PlayerActivity : AppCompatActivity() {
             trackYearValue.text = track.releaseDate.substring(0, 4)
             trackGenreValue.text = track.primaryGenreName
             trackCountryValue.text = track.country
+            if(track.isFavorite) {
+                trackLikeButton.setImageResource(R.drawable.unlike_track_button)
+            } else {
+                trackLikeButton.setImageResource(R.drawable.like_track_button)
+            }
 
             Glide.with(this@PlayerActivity)
                 .load(track.artworkUrl512)

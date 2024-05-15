@@ -1,6 +1,9 @@
 package com.practicum.playlistmaker
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import com.practicum.playlistmaker.medialibrary.data.db.databaseModule
+import com.practicum.playlistmaker.medialibrary.data.medialibraryDataModule
+import com.practicum.playlistmaker.medialibrary.domain.medialibraryDomainModule
 import com.practicum.playlistmaker.medialibrary.ui.medialibraryUiModel
 import com.practicum.playlistmaker.player.ui.playerUiModule
 import com.practicum.playlistmaker.search.data.searchDataModule
@@ -34,6 +37,9 @@ class PlayListApplication : Application() {
                 settingsDomainModule,
                 settingsUiModule,
                 medialibraryUiModel,
+                databaseModule,
+                medialibraryDataModule,
+                medialibraryDomainModule,
             )
         }
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.practicum.playlistmaker.medialibrary.domain.FavoriteTracksInteractor
 import com.practicum.playlistmaker.player.ui.models.PlayerState
 import com.practicum.playlistmaker.player.ui.models.TrackProgress
 import com.practicum.playlistmaker.search.domain.models.Track
@@ -13,7 +14,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PlayerViewModel(application: Application, private var currentTrack: Track) : AndroidViewModel(application) {
+class PlayerViewModel(
+    application: Application,
+    private var currentTrack: Track,
+    private val favoritesInteractor: FavoriteTracksInteractor,
+) : AndroidViewModel(application) {
 
     private var mediaPlayer = MediaPlayer()
 
@@ -23,22 +28,25 @@ class PlayerViewModel(application: Application, private var currentTrack: Track)
     private val progressLiveData = MutableLiveData<TrackProgress>()
     fun observeProgress(): LiveData<TrackProgress> = progressLiveData
 
+    private val trackLiveData = MutableLiveData<Track>()
+    fun observeTrack(): LiveData<Track> = trackLiveData
+
     private var updateProgressJob: Job? = null
 
     init {
-        setTrack(currentTrack)
+        setTrack()
         progressLiveData.postValue(TrackProgress(0L))
     }
 
-    fun setTrack(track: Track) {
-        currentTrack = track
+    private fun setTrack() {
+        trackLiveData.postValue(currentTrack)
         mediaPlayer.setDataSource(currentTrack.previewUrl)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
-            stateLiveData.postValue(PlayerState.Paused(currentTrack))
+            stateLiveData.postValue(PlayerState.Paused)
         }
         mediaPlayer.setOnCompletionListener {
-            stateLiveData.postValue(PlayerState.Paused(currentTrack))
+            stateLiveData.postValue(PlayerState.Paused)
             updateProgressJob?.cancel()
             progressLiveData.postValue(TrackProgress(0))
         }
@@ -46,13 +54,13 @@ class PlayerViewModel(application: Application, private var currentTrack: Track)
 
     fun play() {
         mediaPlayer.start()
-        stateLiveData.postValue(PlayerState.Playing(currentTrack))
+        stateLiveData.postValue(PlayerState.Playing)
         updateProgressJob = infiniteUpdatingProgress()
     }
 
     fun pause() {
         mediaPlayer.pause()
-        stateLiveData.postValue(PlayerState.Paused(currentTrack))
+        stateLiveData.postValue(PlayerState.Paused)
         updateProgressJob?.cancel()
     }
 
@@ -66,6 +74,18 @@ class PlayerViewModel(application: Application, private var currentTrack: Track)
             progressLiveData.postValue(TrackProgress(mediaPlayer.currentPosition.toLong()))
             delay(TIMER_DURATION_MILLS)
         }
+    }
+
+    fun likeUnlike() {
+        viewModelScope.launch {
+            if (trackLiveData.value!!.isFavorite) {
+                favoritesInteractor.deleteTrack(currentTrack)
+            } else {
+                favoritesInteractor.insertTrack(currentTrack)
+            }
+        }
+        currentTrack.isFavorite = !currentTrack.isFavorite
+        trackLiveData.postValue(currentTrack)
     }
 
     companion object {

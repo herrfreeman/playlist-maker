@@ -1,11 +1,11 @@
 package com.practicum.playlistmaker.search.ui
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.practicum.playlistmaker.medialibrary.domain.FavoriteTracksInteractor
 import com.practicum.playlistmaker.search.domain.api.TrackSearchHistoryInteractor
 import com.practicum.playlistmaker.search.domain.api.TrackSearchInteractor
 import com.practicum.playlistmaker.search.domain.models.Track
@@ -19,10 +19,11 @@ class TrackSearchViewModel(
     application: Application,
     private val trackSearchInteractor: TrackSearchInteractor,
     private val trackHistoryInteractor: TrackSearchHistoryInteractor,
+    private val favoritesInteractor: FavoriteTracksInteractor,
 ) : AndroidViewModel(application) {
 
     private var latestSearchText: String? = null
-    private val trackList = mutableListOf<Track>()
+    private val searchTrackList = mutableListOf<Track>()
 
     private val stateLiveData = MutableLiveData<TrackSearchState>()
     fun observeState(): LiveData<TrackSearchState> = stateLiveData
@@ -40,7 +41,8 @@ class TrackSearchViewModel(
     }
 
     init {
-        getSearchHistory()
+        //getSearchHistory()
+        //Instead of it update history while fragment resume
     }
 
     private fun renderState(state: TrackSearchState) {
@@ -64,7 +66,6 @@ class TrackSearchViewModel(
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(debounceDelay)
-            Log.d("PLAYER_DEBUG", "Search $changedText")
             searchRequest(changedText)
         }
     }
@@ -73,7 +74,7 @@ class TrackSearchViewModel(
         viewModelScope.launch {
             trackHistoryInteractor.addToHistory(track)
                 .collect{ tracks ->
-                    historyLiveData.postValue(tracks)
+                    //historyLiveData.postValue(tracks)
                 }
         }
     }
@@ -97,8 +98,20 @@ class TrackSearchViewModel(
     }
 
     fun clearTrackList() {
-        trackList.clear()
-        stateLiveData.postValue(TrackSearchState.Content(trackList))
+        searchTrackList.clear()
+        stateLiveData.postValue(TrackSearchState.Content(searchTrackList))
+    }
+
+    fun updateSearchFavorites() {
+        if (stateLiveData.value is TrackSearchState.Content) {
+            viewModelScope.launch {
+                favoritesInteractor.getTracksId()
+                    .collect { favoritesId ->
+                        searchTrackList.onEach { it.isFavorite = favoritesId.contains(it.id) }
+                        renderState(TrackSearchState.Content(searchTrackList))
+                    }
+            }
+        }
     }
 
     suspend fun searchRequest(queryText: String) {
@@ -106,7 +119,7 @@ class TrackSearchViewModel(
             renderState(TrackSearchState.Loading)
             trackSearchInteractor.searchTracks(queryText)
                 .collect {
-                    it.first?.let { tracks -> trackList.clear(); trackList.addAll(tracks) }
+                    it.first?.let { tracks -> searchTrackList.clear(); searchTrackList.addAll(tracks) }
 
                     when {
                         it.second != null -> {
@@ -114,8 +127,8 @@ class TrackSearchViewModel(
                             showToast(it.second!!)
                         }
 
-                        trackList.isEmpty() -> renderState(TrackSearchState.Empty)
-                        else -> renderState(TrackSearchState.Content(trackList))
+                        searchTrackList.isEmpty() -> renderState(TrackSearchState.Empty)
+                        else -> renderState(TrackSearchState.Content(searchTrackList))
                     }
                 }
 

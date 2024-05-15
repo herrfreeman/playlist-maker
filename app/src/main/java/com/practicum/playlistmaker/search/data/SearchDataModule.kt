@@ -19,6 +19,7 @@ val searchDataModule = module {
         TrackListRepositoryImpl(
             networkClient = get(),
             context = get(),
+            favoriteTracksRepository = get(),
         )
     }
 
@@ -32,6 +33,7 @@ val searchDataModule = module {
         TrackSearchHistoryRepositoryImpl(
             localStorage = get(),
             searchHistorySize = 10,
+            favoriteTracksRepository = get(),
             )
     }
 }
