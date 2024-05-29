@@ -42,7 +42,9 @@ class TrackSearchViewHolder(
             itemView.context.getString(R.string.track_duration_mask),
             Locale.getDefault()
         ).format(track.trackTimeMillis)
-        itemView.setOnClickListener{clickListener.onTrackClick(track)}
+        itemView.setOnClickListener{
+            clickListener.onTrackClick(track)
+        }
     }
 }
 

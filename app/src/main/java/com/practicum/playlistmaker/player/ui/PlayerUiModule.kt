@@ -9,6 +9,7 @@ val playerUiModule = module {
         PlayerViewModel(
             application = get(),
             currentTrack = currentTrack,
+            favoritesInteractor = get(),
         )
     }
 }

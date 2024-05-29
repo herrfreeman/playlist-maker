@@ -9,6 +9,7 @@ val searchUiModule = module {
             application = get(),
             trackSearchInteractor = get(),
             trackHistoryInteractor = get(),
+            favoritesInteractor = get(),
         )
     }
 }

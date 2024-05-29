@@ -99,6 +99,12 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getSearchHistory()
+        viewModel.updateSearchFavorites()
+    }
+
     private fun setCleanSearchButtonVisibility() {
         binding.searchEditTextLayout.isEndIconVisible = searchString.isNotEmpty()
     }

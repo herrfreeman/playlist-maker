@@ -10,8 +10,8 @@
         style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/search_title"
-        android:padding="@dimen/margin_l" />
+        android:padding="@dimen/margin_l"
+        android:text="@string/search_title" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_edit_text_layout"
@@ -52,7 +52,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/Widget.PlayListMaker.MainText"

@@ -142,7 +142,7 @@
     </style>
 
     <style name="Widget.PlayListMaker.Player.SecondaryButton">
-        <item name="android:tint">@color/yp_gray</item>
+<!--        <item name="android:tint">@color/yp_gray</item>-->
     </style>
 
     <style name="Widget.PlayListMaker.Player.Title1">

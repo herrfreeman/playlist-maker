@@ -1,9 +1,12 @@
-package com.practicum.playlistmaker.search.data.dto
+package com.practicum.playlistmaker.medialibrary.data.db
 
-import com.google.gson.annotations.SerializedName
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-data class TrackDto (
-    @SerializedName("trackId") val id: String,
+@Entity(tableName = "favorite_tracks")
+data class TrackEntity(
+    @PrimaryKey
+    val id: String,
     val trackName: String,
     val artistName: String,
     val artworkUrl100: String,
@@ -13,4 +16,5 @@ data class TrackDto (
     val primaryGenreName: String,
     val country: String,
     val previewUrl: String,
+    var timestamp: Long,
 )
