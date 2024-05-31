@@ -1,6 +1,6 @@
 package com.practicum.playlistmaker.search.data.impl
 
-import com.practicum.playlistmaker.medialibrary.domain.FavoriteTracksRepository
+import com.practicum.playlistmaker.medialibrary.favorites.domain.FavoriteTracksRepository
 import com.practicum.playlistmaker.search.data.LocalHistoryStorage
 import com.practicum.playlistmaker.search.data.mapper.TrackMapper
 import com.practicum.playlistmaker.search.domain.api.TrackSearchHistoryRepository

@@ -31,4 +31,8 @@
     <string name="new_playlist_button">Новый плейлист</string>
     <string name="check_connection_message">Проверьте соединение с интернет</string>
     <string name="server_error_message">Ошибка сервера</string>
+    <string name="create_playlist_title">Новый плейлист</string>
+    <string name="playlist_name_caption">Название*</string>
+    <string name="playlist_description_caption">Описание</string>
+    <string name="playlist_create_button_caption">Создать</string>
 </resources>

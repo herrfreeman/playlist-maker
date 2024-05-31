@@ -1,10 +1,10 @@
-package com.practicum.playlistmaker.medialibrary.ui
+package com.practicum.playlistmaker.medialibrary.favorites.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practicum.playlistmaker.medialibrary.domain.FavoriteTracksInteractor
+import com.practicum.playlistmaker.medialibrary.favorites.domain.FavoriteTracksInteractor
 import kotlinx.coroutines.launch
 
 class FavoritesViewModel(
@@ -21,7 +21,9 @@ class FavoritesViewModel(
                     if (tracks.isEmpty()) {
                         stateLiveData.postValue(FavoritesState.Empty)
                     } else {
-                        stateLiveData.postValue(FavoritesState.Content(tracks.onEach { it.isFavorite = true }))
+                        stateLiveData.postValue(FavoritesState.Content(tracks.onEach {
+                            it.isFavorite = true
+                        }))
                     }
                 }
         }

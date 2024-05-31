@@ -14,6 +14,7 @@
 
         <item name="search_background">@color/yp_light_gray</item>
         <item name="search_hint_color">@color/yp_gray</item>
+        <item name="hint_color">@color/yp_gray</item>
         <item name="search_text_color">@color/yp_black</item>
         <item name="track_description_color">@color/yp_gray</item>
 

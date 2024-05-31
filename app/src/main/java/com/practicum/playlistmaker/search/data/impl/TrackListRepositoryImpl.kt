@@ -2,7 +2,7 @@ package com.practicum.playlistmaker.search.data.impl
 
 import android.content.Context
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.medialibrary.domain.FavoriteTracksRepository
+import com.practicum.playlistmaker.medialibrary.favorites.domain.FavoriteTracksRepository
 import com.practicum.playlistmaker.search.data.NetworkClient
 import com.practicum.playlistmaker.search.data.dto.TrackSearchRequest
 import com.practicum.playlistmaker.search.data.dto.TrackSearchResponse

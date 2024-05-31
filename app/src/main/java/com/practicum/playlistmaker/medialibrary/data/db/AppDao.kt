@@ -5,9 +5,10 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
 
 @Dao
-interface FavoriteTracksDao {
+interface AppDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTrack(track: TrackEntity)
@@ -20,4 +21,11 @@ interface FavoriteTracksDao {
 
     @Query("SELECT id FROM favorite_tracks")
     fun getTracksId(): List<String>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPlaylist(playlist: PlaylistEntity)
+
+    @Query("SELECT id, name, description, coverfilename AS coverFileName, 3 AS trackCount FROM playlist")
+    fun getPlaylists(): List<Playlist>
+
 }

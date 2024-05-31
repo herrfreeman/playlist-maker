@@ -48,5 +48,10 @@
 
     <string name="check_connection_message">Check your internet connection</string>
     <string name="server_error_message">Server error</string>
+    <string name="create_playlist_title">New playlist</string>
+    <string name="playlist_name_caption">Name*</string>
+    <string name="playlist_description_caption">Description</string>
+    <string name="playlist_create_button_caption">Create</string>
+
 
 </resources>

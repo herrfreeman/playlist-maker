@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.medialibrary.ui
+package com.practicum.playlistmaker.medialibrary.favorites.ui
 
 import android.content.Intent
 import android.os.Bundle
