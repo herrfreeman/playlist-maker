@@ -1,5 +1,6 @@
 package com.practicum.playlistmaker.medialibrary.data
 
+import com.practicum.playlistmaker.medialibrary.domain.LocalStorage
 import com.practicum.playlistmaker.medialibrary.favorites.data.FavoriteTracksRepositoryImpl
 import com.practicum.playlistmaker.medialibrary.favorites.domain.FavoriteTracksRepository
 import com.practicum.playlistmaker.medialibrary.playlists.data.PlaylistRepositoryImpl
@@ -20,4 +21,9 @@ val medialibraryDataModule = module {
         )
     }
 
+    single<LocalStorage> {
+        LocalStorageImpl(
+            application = get(),
+        )
+    }
 }

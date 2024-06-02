@@ -1,25 +1,22 @@
 package com.practicum.playlistmaker.medialibrary.playlists.ui
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentCreatePlaylistBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
-import java.io.File
-import java.io.FileOutputStream
-import java.util.UUID
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +33,9 @@ class CreatePlaylistFragment : Fragment() {
     private val binding: FragmentCreatePlaylistBinding get() = _binding!!
     private lateinit var textWatcher: TextWatcher
     private val viewModel: CreatePlaylistsViewModel by viewModel()
+    private lateinit var confirmExitDialog: MaterialAlertDialogBuilder
+    private var imageUri: Uri? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,8 +57,8 @@ class CreatePlaylistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.topAppBar.setNavigationOnClickListener {
-            findNavController().popBackStack()
+        viewModel.getCreateState().observe(viewLifecycleOwner) {
+            render(it)
         }
 
         textWatcher = object : TextWatcher {
@@ -89,7 +89,7 @@ class CreatePlaylistFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
                     binding.playlistImage.setImageURI(uri)
-                    saveImageToPrivateStorage(uri)
+                    viewModel.saveCoverFile(uri)
                 } else {
                     Log.d("PLAYER_DEBUG", "No media selected")
                     // TODO Сделать как надо в задании
@@ -103,25 +103,44 @@ class CreatePlaylistFragment : Fragment() {
         binding.createButton.setOnClickListener {
             viewModel.createPlaylist(
                 binding.nameField.text.toString(),
-                binding.descriptionField.text.toString()
+                binding.descriptionField.text.toString(),
             )
+
+        }
+
+        confirmExitDialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.playlist_exit_title)
+            .setMessage(R.string.playlist_exit_text)
+            .setPositiveButton(R.string.cancel_button, null)
+            .setNegativeButton(R.string.finish_button) { dialog, which ->
+                findNavController().popBackStack()
+            }
+
+        binding.topAppBar.setNavigationOnClickListener {
+            exitWithoutSaving()
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback {
+            exitWithoutSaving()
         }
     }
 
-    private fun saveImageToPrivateStorage(uri: Uri) {
-        val filePath = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "covers")
-        if (!filePath.exists()){
-            filePath.mkdirs()
+    private fun render(it: CreatePlaylistState) {
+        when (it) {
+            CreatePlaylistState.FileLoaded -> TODO()
+            CreatePlaylistState.FileLoading -> binding.progressBar.isVisible = true
+            CreatePlaylistState.Nothing -> TODO()
+            CreatePlaylistState.PlaylistCreated -> findNavController().popBackStack()
         }
-        val fileName = "${UUID.randomUUID()}.png".lowercase()
-        val file = File(filePath, fileName)
-        val inputStream = requireActivity().contentResolver.openInputStream(uri)
-        val outputStream = FileOutputStream(file)
-        BitmapFactory
-            .decodeStream(inputStream)
-            .compress(Bitmap.CompressFormat.PNG, 30, outputStream)
-        viewModel.setCoverFileName(fileName)
+    }
 
+    private fun exitWithoutSaving() {
+        if (binding.nameField.text.isNullOrEmpty()
+            and binding.descriptionField.text.isNullOrEmpty()
+            and (imageUri == null)
+        ) findNavController().popBackStack()
+        else confirmExitDialog.show()
+        viewModel.deleteCoverFile()
     }
 
     override fun onDestroyView() {

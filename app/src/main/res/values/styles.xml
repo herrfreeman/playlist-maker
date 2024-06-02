@@ -11,6 +11,11 @@
         <item name="android:indeterminateTint">@color/yp_blue</item>
     </style>
 
+    <style name="Widget.PlayListMaker.Playlists">
+        <item name="android:textSize">12sp</item>
+
+    </style>
+
     <style name="Widget.PlayListMaker.MainBottomNavigator" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemBackground">?attr/main_background_color</item>
 

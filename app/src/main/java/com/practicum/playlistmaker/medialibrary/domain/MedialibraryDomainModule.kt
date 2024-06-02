@@ -20,4 +20,10 @@ val medialibraryDomainModule = module{
         )
     }
 
+    single<LocalStorageInteractor> {
+        LocalStorageInteractorImpl(
+            localStorage = get(),
+        )
+    }
+
 }

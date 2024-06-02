@@ -52,6 +52,10 @@
     <string name="playlist_name_caption">Name*</string>
     <string name="playlist_description_caption">Description</string>
     <string name="playlist_create_button_caption">Create</string>
+    <string name="playlist_exit_title">Finish to create playlist?</string>
+    <string name="playlist_exit_text">All unsaved data will be lost</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="finish_button">Finish</string>
 
 
 </resources>

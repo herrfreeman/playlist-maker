@@ -1,6 +1,5 @@
 package com.practicum.playlistmaker.medialibrary.ui
 
-import android.app.Activity
 import com.practicum.playlistmaker.medialibrary.favorites.ui.FavoritesViewModel
 import com.practicum.playlistmaker.medialibrary.playlists.ui.CreatePlaylistsViewModel
 import com.practicum.playlistmaker.medialibrary.playlists.ui.PlaylistsViewModel
@@ -17,12 +16,14 @@ val medialibraryUiModel = module {
     }
 
     viewModel {
-        PlaylistsViewModel()
+        PlaylistsViewModel(
+            playlistInteractor = get(),
+        )
     }
 
     viewModel {
         CreatePlaylistsViewModel(
-            application = get(),
+            storageInteractor = get(),
             playlistInteractor = get(),
         )
     }
