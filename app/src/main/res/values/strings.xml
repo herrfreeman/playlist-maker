@@ -56,6 +56,7 @@
     <string name="playlist_exit_text">All unsaved data will be lost</string>
     <string name="cancel_button">Cancel</string>
     <string name="finish_button">Finish</string>
+    <string name="add_to_playlist">Add to playlist</string>
 
 
 </resources>

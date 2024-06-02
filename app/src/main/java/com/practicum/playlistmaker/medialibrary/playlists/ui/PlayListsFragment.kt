@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -34,8 +35,6 @@ class PlayListsFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         _binding = FragmentPlaylistsBinding.inflate(inflater, container, false)
         return binding.root
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,15 +64,13 @@ class PlayListsFragment : Fragment() {
     }
 
     private fun showEmpty() {
-//        binding.favoritesEmptyImage.visibility = View.VISIBLE
-//        binding.favoritesEmptyText.visibility = View.VISIBLE
-//        binding.favoritesRecycler.visibility = View.GONE
+        binding.mediaImageNoplaylists.isVisible = true
+        binding.noplaylistText.isVisible = true
     }
 
     private fun showContent(playlists: List<Playlist>) {
-//        binding.favoritesEmptyImage.visibility = View.GONE
-//        binding.favoritesEmptyText.visibility = View.GONE
-//        binding.favoritesRecycler.visibility = View.VISIBLE
+        binding.mediaImageNoplaylists.isVisible = false
+        binding.noplaylistText.isVisible = false
 
         adapter.playlists.clear()
         adapter.playlists.addAll(playlists)

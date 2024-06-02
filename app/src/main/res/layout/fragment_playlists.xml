@@ -27,7 +27,7 @@
         tools:itemCount="4"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/playlist_item" />
-    <!--
+
         <ImageView
             android:id="@+id/media_image_noplaylists"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,9 +36,11 @@
             android:layout_marginTop="@dimen/margin_error_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/nothing_found" />
+            android:src="@drawable/nothing_found"
+            android:visibility="gone"/>
 
         <TextView
+            android:id="@+id/noplaylist_text"
             app:layout_constraintTop_toBottomOf="@id/media_image_noplaylists"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,6 +49,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_l"
             android:textAlignment="center"
-            android:text="@string/message_noplaylist" />
-    -->
+            android:text="@string/message_noplaylist"
+            android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

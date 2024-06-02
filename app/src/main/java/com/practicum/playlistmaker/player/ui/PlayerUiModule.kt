@@ -10,6 +10,7 @@ val playerUiModule = module {
             application = get(),
             currentTrack = currentTrack,
             favoritesInteractor = get(),
+            playlistInteractor = get(),
         )
     }
 }

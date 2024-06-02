@@ -1,7 +1,6 @@
 package com.practicum.playlistmaker.search.ui
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,9 +12,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.core.BindingFragment
 import com.practicum.playlistmaker.databinding.FragmentTrackSearchBinding
-import com.practicum.playlistmaker.player.ui.PlayerActivity
+import com.practicum.playlistmaker.player.ui.PlayerFragment
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
 import kotlinx.coroutines.delay
@@ -27,7 +28,8 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
 
     private var searchString = SEARCH_STRING_DEFAULT
     private val adapter = TrackSearchAdapter { clickDebounce { addToHistory(it); openTrack(it) } }
-    private val historyAdapter = TrackSearchAdapter { clickDebounce { addToHistory(it); openTrack(it) } }
+    private val historyAdapter =
+        TrackSearchAdapter { clickDebounce { addToHistory(it); openTrack(it) } }
     private var isClickAllowed = true
 
     private val viewModel: TrackSearchViewModel by viewModel()
@@ -44,18 +46,24 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.observeState().observe(viewLifecycleOwner) {render(it)}
+        viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
         viewModel.observeHistory().observe(viewLifecycleOwner) {
             historyAdapter.trackList.clear()
             historyAdapter.trackList.addAll(it)
             historyAdapter.notifyDataSetChanged()
             setHistoryVisibility()
         }
-        viewModel.observeToastState().observe(viewLifecycleOwner) {showToast(it)}
+        viewModel.observeToastState().observe(viewLifecycleOwner) { showToast(it) }
 
         binding.trackRecyclerView.adapter = adapter
         binding.historyRecyclerView.adapter = historyAdapter
-        binding.repeatSearchButton.setOnClickListener { clickDebounce { viewModel.searchNow(searchString) } }
+        binding.repeatSearchButton.setOnClickListener {
+            clickDebounce {
+                viewModel.searchNow(
+                    searchString
+                )
+            }
+        }
 
         setCleanSearchButtonVisibility()
 
@@ -68,6 +76,7 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
                 hideErrorFrames()
                 viewModel.searchDebounce(searchString)
             }
+
             override fun afterTextChanged(p0: Editable?) {}
         }
 
@@ -88,7 +97,8 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
             viewModel.clearTrackList()
 
             //Hide keyboard when clear button clicked
-            val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            val inputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
             binding.searchEditText.clearFocus()
         }
@@ -110,7 +120,8 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
     }
 
     private fun setHistoryVisibility() {
-        binding.historyLayout.isVisible = historyAdapter.trackList.isNotEmpty() && searchString.isEmpty() && binding.searchEditText.hasFocus()
+        binding.historyLayout.isVisible =
+            historyAdapter.trackList.isNotEmpty() && searchString.isEmpty() && binding.searchEditText.hasFocus()
     }
 
     private fun hideErrorFrames() {
@@ -123,9 +134,10 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
     }
 
     private fun openTrack(track: Track) {
-        val intent = Intent(requireContext(), PlayerActivity::class.java)
-        intent.putExtra(Track.EXTRAS_KEY, track)
-        startActivity(intent)
+        findNavController().navigate(
+            R.id.action_trackSearchFragment_to_playerFragment,
+            PlayerFragment.createArgs(track)
+        )
     }
 
     fun render(state: TrackSearchState) {

@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.medialibrary.favorites.domain.FavoriteTracksInteractor
+import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
+import com.practicum.playlistmaker.medialibrary.playlists.domain.PlaylistInteractor
 import com.practicum.playlistmaker.player.ui.models.PlayerState
 import com.practicum.playlistmaker.player.ui.models.TrackProgress
 import com.practicum.playlistmaker.search.domain.models.Track
@@ -18,6 +20,7 @@ class PlayerViewModel(
     application: Application,
     private var currentTrack: Track,
     private val favoritesInteractor: FavoriteTracksInteractor,
+    private val playlistInteractor: PlaylistInteractor,
 ) : AndroidViewModel(application) {
 
     private var mediaPlayer = MediaPlayer()
@@ -30,6 +33,9 @@ class PlayerViewModel(
 
     private val trackLiveData = MutableLiveData<Track>()
     fun observeTrack(): LiveData<Track> = trackLiveData
+
+    private val playlistsLiveData = MutableLiveData<List<Playlist>>()
+    fun observePlaylists(): LiveData<List<Playlist>> = playlistsLiveData
 
     private var updateProgressJob: Job? = null
 
@@ -86,6 +92,15 @@ class PlayerViewModel(
         }
         currentTrack.isFavorite = !currentTrack.isFavorite
         trackLiveData.postValue(currentTrack)
+    }
+
+    fun updatePlaylists() {
+        viewModelScope.launch {
+            playlistInteractor.getPlaylists()
+                .collect { playlists ->
+                    playlistsLiveData.postValue(playlists)
+                }
+        }
     }
 
     companion object {
