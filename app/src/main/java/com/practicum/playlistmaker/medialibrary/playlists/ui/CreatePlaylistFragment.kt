@@ -1,6 +1,5 @@
 package com.practicum.playlistmaker.medialibrary.playlists.ui
 
-import android.net.Uri
 import android.os.Bundle
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -28,8 +27,8 @@ class CreatePlaylistFragment : Fragment() {
     private lateinit var textWatcher: TextWatcher
     private val viewModel: CreatePlaylistsViewModel by viewModel()
     private lateinit var confirmExitDialog: MaterialAlertDialogBuilder
-    private var imageUri: Uri? = null
     private var isClickAllowed = true
+    private var imageSelected = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,6 +73,7 @@ class CreatePlaylistFragment : Fragment() {
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
+                    imageSelected = true
                     binding.playlistImage.setImageURI(uri)
                     viewModel.saveCoverFile(uri)
                 }
@@ -133,7 +133,7 @@ class CreatePlaylistFragment : Fragment() {
     private fun exitWithoutSaving() {
         if (binding.nameField.text.isNullOrEmpty()
             and binding.descriptionField.text.isNullOrEmpty()
-            and (imageUri == null)
+            and !imageSelected
         ) findNavController().popBackStack()
         else confirmExitDialog.show()
         viewModel.deleteCoverFile()

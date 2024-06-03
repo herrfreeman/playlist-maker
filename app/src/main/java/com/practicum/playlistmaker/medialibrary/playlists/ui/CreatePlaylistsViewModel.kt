@@ -24,6 +24,7 @@ class CreatePlaylistsViewModel(
 
     fun saveCoverFile(imageUri: Uri) {
         localFileName = ""
+        saveFileJob?.cancel()
         saveFileJob = viewModelScope.launch {
             localFileName = storageInteractor.copyImageToPrivateStorage(imageUri)
         }

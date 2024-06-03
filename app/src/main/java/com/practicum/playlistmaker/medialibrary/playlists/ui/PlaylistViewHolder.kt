@@ -42,7 +42,7 @@ class PlaylistViewHolder(
         if (playlist.coverFileName.isNotEmpty() and (imageDirectory != null)) {
             val file = File(imageDirectory, playlist.coverFileName)
             if (file.exists()) {
-                //playlistImage.setImageURI(file.toUri()) Works too slow with full image files
+                //playlistImage.setImageURI(file.toUri()) //Works too slow with full image files
                 Glide.with(itemView)
                     .load(file.toUri())
                     .centerCrop()
