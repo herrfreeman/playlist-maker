@@ -109,8 +109,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/nothing_found"
-                android:contentDescription="Nothing found"/>
+                android:src="@drawable/nothing_found"/>
 
             <TextView
                 style="@style/Widget.PlayListMaker.MainText"
@@ -133,8 +132,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/connection_error"
-                android:contentDescription="Connection error"/>
+                android:src="@drawable/connection_error"/>
 
             <TextView
                 style="@style/Widget.PlayListMaker.MainText"

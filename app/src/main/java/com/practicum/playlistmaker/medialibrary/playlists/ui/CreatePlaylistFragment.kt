@@ -3,7 +3,6 @@ package com.practicum.playlistmaker.medialibrary.playlists.ui
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +34,7 @@ class CreatePlaylistFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentCreatePlaylistBinding.inflate(layoutInflater, container, false)
         return binding.root

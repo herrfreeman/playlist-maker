@@ -4,7 +4,6 @@ import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
 import com.practicum.playlistmaker.PlayListApplication
 import com.practicum.playlistmaker.medialibrary.domain.LocalStorage
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +23,7 @@ class LocalStorageImpl(private val application: Application) : LocalStorage {
             }
             val fileName = "${UUID.randomUUID()}.png".lowercase()
             val file = File(filePath, fileName)
-            val inputStream =
-                (application as PlayListApplication).contentResolver.openInputStream(uri)
+            val inputStream = application.contentResolver.openInputStream(uri)
             val outputStream = FileOutputStream(file)
             BitmapFactory
                 .decodeStream(inputStream)
