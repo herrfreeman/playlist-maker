@@ -56,7 +56,13 @@
     <string name="playlist_exit_text">All unsaved data will be lost</string>
     <string name="cancel_button">Cancel</string>
     <string name="finish_button">Finish</string>
-    <string name="add_to_playlist">Add to playlist</string>
+    <string name="add_to_playlist" translatable="false">Add to playlist</string>
+    <string name="added_to_playlist">Added to playlist %s</string>
+    <string name="added_before">Track has already added to playlist %s</string>
+    <string name="playlist_created">Playlist %s created</string>
 
-
+    <string name="track_count_0">tracks</string>
+    <string name="track_count_1">track</string>
+    <string name="track_count_2_4">tracks</string>
+    <string name="track_count_5_20">tracks</string>
 </resources>

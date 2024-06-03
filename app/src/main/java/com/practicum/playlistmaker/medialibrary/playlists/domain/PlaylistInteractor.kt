@@ -9,4 +9,5 @@ interface PlaylistInteractor {
 
     fun getPlaylists(): Flow<List<Playlist>>
 
+    suspend fun addTrackToPlaytist(playlist: Playlist, track: Track): Boolean
 }

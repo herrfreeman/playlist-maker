@@ -2,10 +2,9 @@ package com.practicum.playlistmaker.medialibrary.playlists.data
 
 import com.practicum.playlistmaker.medialibrary.data.PlaylistMapper
 import com.practicum.playlistmaker.medialibrary.data.db.AppDatabase
-import com.practicum.playlistmaker.medialibrary.favorites.domain.FavoriteTracksRepository
+import com.practicum.playlistmaker.medialibrary.data.db.TrackInPlaylistEntity
 import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
 import com.practicum.playlistmaker.medialibrary.playlists.domain.PlaylistRepository
-import com.practicum.playlistmaker.search.data.mapper.TrackMapper
 import com.practicum.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -30,5 +29,21 @@ class PlaylistRepositoryImpl(
             appDatabase.appDao().getPlaylists()
         }
         emit(playlists)
+    }
+
+    override suspend fun addTrackToPlaytist(playlist: Playlist, track: Track): Boolean {
+        return withContext(Dispatchers.IO) {
+            if (appDatabase.appDao().checkTrackInPlaylist(track.id, playlist.id) == 0) {
+                appDatabase.appDao().insertTrackInPlaylist(
+                    TrackInPlaylistEntity(
+                        playlistid = playlist.id,
+                        trackid = track.id,
+                    )
+                )
+                false
+            } else {
+                true
+            }
+        }
     }
 }

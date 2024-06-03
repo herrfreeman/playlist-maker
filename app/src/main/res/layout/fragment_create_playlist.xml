@@ -18,7 +18,6 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
-
             app:navigationIcon="@drawable/arrow_left"
             app:title="@string/create_playlist_title" />
 
@@ -41,7 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/create_playlist_placeholder" />
+            android:src="@drawable/create_playlist_placeholder"
+            android:contentDescription="Image picker"/>
 
     </androidx.cardview.widget.CardView>
 

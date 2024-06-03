@@ -1,38 +1,37 @@
 package com.practicum.playlistmaker.medialibrary.playlists.ui
 
 import android.os.Bundle
-import android.os.Environment
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistsBinding
-import com.practicum.playlistmaker.medialibrary.favorites.ui.FavoritesState
 import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
-import com.practicum.playlistmaker.search.domain.models.Track
-import com.practicum.playlistmaker.search.ui.TrackSearchAdapter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class PlayListsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = PlayListsFragment()
-    }
-
     private var _binding: FragmentPlaylistsBinding? = null
     private val binding: FragmentPlaylistsBinding get() = _binding!!
 
     private val viewModel: PlaylistsViewModel by viewModel()
-    private val adapter = PlaylistRecyclerAdapter {  }
+    private val adapter = PlaylistRecyclerAdapter { }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    private var isClickAllowed = true
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentPlaylistsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -40,14 +39,18 @@ class PlayListsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.observeState().observe(viewLifecycleOwner) {render(it)}
+        viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
         binding.playlistRecycler.adapter = adapter
         binding.playlistRecycler.layoutManager = GridLayoutManager(context, 2)
 
         binding.createPlaylist.setOnClickListener {
-            findNavController().navigate(R.id.action_mediaLibraryFragment_to_createPlaylistFragment)
+            clickDebounce {
+                findNavController().navigate(R.id.action_mediaLibraryFragment_to_createPlaylistFragment)
+            }
         }
-
+        requireActivity().onBackPressedDispatcher.addCallback {
+            findNavController().popBackStack()
+        }
     }
 
 
@@ -80,6 +83,19 @@ class PlayListsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun clickDebounce(listener: () -> Unit) {
+        if (isClickAllowed) {
+            isClickAllowed = false
+            listener()
+            lifecycleScope.launch { delay(CLICK_DEBOUNCE_DELAY); isClickAllowed = true }
+        }
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 300L
+        fun newInstance() = PlayListsFragment()
     }
 
 }

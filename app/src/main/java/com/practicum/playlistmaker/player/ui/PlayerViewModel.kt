@@ -9,9 +9,11 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.medialibrary.favorites.domain.FavoriteTracksInteractor
 import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
 import com.practicum.playlistmaker.medialibrary.playlists.domain.PlaylistInteractor
+import com.practicum.playlistmaker.player.ui.models.AddToPlaylistState
 import com.practicum.playlistmaker.player.ui.models.PlayerState
 import com.practicum.playlistmaker.player.ui.models.TrackProgress
 import com.practicum.playlistmaker.search.domain.models.Track
+import com.practicum.playlistmaker.utils.SingleLiveEvent
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -36,6 +38,9 @@ class PlayerViewModel(
 
     private val playlistsLiveData = MutableLiveData<List<Playlist>>()
     fun observePlaylists(): LiveData<List<Playlist>> = playlistsLiveData
+
+    private val addToPlaylistLiveData = SingleLiveEvent<AddToPlaylistState>()
+    fun observeAddState(): LiveData<AddToPlaylistState> = addToPlaylistLiveData
 
     private var updateProgressJob: Job? = null
 
@@ -100,6 +105,17 @@ class PlayerViewModel(
                 .collect { playlists ->
                     playlistsLiveData.postValue(playlists)
                 }
+        }
+    }
+
+    fun addToPlaylist(playlist: Playlist) {
+        viewModelScope.launch {
+            if (playlistInteractor.addTrackToPlaytist(playlist, currentTrack)) {
+                addToPlaylistLiveData.postValue(AddToPlaylistState.AlreadyAdded(playlist))
+            } else {
+                addToPlaylistLiveData.postValue(AddToPlaylistState.Done(playlist))
+                updatePlaylists()
+            }
         }
     }
 

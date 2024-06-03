@@ -7,22 +7,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentCreatePlaylistBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 
 class CreatePlaylistFragment : Fragment() {
 
@@ -32,7 +30,7 @@ class CreatePlaylistFragment : Fragment() {
     private val viewModel: CreatePlaylistsViewModel by viewModel()
     private lateinit var confirmExitDialog: MaterialAlertDialogBuilder
     private var imageUri: Uri? = null
-
+    private var isClickAllowed = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,18 +50,18 @@ class CreatePlaylistFragment : Fragment() {
 
         textWatcher = object : TextWatcher {
             override fun beforeTextChanged(
-                s: kotlin.CharSequence?,
-                start: kotlin.Int,
-                count: kotlin.Int,
-                after: kotlin.Int
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
             ) {
             }
 
             override fun onTextChanged(
-                s: kotlin.CharSequence?,
-                start: kotlin.Int,
-                before: kotlin.Int,
-                count: kotlin.Int
+                s: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
             ) {
             }
 
@@ -79,22 +77,22 @@ class CreatePlaylistFragment : Fragment() {
                 if (uri != null) {
                     binding.playlistImage.setImageURI(uri)
                     viewModel.saveCoverFile(uri)
-                } else {
-                    Log.d("PLAYER_DEBUG", "No media selected")
-                    // TODO Сделать как надо в задании
                 }
             }
 
         binding.playlistImage.setOnClickListener {
-            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            clickDebounce {
+                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
         }
 
         binding.createButton.setOnClickListener {
-            viewModel.createPlaylist(
-                binding.nameField.text.toString(),
-                binding.descriptionField.text.toString(),
-            )
-
+            clickDebounce {
+                viewModel.createPlaylist(
+                    binding.nameField.text.toString(),
+                    binding.descriptionField.text.toString(),
+                )
+            }
         }
 
         confirmExitDialog = MaterialAlertDialogBuilder(requireContext())
@@ -106,22 +104,32 @@ class CreatePlaylistFragment : Fragment() {
             }
 
         binding.topAppBar.setNavigationOnClickListener {
-            exitWithoutSaving()
+            clickDebounce {
+                exitWithoutSaving()
+            }
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback {
-            exitWithoutSaving()
+        requireActivity().apply {
+            onBackPressedDispatcher.addCallback {
+                exitWithoutSaving()
+            }
         }
     }
 
     private fun render(it: CreatePlaylistState) {
         when (it) {
-            CreatePlaylistState.FileLoaded -> TODO()
-            CreatePlaylistState.FileLoading -> binding.progressBar.isVisible = true
-            CreatePlaylistState.Nothing -> TODO()
-            CreatePlaylistState.PlaylistCreated -> findNavController().popBackStack()
+            is CreatePlaylistState.FileLoading -> binding.progressBar.isVisible = true
+            is CreatePlaylistState.PlaylistCreated -> {
+                showToast(getString(R.string.playlist_created).format(it.playlistName))
+                findNavController().popBackStack()
+            }
         }
     }
+
+    private fun showToast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
+    }
+
 
     private fun exitWithoutSaving() {
         if (binding.nameField.text.isNullOrEmpty()
@@ -138,4 +146,15 @@ class CreatePlaylistFragment : Fragment() {
         _binding = null
     }
 
+    private fun clickDebounce(listener: () -> Unit) {
+        if (isClickAllowed) {
+            isClickAllowed = false
+            listener()
+            lifecycleScope.launch { delay(CLICK_DEBOUNCE_DELAY); isClickAllowed = true }
+        }
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 300L
+    }
 }

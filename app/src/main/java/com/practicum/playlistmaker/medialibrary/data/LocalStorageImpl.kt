@@ -30,7 +30,6 @@ class LocalStorageImpl(private val application: Application) : LocalStorage {
             BitmapFactory
                 .decodeStream(inputStream)
                 .compress(Bitmap.CompressFormat.PNG, 30, outputStream)
-            Log.d("PLAYER_DEBUG", "create file $filePath / $fileName")
             fileName
         }
 
@@ -43,7 +42,6 @@ class LocalStorageImpl(private val application: Application) : LocalStorage {
             File(filePath, fileName).also {
                 if (it.exists()) {
                     it.delete()
-                    Log.d("PLAYER_DEBUG", "delete file $filePath / $fileName")
                 }
             }
         }

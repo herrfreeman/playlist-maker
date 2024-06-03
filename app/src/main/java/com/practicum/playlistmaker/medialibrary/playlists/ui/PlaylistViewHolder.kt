@@ -8,10 +8,10 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.PlayListApplication
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
+import com.practicum.playlistmaker.medialibrary.playlists.domain.TrackCountString
 import org.koin.java.KoinJavaComponent.getKoin
 import java.io.File
 
@@ -26,6 +26,7 @@ class PlaylistViewHolder(
 
     private val application: PlayListApplication =
         (getKoin().get<Application>() as PlayListApplication)
+    private val trackCounter: TrackCountString = getKoin().get()
     private val playlistImage: ImageView = itemView.findViewById(R.id.playlistImage)
     private val trackCount: TextView = itemView.findViewById(R.id.playlistTrackCount)
     private val playlistName: TextView = itemView.findViewById(R.id.playlistName)
@@ -34,7 +35,8 @@ class PlaylistViewHolder(
     fun bind(playlist: Playlist) {
 
         playlistName.text = playlist.name
-        trackCount.text = "${playlist.trackCount} tracks"
+        val countString = trackCounter.convert(playlist.trackCount)
+        trackCount.text = "${playlist.trackCount} $countString"
 
         val imageDirectory = application.imageDirectory
         if (playlist.coverFileName.isNotEmpty() and (imageDirectory != null)) {
@@ -48,6 +50,8 @@ class PlaylistViewHolder(
                     //.transform(RoundedCorners(2))
                     .into(playlistImage)
             }
+        } else {
+            playlistImage.setImageResource(R.drawable.track_placeholder_45)
         }
 
         itemView.setOnClickListener {

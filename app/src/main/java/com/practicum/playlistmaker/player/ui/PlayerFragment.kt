@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,6 +18,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
 import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
+import com.practicum.playlistmaker.player.ui.models.AddToPlaylistState
 import com.practicum.playlistmaker.player.ui.models.PlayerState
 import com.practicum.playlistmaker.player.ui.models.TrackProgress
 import com.practicum.playlistmaker.search.domain.models.Track
@@ -31,18 +34,21 @@ class PlayerFragment : Fragment() {
     private var _binding: FragmentPlayerBinding? = null
     private val binding: FragmentPlayerBinding get() = _binding!!
 
-    private var isClickAllowed = true
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
-    private val adapter = BottomPlaylistRecyclerAdapter { }
-
     private val viewModel: PlayerViewModel by viewModel {
         parametersOf(requireArguments().getSerializable(Track.EXTRAS_KEY, Track::class.java))
     }
 
+    private var isClickAllowed = true
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private var bottomSheetState = BottomSheetBehavior.STATE_HIDDEN
+    private var overlayAlpha = 1.0F
+    private val adapter = BottomPlaylistRecyclerAdapter { viewModel.addToPlaylist(it) }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentPlayerBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -72,7 +78,12 @@ class PlayerFragment : Fragment() {
                 }
             }
             createPlaylist.setOnClickListener {
-                findNavController().navigate(R.id.action_playerFragment_to_createPlaylistFragment)
+                clickDebounce {
+                    findNavController().navigate(R.id.action_playerFragment_to_createPlaylistFragment)
+                }
+            }
+            overlay.setOnClickListener {
+                clickDebounce { bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN }
             }
 
             bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
@@ -80,6 +91,7 @@ class PlayerFragment : Fragment() {
                 BottomSheetBehavior.BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
                     overlay.isVisible = (newState != BottomSheetBehavior.STATE_HIDDEN)
+                    bottomSheetState = newState
                 }
 
                 override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -88,9 +100,13 @@ class PlayerFragment : Fragment() {
                     } else {
                         overlay.alpha = 0.6F + slideOffset * 0.6F
                     }
+                    overlayAlpha = overlay.alpha
                 }
             })
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+            bottomSheetBehavior.state = bottomSheetState
+            overlay.isVisible = (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+            overlay.alpha = overlayAlpha
 
         }
 
@@ -98,7 +114,13 @@ class PlayerFragment : Fragment() {
         viewModel.observeProgress().observe(viewLifecycleOwner) { renderTrackProgress(it) }
         viewModel.observeTrack().observe(viewLifecycleOwner) { showTrack(it) }
         viewModel.observePlaylists().observe(viewLifecycleOwner) { renderPlaylists(it) }
+        viewModel.observeAddState().observe(viewLifecycleOwner) { renderAddState(it) }
+
+        requireActivity().onBackPressedDispatcher.addCallback {
+            findNavController().popBackStack()
+        }
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -175,6 +197,30 @@ class PlayerFragment : Fragment() {
             listener()
             lifecycleScope.launch { delay(CLICK_DEBOUNCE_DELAY); isClickAllowed = true }
         }
+    }
+
+    private fun renderAddState(state: AddToPlaylistState) {
+        when (state) {
+            is AddToPlaylistState.Done -> {
+                showToast(
+                    getString(R.string.added_to_playlist).format(
+                        state.playlist.name
+                    )
+
+                )
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
+            is AddToPlaylistState.AlreadyAdded -> showToast(
+                getString(R.string.added_before).format(
+                    state.playlist.name
+                )
+            )
+        }
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
     }
 
     companion object {

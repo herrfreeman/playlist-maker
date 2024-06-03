@@ -25,7 +25,16 @@ interface AppDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPlaylist(playlist: PlaylistEntity)
 
-    @Query("SELECT id, name, description, coverfilename AS coverFileName, 3 AS trackCount FROM playlist")
+    @Query("""SELECT id, name, description, coverfilename AS coverFileName, COUNT(trackinlist.trackid) AS trackCount  
+            FROM playlist 
+            LEFT JOIN trackinlist ON trackinlist.playlistid = playlist.id 
+            GROUP BY id, name, description, coverfilename""")
     fun getPlaylists(): List<Playlist>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertTrackInPlaylist(trackInPlaylist: TrackInPlaylistEntity)
+
+    @Query("SELECT count(trackid) FROM trackinlist WHERE trackid = :trackid AND playlistid = :playlistid")
+    fun checkTrackInPlaylist(trackid: String, playlistid: Int): Int
 
 }

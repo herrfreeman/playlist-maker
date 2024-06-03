@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker.medialibrary.ui
 
 import com.practicum.playlistmaker.medialibrary.favorites.ui.FavoritesViewModel
+import com.practicum.playlistmaker.medialibrary.playlists.domain.TrackCountString
 import com.practicum.playlistmaker.medialibrary.playlists.ui.CreatePlaylistsViewModel
 import com.practicum.playlistmaker.medialibrary.playlists.ui.PlaylistsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -25,6 +26,12 @@ val medialibraryUiModel = module {
         CreatePlaylistsViewModel(
             storageInteractor = get(),
             playlistInteractor = get(),
+        )
+    }
+
+    single {
+        TrackCountString(
+            application = get(),
         )
     }
 }

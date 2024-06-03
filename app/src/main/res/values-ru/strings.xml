@@ -40,4 +40,11 @@
     <string name="cancel_button">Отмена</string>
     <string name="finish_button">Завершить</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
+    <string name="added_to_playlist">Добавлено в плейлист %s</string>
+    <string name="added_before">Трек уже добавлен в плейлист %s</string>
+    <string name="track_count_0">треков</string>
+    <string name="track_count_1">трек</string>
+    <string name="track_count_2_4">трека</string>
+    <string name="track_count_5_20">треков</string>
+    <string name="playlist_created">Плейлист %s создан</string>
 </resources>
