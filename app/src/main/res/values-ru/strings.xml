@@ -27,8 +27,24 @@
     <string name="favorites_tab">Избранные треки</string>
     <string name="playlists_tab">Плейлисты</string>
     <string name="message_medialibrary_isempty">Ваша медиатека пуста</string>
-    <string name="message_noplaylist">Вы не создали \\nни одного плейлиста</string>
+    <string name="message_noplaylist">Вы не создали \nни одного плейлиста</string>
     <string name="new_playlist_button">Новый плейлист</string>
     <string name="check_connection_message">Проверьте соединение с интернет</string>
     <string name="server_error_message">Ошибка сервера</string>
+    <string name="create_playlist_title">Новый плейлист</string>
+    <string name="playlist_name_caption">Название*</string>
+    <string name="playlist_description_caption">Описание</string>
+    <string name="playlist_create_button_caption">Создать</string>
+    <string name="playlist_exit_title">Завершить создание плейлиста?</string>
+    <string name="playlist_exit_text">Все несохраненные данные будут потеряны</string>
+    <string name="cancel_button">Отмена</string>
+    <string name="finish_button">Завершить</string>
+    <string name="add_to_playlist">Добавить в плейлист</string>
+    <string name="added_to_playlist">Добавлено в плейлист %s</string>
+    <string name="added_before">Трек уже добавлен в плейлист %s</string>
+    <string name="track_count_0">треков</string>
+    <string name="track_count_1">трек</string>
+    <string name="track_count_2_4">трека</string>
+    <string name="track_count_5_20">треков</string>
+    <string name="playlist_created">Плейлист %s создан</string>
 </resources>

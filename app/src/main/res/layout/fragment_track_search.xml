@@ -6,12 +6,19 @@
     android:orientation="vertical"
     tools:context=".search.ui.TrackSearchFragment">
 
-    <TextView
-        style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/media_library_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/margin_l"
-        android:text="@string/search_title" />
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
+            app:title="@string/search_title" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_edit_text_layout"
@@ -102,7 +109,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/nothing_found" />
+                android:src="@drawable/nothing_found"/>
 
             <TextView
                 style="@style/Widget.PlayListMaker.MainText"
@@ -125,7 +132,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/connection_error" />
+                android:src="@drawable/connection_error"/>
 
             <TextView
                 style="@style/Widget.PlayListMaker.MainText"

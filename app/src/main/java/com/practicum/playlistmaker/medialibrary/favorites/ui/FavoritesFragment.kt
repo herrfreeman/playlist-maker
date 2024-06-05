@@ -1,14 +1,15 @@
-package com.practicum.playlistmaker.medialibrary.ui
+package com.practicum.playlistmaker.medialibrary.favorites.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentFavoritesBinding
-import com.practicum.playlistmaker.player.ui.PlayerActivity
+import com.practicum.playlistmaker.player.ui.PlayerFragment
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.ui.TrackSearchAdapter
 import kotlinx.coroutines.delay
@@ -30,8 +31,10 @@ class FavoritesFragment : Fragment() {
 
     private val viewModel: FavoritesViewModel by viewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -39,7 +42,7 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.observeState().observe(viewLifecycleOwner) {render(it)}
+        viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
         binding.favoritesRecycler.adapter = adapter
 
     }
@@ -73,9 +76,10 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun openTrack(track: Track) {
-        val intent = Intent(requireContext(), PlayerActivity::class.java)
-        intent.putExtra(Track.EXTRAS_KEY, track)
-        startActivity(intent)
+        findNavController().navigate(
+            R.id.action_mediaLibraryFragment_to_playerFragment,
+            PlayerFragment.createArgs(track)
+        )
     }
 
     override fun onDestroyView() {
@@ -90,7 +94,6 @@ class FavoritesFragment : Fragment() {
             lifecycleScope.launch { delay(CLICK_DEBOUNCE_DELAY); isClickAllowed = true }
         }
     }
-
 
 
 }

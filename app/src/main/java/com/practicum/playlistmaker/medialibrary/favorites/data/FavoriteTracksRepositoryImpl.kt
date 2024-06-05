@@ -1,7 +1,7 @@
-package com.practicum.playlistmaker.medialibrary.data
+package com.practicum.playlistmaker.medialibrary.favorites.data
 
 import com.practicum.playlistmaker.medialibrary.data.db.AppDatabase
-import com.practicum.playlistmaker.medialibrary.domain.FavoriteTracksRepository
+import com.practicum.playlistmaker.medialibrary.favorites.domain.FavoriteTracksRepository
 import com.practicum.playlistmaker.search.data.mapper.TrackMapper
 import com.practicum.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +16,7 @@ class FavoriteTracksRepositoryImpl(
 
     override suspend fun insertTrack(track: Track) {
         withContext(Dispatchers.IO) {
-            appDatabase.favoriteTracksDao().insertTrack(
+            appDatabase.appDao().insertTrack(
                 TrackMapper.trackToTrackEntityMap(track)
                     .apply { timestamp = System.currentTimeMillis()/1000 }
             )
@@ -25,20 +25,20 @@ class FavoriteTracksRepositoryImpl(
 
     override suspend fun deleteTrack(track: Track) {
         withContext(Dispatchers.IO) {
-            appDatabase.favoriteTracksDao().deleteTrack(TrackMapper.trackToTrackEntityMap(track))
+            appDatabase.appDao().deleteTrack(TrackMapper.trackToTrackEntityMap(track))
         }
     }
 
     override fun getTracks(): Flow<List<Track>> = flow {
         val tracks = withContext(Dispatchers.IO) {
-            appDatabase.favoriteTracksDao().getTracks()
+            appDatabase.appDao().getTracks()
         }
         emit(tracks.map {TrackMapper.trackEntityToTrackMap(it)})
     }
 
     override fun getTracksId(): Flow<List<String>> = flow {
         val idList = withContext(Dispatchers.IO) {
-            appDatabase.favoriteTracksDao().getTracksId()
+            appDatabase.appDao().getTracksId()
         }
         emit(idList)
     }
