@@ -11,6 +11,6 @@ interface FavoriteTracksInteractor {
 
     fun getTracks(): Flow<List<Track>>
 
-    fun getTracksId(): Flow<List<String>>
+    fun getFavoritesTracksId(): Flow<List<String>>
 
 }

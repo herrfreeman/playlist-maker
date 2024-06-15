@@ -1,9 +1,6 @@
 package com.practicum.playlistmaker.medialibrary.playlists.domain
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
+import java.io.Serializable
 
 data class Playlist(
     val name: String,
@@ -11,4 +8,8 @@ data class Playlist(
     val coverFileName: String,
     val id: Int = 0,
     val trackCount: Int = 0,
-)
+) : Serializable {
+    companion object {
+        const val EXTRAS_KEY = "PLAYLIST_CLASS"
+    }
+}

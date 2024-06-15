@@ -195,6 +195,25 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="Widget.PlayListMaker.Playlist">
+        <item name="android:textSize">18sp</item>
+        <item name="android:lines">1</item>
+        <item name="android:tint">@color/yp_black</item>
+        <item name="android:background">@color/yp_super_light_gray</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Playlist.CollapsingToolbar">
+        <item name="android:minHeight">56dp</item>
+        <item name="android:layout_height">360dp</item>
+        <item name="contentScrim">@color/yp_super_light_gray</item>
+        <item name="scrimAnimationDuration">100</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Playlist.Title1">
+        <item name="android:fontFamily">@font/ys_text_medium</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="Widget.PlayListMaker.SettingsItem">
             <item name="android:layout_width">match_parent</item>

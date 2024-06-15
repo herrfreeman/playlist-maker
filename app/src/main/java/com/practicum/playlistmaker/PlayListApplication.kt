@@ -7,6 +7,7 @@ import com.practicum.playlistmaker.medialibrary.data.medialibraryDataModule
 import com.practicum.playlistmaker.medialibrary.domain.medialibraryDomainModule
 import com.practicum.playlistmaker.medialibrary.ui.medialibraryUiModel
 import com.practicum.playlistmaker.player.ui.playerUiModule
+import com.practicum.playlistmaker.playlist.ui.playlistUiModule
 import com.practicum.playlistmaker.search.data.searchDataModule
 import com.practicum.playlistmaker.search.domain.searchDomainModule
 import com.practicum.playlistmaker.search.ui.searchUiModule
@@ -46,6 +47,7 @@ class PlayListApplication : Application() {
                 databaseModule,
                 medialibraryDataModule,
                 medialibraryDomainModule,
+                playlistUiModule,
             )
         }
 

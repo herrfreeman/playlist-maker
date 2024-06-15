@@ -230,3 +230,4 @@ class PlayerFragment : Fragment() {
     }
 
 }
+

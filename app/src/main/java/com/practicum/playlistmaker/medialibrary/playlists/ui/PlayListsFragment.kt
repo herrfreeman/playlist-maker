@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistsBinding
 import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
+import com.practicum.playlistmaker.playlist.ui.PlaylistFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,7 +25,12 @@ class PlayListsFragment : Fragment() {
     private val binding: FragmentPlaylistsBinding get() = _binding!!
 
     private val viewModel: PlaylistsViewModel by viewModel()
-    private val adapter = PlaylistRecyclerAdapter { }
+    private val adapter = PlaylistRecyclerAdapter {
+        findNavController().navigate(
+            R.id.action_mediaLibraryFragment_to_playlistFragment,
+            PlaylistFragment.createArgs(it)
+        )
+    }
 
     private var isClickAllowed = true
 
