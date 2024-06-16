@@ -8,7 +8,7 @@ data class Track(
     val artistName: String,
     val artworkUrl100: String,
     val artworkUrl512: String,
-    val trackTimeMillis: Long,
+    val trackTimeMillis: Int,
     val collectionName: String,
     val releaseDate: String,
     val primaryGenreName: String,
@@ -21,7 +21,7 @@ data class Track(
     companion object {
         const val EXTRAS_KEY = "TRACK_CLASS"
 
-        fun getEmpty() = Track("","","","","",0L,"","","","","", false)
+        fun getEmpty() = Track("","","","","",0,"","","","","", false)
     }
 
 

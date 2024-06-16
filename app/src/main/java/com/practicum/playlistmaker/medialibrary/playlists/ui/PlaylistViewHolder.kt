@@ -35,7 +35,7 @@ class PlaylistViewHolder(
     fun bind(playlist: Playlist) {
 
         playlistName.text = playlist.name
-        val countString = trackCounter.convert(playlist.trackCount)
+        val countString = trackCounter.convertCount(playlist.trackCount)
         trackCount.text = "${playlist.trackCount} $countString"
 
         val imageDirectory = application.imageDirectory

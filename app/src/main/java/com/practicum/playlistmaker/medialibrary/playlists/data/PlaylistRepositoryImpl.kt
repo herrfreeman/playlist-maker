@@ -31,7 +31,17 @@ class PlaylistRepositoryImpl(
         emit(playlists)
     }
 
-    override suspend fun addTrackToPlaytist(playlist: Playlist, track: Track): Boolean {
+    override fun updatePlaylist(playlist: Playlist): Flow<Playlist> = flow {
+        val playlists = withContext(Dispatchers.IO) {
+            appDatabase.appDao().getPlaylists(
+                playlistid = playlist.id,
+                selectbyid = true,
+            )
+        }
+        emit(playlists.first())
+    }
+
+    override suspend fun addTrackToPlaylist(playlist: Playlist, track: Track): Boolean {
         return withContext(Dispatchers.IO) {
             if (appDatabase.appDao().checkTrackInPlaylist(track.id, playlist.id) == 0) {
                 appDatabase.appDao().insertTrack(track.toEntity())
@@ -53,5 +63,16 @@ class PlaylistRepositoryImpl(
             appDatabase.appDao().getTracksInPlaylist(playlist.id)
         }
         emit(trackList.map { it.toTrack() })
+    }
+
+    override suspend fun deleteTrackFromPlaylist(track: Track, playlist: Playlist) {
+        withContext(Dispatchers.IO) {
+            appDatabase.appDao().deleteTrackFromPlaylist(
+                TrackInPlaylistEntity(
+                    playlistid = playlist.id,
+                    trackid = track.id,
+                )
+            )
+        }
     }
 }

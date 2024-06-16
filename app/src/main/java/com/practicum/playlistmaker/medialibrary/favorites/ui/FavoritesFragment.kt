@@ -26,7 +26,9 @@ class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
 
-    private val adapter = TrackSearchAdapter { clickDebounce { openTrack(it) } }
+    private val adapter = TrackSearchAdapter(
+        trackClickListener = { clickDebounce { openTrack(it) } }
+    )
     private var isClickAllowed = true
 
     private val viewModel: FavoritesViewModel by viewModel()
