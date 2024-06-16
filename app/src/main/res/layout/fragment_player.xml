@@ -309,15 +309,9 @@
         app:behavior_peekHeight="500dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <View
-            android:layout_width="50dp"
-            android:layout_height="4dp"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_xs"
-            android:background="@color/yp_light_gray" />
-
         <TextView
             style="@style/Widget.PlayListMaker.MainText"
+            android:layout_marginTop="@dimen/margin_l"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

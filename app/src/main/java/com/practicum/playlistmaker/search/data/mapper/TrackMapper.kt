@@ -16,6 +16,7 @@ fun TrackDto.toTrack() = Track(
     primaryGenreName = primaryGenreName,
     country = country,
     previewUrl = previewUrl,
+    isFavorite = false,
 )
 
 fun Track.toDto() = TrackDto(
@@ -43,6 +44,7 @@ fun TrackEntity.toTrack() = Track(
     primaryGenreName = primaryGenreName,
     country = country,
     previewUrl = previewUrl,
+    isFavorite = isFavorite,
 )
 
 fun Track.toEntity() = TrackEntity(
@@ -56,5 +58,7 @@ fun Track.toEntity() = TrackEntity(
     primaryGenreName = primaryGenreName,
     country = country,
     previewUrl = previewUrl,
+    isFavorite = isFavorite,
+    favoriteTimestamp = 0L,
 )
 

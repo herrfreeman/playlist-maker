@@ -1,7 +1,6 @@
 package com.practicum.playlistmaker.medialibrary.favorites.data
 
 import com.practicum.playlistmaker.medialibrary.data.db.AppDatabase
-import com.practicum.playlistmaker.medialibrary.data.db.TrackInFavorites
 import com.practicum.playlistmaker.medialibrary.favorites.domain.FavoriteTracksRepository
 import com.practicum.playlistmaker.search.data.mapper.toEntity
 import com.practicum.playlistmaker.search.data.mapper.toTrack
@@ -18,18 +17,19 @@ class FavoriteTracksRepositoryImpl(
 
     override suspend fun insertTrack(track: Track) {
         withContext(Dispatchers.IO) {
-            appDatabase.appDao().insertTrack(track.toEntity())
-            appDatabase.appDao().insertFavoriteTrack(
-                TrackInFavorites(track.id, System.currentTimeMillis() / 1000)
-            )
+            appDatabase.appDao().insertTrack(track.toEntity().apply {
+                isFavorite = true
+                favoriteTimestamp = System.currentTimeMillis() / 1000
+            })
         }
     }
 
     override suspend fun deleteTrack(track: Track) {
         withContext(Dispatchers.IO) {
-            appDatabase.appDao().deleteFavoriteTrack(
-                TrackInFavorites(track.id, 0L)
-            )
+            appDatabase.appDao().insertTrack(track.toEntity().apply {
+                isFavorite = false
+                favoriteTimestamp = 0L
+            })
         }
     }
 
