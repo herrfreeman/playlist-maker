@@ -51,7 +51,12 @@
     <string name="track_duration_1">минута</string>
     <string name="track_duration_2_4">минуты</string>
     <string name="track_duration_5_20">минут</string>
-    <string name="detele_track_dialog">Хотите удалить трек?</string>
+    <string name="delete_track_dialog">Хотите удалить трек?</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="no_track_dialog">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="share">Поделиться</string>
+    <string name="edit_playlist_information">Редактировать информацию</string>
+    <string name="delete_playlist">Удалить плейлист</string>
+    <string name="delete_playlist_dialog">Хотите удалить плейлист \"%s\"?</string>
 </resources>

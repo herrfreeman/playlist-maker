@@ -10,4 +10,12 @@ import androidx.room.RoomDatabase
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun appDao(): AppDao
+
+    fun clearAloneTracks() {
+        val aloneTracks = appDao().getAloneTracks()
+        for (track in aloneTracks) {
+            appDao().deleteTrack(track)
+        }
+    }
 }
+

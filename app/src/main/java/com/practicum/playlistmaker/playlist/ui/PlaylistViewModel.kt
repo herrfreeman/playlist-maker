@@ -7,14 +7,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
 import com.practicum.playlistmaker.medialibrary.playlists.domain.PlaylistInteractor
+import com.practicum.playlistmaker.medialibrary.playlists.domain.TrackCountString
 import com.practicum.playlistmaker.search.domain.models.Track
+import com.practicum.playlistmaker.settings.domain.api.SharingInteractor
 import com.practicum.playlistmaker.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PlaylistViewModel(
     application: Application,
     private var currentPlaylist: Playlist,
     private val playlistInteractor: PlaylistInteractor,
+    private val sharingInteractor: SharingInteractor,
+    private val trackCounter: TrackCountString,
 ) : AndroidViewModel(application) {
 
     private val stateLiveData = MutableLiveData<PlaylistState>()
@@ -27,7 +33,7 @@ class PlaylistViewModel(
     fun observeToastState(): LiveData<String> = toastState
 
     init {
-        playlistLiveData.postValue(currentPlaylist)
+        //playlistLiveData.postValue(currentPlaylist)
         getTracks()
     }
 
@@ -59,7 +65,34 @@ class PlaylistViewModel(
             updatePlaylist()
             getTracks()
         }
+    }
 
+    fun sharePlaylist(trackList: List<Track>) {
+        var textToShare = "${currentPlaylist.name}\n"
+        if (currentPlaylist.description.isNotEmpty()) {
+            textToShare += "${currentPlaylist.description}\n"
+        }
+        val countString = trackCounter.convertCount(currentPlaylist.trackCount)
+        textToShare += "${currentPlaylist.trackCount} $countString\n"
+
+        for (i in trackList.indices) {
+            val trackDuration = SimpleDateFormat(
+                "mm:ss",
+                Locale.getDefault()
+            ).format(trackList[i].trackTimeMillis)
+            textToShare += "${i + 1}. ${trackList[i].artistName} - ${trackList[i].trackName} ($trackDuration)\n"
+        }
+        sharingInteractor.shareText(textToShare)
+    }
+
+    fun getPlatlist(): Playlist {
+        return currentPlaylist
+    }
+
+    fun deleteCurrentPlaylist() {
+        viewModelScope.launch {
+            playlistInteractor.deletePlaylist(currentPlaylist)
+        }
     }
 
     companion object {

@@ -30,6 +30,7 @@ class FavoriteTracksRepositoryImpl(
                 isFavorite = false
                 favoriteTimestamp = 0L
             })
+            appDatabase.clearAloneTracks()
         }
     }
 

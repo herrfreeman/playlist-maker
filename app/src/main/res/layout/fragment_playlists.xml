@@ -10,7 +10,7 @@
         style="@style/Widget.PlayListMaker.SearchUpdateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_xl"
+        android:layout_marginTop="@dimen/margin_4xl"
         android:text="@string/new_playlist_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

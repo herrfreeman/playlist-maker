@@ -26,7 +26,10 @@ class PlaylistRepositoryImpl(
 
     override fun getPlaylists(): Flow<List<Playlist>> = flow {
         val playlists = withContext(Dispatchers.IO) {
-            appDatabase.appDao().getPlaylists()
+            appDatabase.appDao().getPlaylists(
+                playlistid = 0,
+                selectbyid = false,
+            )
         }
         emit(playlists)
     }
@@ -73,6 +76,16 @@ class PlaylistRepositoryImpl(
                     trackid = track.id,
                 )
             )
+            appDatabase.clearAloneTracks()
         }
     }
+
+    override suspend fun deletePlaylist(playlist: Playlist) {
+        withContext(Dispatchers.IO) {
+            appDatabase.appDao().clearPlaylist(playlist.id)
+            appDatabase.appDao().deletePlaylist(playlist.toEntity())
+            appDatabase.clearAloneTracks()
+        }
+    }
+
 }

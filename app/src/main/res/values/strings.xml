@@ -71,8 +71,14 @@
     <string name="track_duration_2_4">minutes</string>
     <string name="track_duration_5_20">minutes</string>
 
-    <string name="detele_track_dialog">Do you want to delete track?</string>
+    <string name="delete_track_dialog">Do you want to delete track?</string>
+    <string name="delete_playlist_dialog">Do you want to delete playlist \"%s\"?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="ok" translatable="false">Ok</string>
+    <string name="no_track_dialog">Here is no track in playlist to share</string>
+    <string name="share">Share</string>
+    <string name="edit_playlist_information">Edit playlist information</string>
+    <string name="delete_playlist">Delete playlist</string>
 
 </resources>

@@ -11,6 +11,8 @@ val playlistUiModule = module {
             application = get(),
             currentPlaylist = currentPlaylist,
             playlistInteractor = get(),
+            sharingInteractor = get(),
+            trackCounter = get(),
         )
     }
 }

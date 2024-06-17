@@ -135,7 +135,7 @@
                 <item name="android:padding">@dimen/margin_l</item>
                 <item name="android:layout_width">wrap_content</item>
                 <item name="android:layout_height">wrap_content</item>
-                <item name="android:layout_marginHorizontal">@dimen/margin_xl</item>
+                <item name="android:layout_marginHorizontal">@dimen/margin_4xl</item>
             </style>
 
             <style name="Widget.PlayListMaker.SearchUpdateButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
@@ -213,6 +213,12 @@
         <item name="android:fontFamily">@font/ys_text_medium</item>
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Playlist.MenuItem">
+        <item name="android:fontFamily">@font/ys_text_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
     <style name="Widget.PlayListMaker.SettingsItem">

@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.practicum.playlistmaker.PlayListApplication
 import com.practicum.playlistmaker.R
@@ -38,7 +41,9 @@ class PlaylistFragment : Fragment() {
         parametersOf(requireArguments().getSerializable(Playlist.EXTRAS_KEY, Playlist::class.java))
     }
     private val trackCounter: TrackCountString by inject()
-
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private var bottomSheetState = BottomSheetBehavior.STATE_HIDDEN
+    private var overlayAlpha = 1.0F
     private var isClickAllowed = true
 
     private val adapter = TrackSearchAdapter(
@@ -67,13 +72,49 @@ class PlaylistFragment : Fragment() {
         viewModel.observePlaylist().observe(viewLifecycleOwner) { renderPlaylist(it) }
 
         binding.playlistRecycler.adapter = adapter
+        renderPlaylist(requireArguments().getSerializable(Playlist.EXTRAS_KEY, Playlist::class.java)!!)
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+        binding.shareButton.setOnClickListener { askSharePlaylist() }
+        binding.shareBottomButton.setOnClickListener { askSharePlaylist() }
+        binding.menuButton.setOnClickListener {
+            clickDebounce {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+        }
+        binding.deletePlaylistButton.setOnClickListener { askDeletePlaylist() }
+
 
         requireActivity().onBackPressedDispatcher.addCallback {
             findNavController().popBackStack()
         }
+        binding.overlay.setOnClickListener {
+            clickDebounce { bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN }
+        }
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                binding.overlay.isVisible = (newState != BottomSheetBehavior.STATE_HIDDEN)
+                bottomSheetState = newState
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                if (slideOffset >= 0) {
+                    binding.overlay.alpha = 0.6F + slideOffset * 0.4F
+                } else {
+                    binding.overlay.alpha = 0.6F + slideOffset * 0.6F
+                }
+                overlayAlpha = binding.overlay.alpha
+            }
+        })
+
+        bottomSheetBehavior.state = bottomSheetState
+        binding.overlay.isVisible = (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+        binding.overlay.alpha = overlayAlpha
+
+
     }
 
 
@@ -100,6 +141,10 @@ class PlaylistFragment : Fragment() {
         binding.playlistDuration.text = "$totalDuration $durationString"
         binding.playlistTrackCount.text = "$trackCount $countString"
 
+        binding.bottomPlaylistName.text = playlist.name
+        binding.bottomPlaylistTrackCount.text = "$trackCount $countString"
+
+
         val imageDirectory =
             (requireActivity().application as PlayListApplication).imageDirectory
         if (playlist.coverFileName.isNotEmpty() and (imageDirectory != null)) {
@@ -112,10 +157,20 @@ class PlaylistFragment : Fragment() {
                     .placeholder(R.drawable.playlist_placeholder)
                     //.transform(RoundedCorners(2))
                     .into(binding.coverImage)
+
+                Glide.with(requireContext())
+                    .load(file.toUri())
+                    .centerCrop()
+                    .placeholder(R.drawable.playlist_placeholder)
+                    //.transform(RoundedCorners(2))
+                    .into(binding.bottomPlaylistImage)
+
             }
         } else {
             binding.coverImage.setImageResource(R.drawable.playlist_placeholder)
+            binding.bottomPlaylistImage.setImageResource(R.drawable.track_placeholder_45)
         }
+
     }
 
     @Suppress("notifyDataSetChanged")
@@ -151,13 +206,33 @@ class PlaylistFragment : Fragment() {
     }
 
     private fun askDeleteTrack(track: Track) {
-        with(requireContext()) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(R.string.delete_track_dialog)
+            .setNegativeButton(R.string.no) { _, _ -> }
+            .setPositiveButton(R.string.yes) { _, _ -> viewModel.deleteTrack(track) }
+            .show()
+    }
+
+    private fun askSharePlaylist() {
+        if (adapter.trackList.isEmpty()) {
             MaterialAlertDialogBuilder(requireContext())
-                .setMessage(getString(R.string.detele_track_dialog))
-                .setNegativeButton(getString(R.string.no)) { _, _ -> }
-                .setPositiveButton(getString(R.string.yes)) { _, _ -> viewModel.deleteTrack(track) }
+                .setMessage(R.string.no_track_dialog)
+                .setNeutralButton(R.string.ok) { _, _ -> }
                 .show()
+        } else {
+            viewModel.sharePlaylist(adapter.trackList)
         }
+    }
+
+    private fun askDeletePlaylist() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(getString(R.string.delete_playlist_dialog).format(viewModel.getPlatlist().name) )
+            .setNegativeButton(R.string.no) { _, _ -> }
+            .setPositiveButton(R.string.yes) { _, _ ->
+                viewModel.deleteCurrentPlaylist()
+                findNavController().popBackStack()
+            }
+            .show()
     }
 
     companion object {

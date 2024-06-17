@@ -15,6 +15,14 @@ class ExternalNavigator(private val context: Context) {
         context.startActivity(shareIntent)
     }
 
+    fun shareText(text: String) {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text)
+        shareIntent.type = "text/*"
+        context.startActivity(shareIntent)
+    }
+
     fun openLink(link: String) {
         val openLinkIntent = Intent(Intent.ACTION_VIEW)
         openLinkIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

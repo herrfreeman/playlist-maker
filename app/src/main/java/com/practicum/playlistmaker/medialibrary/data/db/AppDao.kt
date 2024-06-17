@@ -45,4 +45,16 @@ interface AppDao {
     @Query("SELECT * FROM tracks JOIN trackinlist ON tracks.id = trackinlist.trackid WHERE trackinlist.playlistid = :playlistid")
     fun getTracksInPlaylist(playlistid: Int): List<TrackEntity>
 
+    @Query("DELETE FROM trackinlist WHERE trackinlist.playlistid = :playlistid")
+    fun clearPlaylist(playlistid: Int)
+
+    @Delete(entity = PlaylistEntity::class)
+    fun deletePlaylist(playlistEntity: PlaylistEntity)
+
+    @Query("SELECT * FROM tracks LEFT JOIN trackinlist ON tracks.id = trackinlist.trackid WHERE trackinlist.trackid IS NULL AND NOT tracks.isFavorite")
+    fun getAloneTracks(): List<TrackEntity>
+
+    @Delete(entity = TrackEntity::class)
+    fun deleteTrack(trackEntity: TrackEntity)
+
 }

@@ -7,135 +7,235 @@
     android:layout_height="match_parent"
     tools:context=".playlist.ui.PlaylistFragment">
 
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/topAppBarLayout"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         style="@style/Widget.PlayListMaker.Playlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent"
+        >
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingLayout"
-            style="@style/Widget.PlayListMaker.Playlist.CollapsingToolbar"
-            android:layout_width="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-            <ImageView
-                android:id="@+id/coverImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/playlist_placeholder" />
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
-                style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
-                android:layout_width="match_parent"
-                android:background="@color/transparent"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/arrow_left" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-        <LinearLayout
-            android:id="@+id/playlistDetails"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/topAppBarLayout"
             style="@style/Widget.PlayListMaker.Playlist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/margin_l"
-            app:layout_collapseMode="pin"
-            app:layout_scrollFlags="scroll|snap">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/playlistName"
-                style="@style/Widget.PlayListMaker.Playlist.Title1"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingLayout"
+                style="@style/Widget.PlayListMaker.Playlist.CollapsingToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Some playlist" />
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <TextView
-                android:id="@+id/playlistDescription"
+                <ImageView
+                    android:id="@+id/coverImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/playlist_placeholder" />
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/topAppBar"
+                    style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
+                    android:layout_width="match_parent"
+                    android:background="@color/transparent"
+                    app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/arrow_left" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+            <LinearLayout
+                android:id="@+id/playlistDetails"
                 style="@style/Widget.PlayListMaker.Playlist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xs"
-                android:text="Some playlist" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xs"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_l"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|snap">
 
                 <TextView
-                    android:id="@+id/playlistDuration"
-                    style="@style/Widget.PlayListMaker.Playlist"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/playlistName"
+                    style="@style/Widget.PlayListMaker.Playlist.Title1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="300 minutes" />
-
-                <ImageView
-                    style="@style/Widget.PlayListMaker.Playlist"
-                    android:layout_width="13dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/dot_13" />
+                    android:text="Some playlist" />
 
                 <TextView
-                    android:id="@+id/playlistTrackCount"
+                    android:id="@+id/playlistDescription"
                     style="@style/Widget.PlayListMaker.Playlist"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="98 tracks" />
+                    android:layout_marginTop="@dimen/margin_xs"
+                    android:text="Some playlist" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_xs"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/playlistDuration"
+                        style="@style/Widget.PlayListMaker.Playlist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="300 minutes" />
+
+                    <ImageView
+                        style="@style/Widget.PlayListMaker.Playlist"
+                        android:layout_width="13dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/dot_13" />
+
+                    <TextView
+                        android:id="@+id/playlistTrackCount"
+                        style="@style/Widget.PlayListMaker.Playlist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="98 tracks" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_m"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/shareButton"
+                        style="@style/Widget.PlayListMaker.Playlist"
+                        android:layout_width="@dimen/image_m"
+                        android:layout_height="@dimen/image_m"
+                        android:src="@drawable/graph" />
+
+                    <ImageView
+                        android:id="@+id/menuButton"
+                        style="@style/Widget.PlayListMaker.Playlist"
+                        android:layout_width="@dimen/image_m"
+                        android:layout_height="@dimen/image_m"
+                        android:layout_marginStart="@dimen/margin_m"
+                        android:src="@drawable/menu_ic" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_m"
-                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/shareButton"
-                    style="@style/Widget.PlayListMaker.Playlist"
-                    android:layout_width="@dimen/image_m"
-                    android:layout_height="@dimen/image_m"
-                    android:src="@drawable/graph" />
-
-                <ImageView
-                    android:id="@+id/menuButton"
-                    style="@style/Widget.PlayListMaker.Playlist"
-                    android:layout_width="@dimen/image_m"
-                    android:layout_height="@dimen/image_m"
-                    android:layout_marginStart="@dimen/margin_m"
-                    android:src="@drawable/menu_ic" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/playlistRecycler"
+            style="@style/Widget.PlayListMaker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bottom_sheet_bg"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/margin_4xl"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            tools:listitem="@layout/track_item">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:paddingTop="@dimen/margin_xl"
-        android:id="@+id/playlistRecycler"
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
         style="@style/Widget.PlayListMaker"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bottom_sheet_bg"
         android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        tools:listitem="@layout/track_item" >
+
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="383dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
 
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_4xl"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:orientation="horizontal">
 
-    </androidx.recyclerview.widget.RecyclerView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/bottomImageCard"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginVertical="@dimen/margin_xs"
+                android:layout_marginLeft="@dimen/margin_l"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="0dp">
 
+                <ImageView
+                    android:id="@+id/bottomPlaylistImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/track_placeholder_45" />
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/bottomPlaylistName"
+                style="@style/Widget.PlayListMaker.BottomPlaylists"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xs"
+                tools:text="album name" />
+
+            <TextView
+                android:id="@+id/bottomPlaylistTrackCount"
+                style="@style/Widget.PlayListMaker.BottomPlaylists.Count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xs"
+                tools:text="12 tracks" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/shareBottomButton"
+            style="@style/Widget.PlayListMaker.Playlist.MenuItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/margin_xxxl"
+            android:paddingHorizontal="@dimen/margin_l"
+            android:text="@string/share"/>
+
+        <TextView
+            android:id="@+id/editPlaylistButton"
+            style="@style/Widget.PlayListMaker.Playlist.MenuItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/margin_xxxl"
+            android:paddingHorizontal="@dimen/margin_l"
+            android:text="@string/edit_playlist_information"/>
+
+        <TextView
+            android:id="@+id/deletePlaylistButton"
+            style="@style/Widget.PlayListMaker.Playlist.MenuItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/margin_xxxl"
+            android:paddingHorizontal="@dimen/margin_l"
+            android:text="@string/delete_playlist"/>
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
