@@ -15,21 +15,20 @@ class SettingsViewModel(
     private val settingsInteractor: SettingsInteractor,
 ) : AndroidViewModel(application) {
 
+    val appSettings = settingsInteractor.getSettings()
+
     private val appSettingsLiveData = MutableLiveData<AppSettings>()
     fun observeAppSettings(): LiveData<AppSettings> = appSettingsLiveData
 
     init {
-        appSettingsLiveData.postValue((application as PlayListApplication).appSettings)
+        appSettingsLiveData.postValue(appSettings)
     }
 
     fun setNightMode(nightMode: Boolean) {
-        val app = (application as PlayListApplication)
-        if (nightMode != app.appSettings.nightMode) {
-            app.appSettings.nightMode = nightMode
-            settingsInteractor.saveSettings(app.appSettings)
-            app.updateTheme()
-            appSettingsLiveData.postValue(app.appSettings)
-        }
+        appSettings.nightMode = nightMode
+        settingsInteractor.saveSettings()
+        appSettingsLiveData.postValue(appSettings)
+        (application as PlayListApplication).updateTheme()
     }
 
     fun shareApp() = sharingInteractor.shareApp()

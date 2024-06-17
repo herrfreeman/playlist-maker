@@ -16,14 +16,15 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.practicum.playlistmaker.PlayListApplication
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
 import com.practicum.playlistmaker.medialibrary.playlists.domain.TrackCountString
+import com.practicum.playlistmaker.medialibrary.playlists.ui.CreatePlaylistFragment
 import com.practicum.playlistmaker.player.ui.PlayerFragment
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.ui.TrackSearchAdapter
+import com.practicum.playlistmaker.settings.domain.api.SettingsInteractor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -40,6 +41,8 @@ class PlaylistFragment : Fragment() {
     private val viewModel: PlaylistViewModel by viewModel {
         parametersOf(requireArguments().getSerializable(Playlist.EXTRAS_KEY, Playlist::class.java))
     }
+    private val settingsInteractor: SettingsInteractor by inject()
+    private val appSettings = settingsInteractor.getSettings()
     private val trackCounter: TrackCountString by inject()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private var bottomSheetState = BottomSheetBehavior.STATE_HIDDEN
@@ -72,7 +75,12 @@ class PlaylistFragment : Fragment() {
         viewModel.observePlaylist().observe(viewLifecycleOwner) { renderPlaylist(it) }
 
         binding.playlistRecycler.adapter = adapter
-        renderPlaylist(requireArguments().getSerializable(Playlist.EXTRAS_KEY, Playlist::class.java)!!)
+        renderPlaylist(
+            requireArguments().getSerializable(
+                Playlist.EXTRAS_KEY,
+                Playlist::class.java
+            )!!
+        )
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
@@ -84,7 +92,12 @@ class PlaylistFragment : Fragment() {
             }
         }
         binding.deletePlaylistButton.setOnClickListener { askDeletePlaylist() }
-
+        binding.editPlaylistButton.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_playlistFragment_to_createPlaylistFragment,
+                CreatePlaylistFragment.createArgs(viewModel.getPlatlist())
+            )
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback {
             findNavController().popBackStack()
@@ -120,7 +133,7 @@ class PlaylistFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        //viewModel.updatePlaylists()
+        viewModel.updatePlaylist()
     }
 
     private fun render(state: PlaylistState) {
@@ -145,8 +158,7 @@ class PlaylistFragment : Fragment() {
         binding.bottomPlaylistTrackCount.text = "$trackCount $countString"
 
 
-        val imageDirectory =
-            (requireActivity().application as PlayListApplication).imageDirectory
+        val imageDirectory = appSettings.imageDirectory
         if (playlist.coverFileName.isNotEmpty() and (imageDirectory != null)) {
             val file = File(imageDirectory, playlist.coverFileName)
             if (file.exists()) {
@@ -226,7 +238,7 @@ class PlaylistFragment : Fragment() {
 
     private fun askDeletePlaylist() {
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage(getString(R.string.delete_playlist_dialog).format(viewModel.getPlatlist().name) )
+            .setMessage(getString(R.string.delete_playlist_dialog).format(viewModel.getPlatlist().name))
             .setNegativeButton(R.string.no) { _, _ -> }
             .setPositiveButton(R.string.yes) { _, _ ->
                 viewModel.deleteCurrentPlaylist()

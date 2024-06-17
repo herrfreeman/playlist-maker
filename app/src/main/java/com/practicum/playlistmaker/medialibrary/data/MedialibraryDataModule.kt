@@ -24,6 +24,7 @@ val medialibraryDataModule = module {
     single<LocalStorage> {
         LocalStorageImpl(
             application = get(),
+            settingsInteractor = get(),
         )
     }
 }

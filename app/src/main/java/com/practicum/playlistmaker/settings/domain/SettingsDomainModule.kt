@@ -11,6 +11,7 @@ val settingsDomainModule = module {
 
     single<SettingsInteractor> {
         SettingsInteractorImpl(
+            context = get(),
             repository = get(),
         )
     }

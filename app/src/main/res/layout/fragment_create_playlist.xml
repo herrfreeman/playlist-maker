@@ -87,7 +87,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/createButton"
+        android:id="@+id/saveButton"
         style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -97,7 +97,6 @@
         android:text="@string/playlist_create_button_caption"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar

@@ -10,8 +10,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         style="@style/Widget.PlayListMaker.Playlist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/topAppBarLayout"
@@ -34,9 +33,10 @@
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/topAppBar"
-                    style="@style/Widget.PlayListMaker.CommonActivity.Toolbar"
+                    style="@style/Widget.PlayListMaker.Playlist.Toolbar"
                     android:layout_width="match_parent"
                     android:background="@color/transparent"
+
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/arrow_left" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -57,7 +57,7 @@
                     style="@style/Widget.PlayListMaker.Playlist.Title1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Some playlist" />
+                    tools:text="Some playlist" />
 
                 <TextView
                     android:id="@+id/playlistDescription"
@@ -65,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_xs"
-                    android:text="Some playlist" />
+                    tools:text="Some playlist" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                         style="@style/Widget.PlayListMaker.Playlist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="300 minutes" />
+                        tools:text="300 minutes" />
 
                     <ImageView
                         style="@style/Widget.PlayListMaker.Playlist"
@@ -92,7 +92,7 @@
                         style="@style/Widget.PlayListMaker.Playlist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="98 tracks" />
+                        tools:text="98 tracks" />
 
                 </LinearLayout>
 
@@ -155,16 +155,15 @@
         android:layout_height="match_parent"
         android:background="@drawable/bottom_sheet_bg"
         android:orientation="vertical"
-
         app:behavior_hideable="true"
         app:behavior_peekHeight="383dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
 
         <LinearLayout
-            android:layout_marginTop="@dimen/margin_4xl"
             android:layout_width="match_parent"
             android:layout_height="61dp"
+            android:layout_marginTop="@dimen/margin_4xl"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
@@ -172,7 +171,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginVertical="@dimen/margin_xs"
-                android:layout_marginLeft="@dimen/margin_l"
+                android:layout_marginStart="@dimen/margin_l"
                 app:cardCornerRadius="6dp"
                 app:cardElevation="0dp">
 
@@ -188,24 +187,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/bottomPlaylistName"
-                style="@style/Widget.PlayListMaker.BottomPlaylists"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xs"
-                tools:text="album name" />
+                <TextView
+                    android:id="@+id/bottomPlaylistName"
+                    style="@style/Widget.PlayListMaker.BottomPlaylists"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_xs"
+                    tools:text="album name" />
 
-            <TextView
-                android:id="@+id/bottomPlaylistTrackCount"
-                style="@style/Widget.PlayListMaker.BottomPlaylists.Count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xs"
-                tools:text="12 tracks" />
+                <TextView
+                    android:id="@+id/bottomPlaylistTrackCount"
+                    style="@style/Widget.PlayListMaker.BottomPlaylists.Count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_xs"
+                    tools:text="12 tracks" />
             </LinearLayout>
         </LinearLayout>
 
@@ -214,27 +213,27 @@
             style="@style/Widget.PlayListMaker.Playlist.MenuItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/margin_xxxl"
             android:paddingHorizontal="@dimen/margin_l"
-            android:text="@string/share"/>
+            android:paddingVertical="@dimen/margin_xxxl"
+            android:text="@string/share" />
 
         <TextView
             android:id="@+id/editPlaylistButton"
             style="@style/Widget.PlayListMaker.Playlist.MenuItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/margin_xxxl"
             android:paddingHorizontal="@dimen/margin_l"
-            android:text="@string/edit_playlist_information"/>
+            android:paddingVertical="@dimen/margin_xxxl"
+            android:text="@string/edit_playlist_information" />
 
         <TextView
             android:id="@+id/deletePlaylistButton"
             style="@style/Widget.PlayListMaker.Playlist.MenuItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/margin_xxxl"
             android:paddingHorizontal="@dimen/margin_l"
-            android:text="@string/delete_playlist"/>
+            android:paddingVertical="@dimen/margin_xxxl"
+            android:text="@string/delete_playlist" />
 
     </LinearLayout>
 
