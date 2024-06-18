@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class CreatePlaylistsViewModel(
     private val storageInteractor: LocalStorageInteractor,
     private val playlistInteractor: PlaylistInteractor,
-    private var playlist: Playlist?,
+    private val playlist: Playlist?,
 ) : ViewModel() {
 
     private val editState = SingleLiveEvent<EditPlaylistState>()
@@ -61,13 +61,10 @@ class CreatePlaylistsViewModel(
                 )
                 editState.postValue(EditPlaylistState.PlaylistCreated(name))
             } else {
-                playlistInteractor.insertPlaylist(
-                    playlist!!.copy(
-                        name = name,
-                        description = description,
-                        coverFileName = fileName,
-                    )
-                )
+                playlist.name = name
+                playlist.description = description
+                playlist.coverFileName = fileName
+                playlistInteractor.insertPlaylist(playlist)
                 editState.postValue(EditPlaylistState.PlaylistUpdated)
             }
         }

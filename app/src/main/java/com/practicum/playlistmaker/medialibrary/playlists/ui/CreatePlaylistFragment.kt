@@ -58,6 +58,7 @@ class CreatePlaylistFragment : Fragment() {
             binding.nameField.setText(it.name)
             binding.descriptionField.setText(it.description)
             binding.saveButton.setText(getString(R.string.playlist_save_button_caption))
+            binding.saveButton.isEnabled = true
             binding.topAppBar.title = getString(R.string.edit_playlist_title)
             viewModel.setFileName(it.coverFileName)
             if (it.coverFileName.isNotEmpty() && appSettings.imageDirectory != null) {
@@ -147,7 +148,10 @@ class CreatePlaylistFragment : Fragment() {
                 showToast(getString(R.string.playlist_created).format(it.playlistName))
                 findNavController().popBackStack()
             }
-            is EditPlaylistState.PlaylistUpdated -> findNavController().popBackStack()
+
+            is EditPlaylistState.PlaylistUpdated -> {
+                findNavController().popBackStack()
+            }
         }
     }
 

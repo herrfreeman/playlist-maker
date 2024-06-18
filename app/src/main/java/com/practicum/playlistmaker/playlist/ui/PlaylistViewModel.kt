@@ -23,38 +23,42 @@ class PlaylistViewModel(
     private val trackCounter: TrackCountString,
 ) : AndroidViewModel(application) {
 
+    private var trackList = emptyList<Track>()
+
     private val stateLiveData = MutableLiveData<PlaylistState>()
     fun observeState(): LiveData<PlaylistState> = stateLiveData
-
-    private val playlistLiveData = MutableLiveData<Playlist>()
-    fun observePlaylist(): LiveData<Playlist> = playlistLiveData
 
     private val toastState = SingleLiveEvent<String>()
     fun observeToastState(): LiveData<String> = toastState
 
     init {
-        //playlistLiveData.postValue(currentPlaylist)
         getTracks()
     }
 
     fun getTracks() {
         viewModelScope.launch {
             playlistInteractor.getTracksInPlaylist(currentPlaylist).collect {
-                stateLiveData.postValue(
-                    if (it.isEmpty()) {
-                        PlaylistState.Empty
-                    } else {
-                        PlaylistState.Content(it)
-                    }
-                )
+                trackList = it
+                postPlaylistState()
             }
         }
+    }
+
+    private fun postPlaylistState() {
+        stateLiveData.postValue(
+            if (trackList.isEmpty()) {
+                PlaylistState.EmptyTracks(currentPlaylist)
+            } else {
+                PlaylistState.Content(currentPlaylist, trackList)
+            }
+        )
     }
 
     fun updatePlaylist() {
         viewModelScope.launch {
             playlistInteractor.updatePlaylist(currentPlaylist).collect {
-                playlistLiveData.postValue(it)
+                currentPlaylist = it
+                postPlaylistState()
             }
         }
     }
@@ -85,7 +89,7 @@ class PlaylistViewModel(
         sharingInteractor.shareText(textToShare)
     }
 
-    fun getPlatlist(): Playlist {
+    fun getPlaylist(): Playlist {
         return currentPlaylist
     }
 

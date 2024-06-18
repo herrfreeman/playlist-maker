@@ -124,6 +124,41 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/playlistEmply"
+            style="@style/Widget.PlayListMaker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bottom_sheet_bg"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/margin_4xl"
+            android:visibility="gone"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <LinearLayout
+                style="@style/Widget.PlayListMaker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/favorites_empty_image"
+                    style="@style/Widget.PlayListMaker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/nothing_found" />
+
+                <TextView
+                    android:id="@+id/favorites_empty_text"
+                    style="@style/Widget.PlayListMaker.MainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="@dimen/margin_l"
+                    android:text="@string/empty_playlist" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/playlistRecycler"
@@ -158,7 +193,6 @@
         app:behavior_hideable="true"
         app:behavior_peekHeight="383dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
 
         <LinearLayout
             android:layout_width="match_parent"

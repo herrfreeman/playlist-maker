@@ -2,6 +2,7 @@ package com.practicum.playlistmaker.medialibrary.favorites.data
 
 import com.practicum.playlistmaker.medialibrary.data.db.AppDatabase
 import com.practicum.playlistmaker.medialibrary.favorites.domain.FavoriteTracksRepository
+import com.practicum.playlistmaker.medialibrary.playlists.domain.PlaylistRepository
 import com.practicum.playlistmaker.search.data.mapper.toEntity
 import com.practicum.playlistmaker.search.data.mapper.toTrack
 import com.practicum.playlistmaker.search.domain.models.Track
@@ -13,6 +14,7 @@ import kotlinx.coroutines.withContext
 
 class FavoriteTracksRepositoryImpl(
     private val appDatabase: AppDatabase,
+    private val playlistRepository: PlaylistRepository,
 ) : FavoriteTracksRepository {
 
     override suspend fun insertTrack(track: Track) {
@@ -30,7 +32,7 @@ class FavoriteTracksRepositoryImpl(
                 isFavorite = false
                 favoriteTimestamp = 0L
             })
-            appDatabase.clearAloneTracks()
+            playlistRepository.clearAloneTracks()
         }
     }
 

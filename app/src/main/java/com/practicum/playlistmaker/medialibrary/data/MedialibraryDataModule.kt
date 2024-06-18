@@ -12,6 +12,7 @@ val medialibraryDataModule = module {
     single<FavoriteTracksRepository> {
         FavoriteTracksRepositoryImpl(
             appDatabase = get(),
+            playlistRepository = get(),
         )
     }
 

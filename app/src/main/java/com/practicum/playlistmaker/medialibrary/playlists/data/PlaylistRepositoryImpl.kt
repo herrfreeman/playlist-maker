@@ -52,6 +52,7 @@ class PlaylistRepositoryImpl(
                     TrackInPlaylistEntity(
                         playlistid = playlist.id,
                         trackid = track.id,
+                        timestamp = System.currentTimeMillis() / 1000,
                     )
                 )
                 false
@@ -74,9 +75,10 @@ class PlaylistRepositoryImpl(
                 TrackInPlaylistEntity(
                     playlistid = playlist.id,
                     trackid = track.id,
+                    timestamp = 0L,
                 )
             )
-            appDatabase.clearAloneTracks()
+            clearAloneTracks()
         }
     }
 
@@ -84,7 +86,14 @@ class PlaylistRepositoryImpl(
         withContext(Dispatchers.IO) {
             appDatabase.appDao().clearPlaylist(playlist.id)
             appDatabase.appDao().deletePlaylist(playlist.toEntity())
-            appDatabase.clearAloneTracks()
+            clearAloneTracks()
+        }
+    }
+
+    override suspend fun clearAloneTracks() {
+        val aloneTracks = appDatabase.appDao().getAloneTracks()
+        for (track in aloneTracks) {
+            appDatabase.appDao().deleteTrack(track)
         }
     }
 

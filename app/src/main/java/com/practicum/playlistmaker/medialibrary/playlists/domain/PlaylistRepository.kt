@@ -19,4 +19,5 @@ interface PlaylistRepository {
 
     suspend fun deletePlaylist(playlist: Playlist)
 
+    suspend fun clearAloneTracks()
 }

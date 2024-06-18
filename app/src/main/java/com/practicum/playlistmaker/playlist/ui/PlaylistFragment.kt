@@ -45,14 +45,29 @@ class PlaylistFragment : Fragment() {
     private val appSettings = settingsInteractor.getSettings()
     private val trackCounter: TrackCountString by inject()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
-    private var bottomSheetState = BottomSheetBehavior.STATE_HIDDEN
-    private var overlayAlpha = 1.0F
+    private var overlayAlpha = 0.6F
     private var isClickAllowed = true
 
     private val adapter = TrackSearchAdapter(
         trackClickListener = { clickDebounce { openTrack(it) } },
         trackLongClickListener = { clickDebounce { askDeleteTrack(it) } }
     )
+
+    private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            binding.overlay.isVisible = (newState != BottomSheetBehavior.STATE_HIDDEN)
+        }
+
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            if (slideOffset >= 0) {
+                binding.overlay.alpha = 0.6F + slideOffset * 0.4F
+            } else {
+                binding.overlay.alpha = 0.6F + slideOffset * 0.6F
+            }
+            overlayAlpha = binding.overlay.alpha
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +87,6 @@ class PlaylistFragment : Fragment() {
 
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
         viewModel.observeToastState().observe(viewLifecycleOwner) { showToast(it) }
-        viewModel.observePlaylist().observe(viewLifecycleOwner) { renderPlaylist(it) }
 
         binding.playlistRecycler.adapter = adapter
         renderPlaylist(
@@ -84,48 +98,51 @@ class PlaylistFragment : Fragment() {
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-        binding.shareButton.setOnClickListener { askSharePlaylist() }
-        binding.shareBottomButton.setOnClickListener { askSharePlaylist() }
+        binding.shareButton.setOnClickListener {
+            clickDebounce {
+                askSharePlaylist()
+            }
+        }
+        binding.shareBottomButton.setOnClickListener {
+            clickDebounce {
+                hideBottomSheet()
+                askSharePlaylist()
+            }
+        }
         binding.menuButton.setOnClickListener {
             clickDebounce {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
-        binding.deletePlaylistButton.setOnClickListener { askDeletePlaylist() }
+        binding.deletePlaylistButton.setOnClickListener {
+            clickDebounce {
+                hideBottomSheet()
+                askDeletePlaylist()
+            }
+        }
         binding.editPlaylistButton.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_playlistFragment_to_createPlaylistFragment,
-                CreatePlaylistFragment.createArgs(viewModel.getPlatlist())
-            )
+            clickDebounce {
+                bottomSheetBehavior.removeBottomSheetCallback(bottomSheetCallback)
+                overlayAlpha = 0.6F
+                hideBottomSheet()
+                findNavController().navigate(
+                    R.id.action_playlistFragment_to_createPlaylistFragment,
+                    CreatePlaylistFragment.createArgs(viewModel.getPlaylist())
+                )
+            }
         }
 
         requireActivity().onBackPressedDispatcher.addCallback {
             findNavController().popBackStack()
         }
         binding.overlay.setOnClickListener {
-            clickDebounce { bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN }
+            clickDebounce { hideBottomSheet() }
         }
         bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
-        bottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                binding.overlay.isVisible = (newState != BottomSheetBehavior.STATE_HIDDEN)
-                bottomSheetState = newState
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (slideOffset >= 0) {
-                    binding.overlay.alpha = 0.6F + slideOffset * 0.4F
-                } else {
-                    binding.overlay.alpha = 0.6F + slideOffset * 0.6F
-                }
-                overlayAlpha = binding.overlay.alpha
-            }
-        })
-
-        bottomSheetBehavior.state = bottomSheetState
-        binding.overlay.isVisible = (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+        bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         binding.overlay.alpha = overlayAlpha
+        binding.overlay.isVisible = (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
 
 
     }
@@ -133,13 +150,19 @@ class PlaylistFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updatePlaylist()
+        //viewModel.updatePlaylist()
+        renderPlaylist(viewModel.getPlaylist())
+    }
+
+    private fun hideBottomSheet() {
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun render(state: PlaylistState) {
+        renderPlaylist(state.playlist)
         when (state) {
-            is PlaylistState.Content -> showContent(state.trackList)
-            is PlaylistState.Empty -> showEmpty()
+            is PlaylistState.Content -> showTracks(state.trackList)
+            is PlaylistState.EmptyTracks -> showEmpty()
         }
     }
 
@@ -187,12 +210,16 @@ class PlaylistFragment : Fragment() {
 
     @Suppress("notifyDataSetChanged")
     private fun showEmpty() {
+        binding.playlistEmply.isVisible = true
+        binding.playlistRecycler.isVisible = false
         adapter.trackList.clear()
         adapter.notifyDataSetChanged()
     }
 
     @Suppress("notifyDataSetChanged")
-    private fun showContent(trackList: List<Track>) {
+    private fun showTracks(trackList: List<Track>) {
+        binding.playlistEmply.isVisible = false
+        binding.playlistRecycler.isVisible = true
         adapter.trackList.clear()
         adapter.trackList.addAll(trackList)
         adapter.notifyDataSetChanged()
@@ -238,7 +265,7 @@ class PlaylistFragment : Fragment() {
 
     private fun askDeletePlaylist() {
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage(getString(R.string.delete_playlist_dialog).format(viewModel.getPlatlist().name))
+            .setMessage(getString(R.string.delete_playlist_dialog).format(viewModel.getPlaylist().name))
             .setNegativeButton(R.string.no) { _, _ -> }
             .setPositiveButton(R.string.yes) { _, _ ->
                 viewModel.deleteCurrentPlaylist()

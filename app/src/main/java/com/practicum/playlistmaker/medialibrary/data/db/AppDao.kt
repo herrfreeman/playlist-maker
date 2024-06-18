@@ -42,7 +42,9 @@ interface AppDao {
     @Query("SELECT count(trackid) FROM trackinlist WHERE trackid = :trackid AND playlistid = :playlistid")
     fun checkTrackInPlaylist(trackid: String, playlistid: Int): Int
 
-    @Query("SELECT * FROM tracks JOIN trackinlist ON tracks.id = trackinlist.trackid WHERE trackinlist.playlistid = :playlistid")
+    @Query("""SELECT * FROM tracks JOIN trackinlist ON tracks.id = trackinlist.trackid 
+            WHERE trackinlist.playlistid = :playlistid
+            ORDER BY trackinlist.timestamp DESC""")
     fun getTracksInPlaylist(playlistid: Int): List<TrackEntity>
 
     @Query("DELETE FROM trackinlist WHERE trackinlist.playlistid = :playlistid")

@@ -157,12 +157,14 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
     }
 
     private fun showEmpty() {
+        binding.trackRecyclerView.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
         binding.nothingFoundFrame.visibility = View.VISIBLE
         binding.connectionErrorFrame.visibility = View.GONE
     }
 
     private fun showError() {
+        binding.trackRecyclerView.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
         binding.nothingFoundFrame.visibility = View.GONE
         binding.connectionErrorFrame.visibility = View.VISIBLE
@@ -170,6 +172,7 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
 
     @Suppress("notifyDataSetChanged")
     private fun showContent(trackList: List<Track>) {
+        binding.trackRecyclerView.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
         binding.nothingFoundFrame.visibility = View.GONE
         binding.connectionErrorFrame.visibility = View.GONE

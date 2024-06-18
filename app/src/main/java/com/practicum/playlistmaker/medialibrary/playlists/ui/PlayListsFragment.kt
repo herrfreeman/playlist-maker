@@ -26,10 +26,12 @@ class PlayListsFragment : Fragment() {
 
     private val viewModel: PlaylistsViewModel by viewModel()
     private val adapter = PlaylistRecyclerAdapter {
-        findNavController().navigate(
-            R.id.action_mediaLibraryFragment_to_playlistFragment,
-            PlaylistFragment.createArgs(it)
-        )
+        clickDebounce {
+            findNavController().navigate(
+                R.id.action_mediaLibraryFragment_to_playlistFragment,
+                PlaylistFragment.createArgs(it)
+            )
+        }
     }
 
     private var isClickAllowed = true
@@ -55,7 +57,7 @@ class PlayListsFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback {
-            findNavController().popBackStack()
+            clickDebounce { findNavController().popBackStack() }
         }
     }
 
@@ -75,11 +77,13 @@ class PlayListsFragment : Fragment() {
     private fun showEmpty() {
         binding.mediaImageNoplaylists.isVisible = true
         binding.noplaylistText.isVisible = true
+        binding.playlistRecycler.isVisible = false
     }
 
     private fun showContent(playlists: List<Playlist>) {
         binding.mediaImageNoplaylists.isVisible = false
         binding.noplaylistText.isVisible = false
+        binding.playlistRecycler.isVisible = true
 
         adapter.playlists.clear()
         adapter.playlists.addAll(playlists)
