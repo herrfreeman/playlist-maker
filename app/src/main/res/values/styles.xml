@@ -135,7 +135,7 @@
                 <item name="android:padding">@dimen/margin_l</item>
                 <item name="android:layout_width">wrap_content</item>
                 <item name="android:layout_height">wrap_content</item>
-                <item name="android:layout_marginHorizontal">@dimen/margin_xl</item>
+                <item name="android:layout_marginHorizontal">@dimen/margin_4xl</item>
             </style>
 
             <style name="Widget.PlayListMaker.SearchUpdateButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
@@ -195,6 +195,42 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="Widget.PlayListMaker.Playlist">
+        <item name="android:textSize">18sp</item>
+        <item name="android:lines">1</item>
+        <item name="android:tint">@color/yp_black</item>
+        <item name="android:textColor">@color/yp_black</item>
+        <item name="android:background">@color/yp_super_light_gray</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Playlist.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="navigationIconTint">@color/yp_black</item>
+        <item name="android:fontFamily">@font/ys_text_medium</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Playlist.CollapsingToolbar">
+        <item name="android:minHeight">56dp</item>
+        <item name="android:layout_height">360dp</item>
+        <item name="contentScrim">@color/yp_super_light_gray</item>
+        <item name="scrimAnimationDuration">100</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Playlist.Title1">
+        <item name="android:fontFamily">@font/ys_text_medium</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.PlayListMaker.Playlist.MenuItem">
+        <item name="android:fontFamily">@font/ys_text_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
 
     <style name="Widget.PlayListMaker.SettingsItem">
             <item name="android:layout_width">match_parent</item>

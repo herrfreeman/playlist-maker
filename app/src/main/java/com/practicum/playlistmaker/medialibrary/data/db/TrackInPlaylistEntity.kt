@@ -6,4 +6,5 @@ import androidx.room.Entity
 data class TrackInPlaylistEntity(
     val playlistid: Int,
     val trackid: String,
+    val timestamp: Long,
 )

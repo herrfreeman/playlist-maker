@@ -105,7 +105,7 @@ class TrackSearchViewModel(
     fun updateSearchFavorites() {
         if (stateLiveData.value is TrackSearchState.Content) {
             viewModelScope.launch {
-                favoritesInteractor.getTracksId()
+                favoritesInteractor.getFavoritesTracksId()
                     .collect { favoritesId ->
                         searchTrackList.onEach { it.isFavorite = favoritesId.contains(it.id) }
                         renderState(TrackSearchState.Content(searchTrackList))

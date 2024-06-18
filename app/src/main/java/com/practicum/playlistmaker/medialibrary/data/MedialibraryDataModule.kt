@@ -12,6 +12,7 @@ val medialibraryDataModule = module {
     single<FavoriteTracksRepository> {
         FavoriteTracksRepositoryImpl(
             appDatabase = get(),
+            playlistRepository = get(),
         )
     }
 
@@ -24,6 +25,7 @@ val medialibraryDataModule = module {
     single<LocalStorage> {
         LocalStorageImpl(
             application = get(),
+            settingsInteractor = get(),
         )
     }
 }

@@ -14,45 +14,59 @@ import kotlinx.coroutines.launch
 class CreatePlaylistsViewModel(
     private val storageInteractor: LocalStorageInteractor,
     private val playlistInteractor: PlaylistInteractor,
+    private val playlist: Playlist?,
 ) : ViewModel() {
 
-    private val createState = SingleLiveEvent<CreatePlaylistState>()
-    fun getCreateState(): LiveData<CreatePlaylistState> = createState
+    private val editState = SingleLiveEvent<EditPlaylistState>()
+    fun getEditState(): LiveData<EditPlaylistState> = editState
 
-    private var localFileName: String = ""
+    private var fileName: String = ""
     private var saveFileJob: Job? = null
 
+    fun getPlaylist(): Playlist? = playlist
+
     fun saveCoverFile(imageUri: Uri) {
-        localFileName = ""
+        fileName = ""
         saveFileJob?.cancel()
         saveFileJob = viewModelScope.launch {
-            localFileName = storageInteractor.copyImageToPrivateStorage(imageUri)
+            fileName = storageInteractor.copyImageToPrivateStorage(imageUri)
         }
     }
 
     fun deleteCoverFile() {
         saveFileJob?.cancel()
-        if (localFileName.isNotEmpty()) {
+        if (fileName.isNotEmpty()) {
             viewModelScope.launch {
-                storageInteractor.deleteImageFromPrivateStorage(localFileName)
+                storageInteractor.deleteImageFromPrivateStorage(fileName)
             }
         }
     }
 
-    fun createPlaylist(name: String, description: String) {
+    fun setFileName(fileName: String) {
+        this.fileName = fileName
+    }
 
-        createState.postValue(CreatePlaylistState.FileLoading)
-
+    fun savePlaylist(name: String, description: String) {
+        editState.postValue(EditPlaylistState.FileLoading)
         viewModelScope.launch {
             saveFileJob?.join()
-            playlistInteractor.insertPlaylist(
-                Playlist(
-                    name = name,
-                    description = description,
-                    coverFileName = localFileName
+
+            if (playlist == null) {
+                playlistInteractor.insertPlaylist(
+                    Playlist(
+                        name = name,
+                        description = description,
+                        coverFileName = fileName,
+                    )
                 )
-            )
-            createState.postValue(CreatePlaylistState.PlaylistCreated(name))
+                editState.postValue(EditPlaylistState.PlaylistCreated(name))
+            } else {
+                playlist.name = name
+                playlist.description = description
+                playlist.coverFileName = fileName
+                playlistInteractor.insertPlaylist(playlist)
+                editState.postValue(EditPlaylistState.PlaylistUpdated)
+            }
         }
     }
 

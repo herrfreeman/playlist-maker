@@ -27,9 +27,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
 
     private var searchString = SEARCH_STRING_DEFAULT
-    private val adapter = TrackSearchAdapter { clickDebounce { addToHistory(it); openTrack(it) } }
-    private val historyAdapter =
-        TrackSearchAdapter { clickDebounce { addToHistory(it); openTrack(it) } }
+    private val adapter = TrackSearchAdapter(
+        trackClickListener = { clickDebounce { addToHistory(it); openTrack(it) } }
+    )
+    private val historyAdapter = TrackSearchAdapter(
+        trackClickListener = { clickDebounce { addToHistory(it); openTrack(it) } }
+    )
     private var isClickAllowed = true
 
     private val viewModel: TrackSearchViewModel by viewModel()
@@ -154,12 +157,14 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
     }
 
     private fun showEmpty() {
+        binding.trackRecyclerView.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
         binding.nothingFoundFrame.visibility = View.VISIBLE
         binding.connectionErrorFrame.visibility = View.GONE
     }
 
     private fun showError() {
+        binding.trackRecyclerView.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
         binding.nothingFoundFrame.visibility = View.GONE
         binding.connectionErrorFrame.visibility = View.VISIBLE
@@ -167,6 +172,7 @@ class TrackSearchFragment : BindingFragment<FragmentTrackSearchBinding>() {
 
     @Suppress("notifyDataSetChanged")
     private fun showContent(trackList: List<Track>) {
+        binding.trackRecyclerView.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
         binding.nothingFoundFrame.visibility = View.GONE
         binding.connectionErrorFrame.visibility = View.GONE

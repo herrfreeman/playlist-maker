@@ -2,7 +2,8 @@ package com.practicum.playlistmaker.search.data.impl
 
 import com.practicum.playlistmaker.medialibrary.favorites.domain.FavoriteTracksRepository
 import com.practicum.playlistmaker.search.data.LocalHistoryStorage
-import com.practicum.playlistmaker.search.data.mapper.TrackMapper
+import com.practicum.playlistmaker.search.data.mapper.toDto
+import com.practicum.playlistmaker.search.data.mapper.toTrack
 import com.practicum.playlistmaker.search.domain.api.TrackSearchHistoryRepository
 import com.practicum.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,7 @@ class TrackSearchHistoryRepositoryImpl(
     override fun addTrackToHistory(track: Track): Flow<List<Track>> = flow {
 
         val currentHistory = localStorage.getSearchHistory()
-            .map { TrackMapper.trackDtoToTrackMap(it) }
+            .map { it.toTrack() }
             .filter { it.id != track.id }
             .toMutableList()
 
@@ -26,7 +27,7 @@ class TrackSearchHistoryRepositoryImpl(
 
         localStorage.saveSearchHistory(currentHistory
             .subList(0, listOf(currentHistory.size, searchHistorySize).min())
-            .map { TrackMapper.trackToTrackDtoMap(it) })
+            .map { it.toDto() })
 
         val historyWithFavorites = applyFavorites(currentHistory)
         emit(historyWithFavorites)
@@ -35,14 +36,14 @@ class TrackSearchHistoryRepositoryImpl(
     override fun clearHistory(): Flow<List<Track>> = flow {
         emit(
             localStorage.clearHistory()
-                .map { TrackMapper.trackDtoToTrackMap(it) }
+                .map { it.toTrack() }
         )
     }
 
     override fun getSearchHistory(): Flow<List<Track>> = flow {
         val currentHistory = applyFavorites(
             localStorage.getSearchHistory()
-                .map { TrackMapper.trackDtoToTrackMap(it) }
+                .map { it.toTrack() }
         )
 
         emit(
@@ -52,7 +53,7 @@ class TrackSearchHistoryRepositoryImpl(
     }
 
     private suspend fun applyFavorites(tracks: List<Track>): List<Track> {
-        val favorites = favoriteTracksRepository.getTracksId().toList()
+        val favorites = favoriteTracksRepository.getFavoriteTracksId().toList()
 
         return tracks.map { track ->
             track.apply {

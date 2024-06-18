@@ -2,9 +2,7 @@ package com.practicum.playlistmaker.medialibrary.playlists.ui
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.practicum.playlistmaker.PlayListApplication
 import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
-import org.koin.java.KoinJavaComponent.getKoin
 
 class PlaylistRecyclerAdapter(
     private val clickListener: ItemClickListener,

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistsBinding
 import com.practicum.playlistmaker.medialibrary.playlists.domain.Playlist
+import com.practicum.playlistmaker.playlist.ui.PlaylistFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,7 +25,14 @@ class PlayListsFragment : Fragment() {
     private val binding: FragmentPlaylistsBinding get() = _binding!!
 
     private val viewModel: PlaylistsViewModel by viewModel()
-    private val adapter = PlaylistRecyclerAdapter { }
+    private val adapter = PlaylistRecyclerAdapter {
+        clickDebounce {
+            findNavController().navigate(
+                R.id.action_mediaLibraryFragment_to_playlistFragment,
+                PlaylistFragment.createArgs(it)
+            )
+        }
+    }
 
     private var isClickAllowed = true
 
@@ -49,7 +57,7 @@ class PlayListsFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback {
-            findNavController().popBackStack()
+            clickDebounce { findNavController().popBackStack() }
         }
     }
 
@@ -69,11 +77,13 @@ class PlayListsFragment : Fragment() {
     private fun showEmpty() {
         binding.mediaImageNoplaylists.isVisible = true
         binding.noplaylistText.isVisible = true
+        binding.playlistRecycler.isVisible = false
     }
 
     private fun showContent(playlists: List<Playlist>) {
         binding.mediaImageNoplaylists.isVisible = false
         binding.noplaylistText.isVisible = false
+        binding.playlistRecycler.isVisible = true
 
         adapter.playlists.clear()
         adapter.playlists.addAll(playlists)

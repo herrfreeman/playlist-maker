@@ -10,8 +10,8 @@ class FavoriteTracksInteractorImpl(private val favoriteTracksRepository: Favorit
 
     override suspend fun deleteTrack(track: Track) = favoriteTracksRepository.deleteTrack(track)
 
-    override fun getTracks(): Flow<List<Track>> = favoriteTracksRepository.getTracks()
+    override fun getTracks(): Flow<List<Track>> = favoriteTracksRepository.getFavoriteTracks()
 
-    override fun getTracksId(): Flow<List<String>> = favoriteTracksRepository.getTracksId()
+    override fun getFavoritesTracksId(): Flow<List<String>> = favoriteTracksRepository.getFavoriteTracksId()
 
 }

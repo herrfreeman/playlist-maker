@@ -110,7 +110,7 @@ class PlayerViewModel(
 
     fun addToPlaylist(playlist: Playlist) {
         viewModelScope.launch {
-            if (playlistInteractor.addTrackToPlaytist(playlist, currentTrack)) {
+            if (playlistInteractor.addTrackToPlaylist(playlist, currentTrack)) {
                 addToPlaylistLiveData.postValue(AddToPlaylistState.AlreadyAdded(playlist))
             } else {
                 addToPlaylistLiveData.postValue(AddToPlaylistState.Done(playlist))
