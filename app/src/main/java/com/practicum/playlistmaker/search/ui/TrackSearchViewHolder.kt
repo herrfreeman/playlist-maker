@@ -14,7 +14,8 @@ import java.util.Locale
 
 class TrackSearchViewHolder(
     parent: ViewGroup,
-    private val clickListener: TrackSearchAdapter.TrackClickListener
+    private val clickListener: TrackSearchAdapter.TrackClickListener?,
+    private val longClickListener: TrackSearchAdapter.TrackLongClickListener?,
 ) : RecyclerView.ViewHolder(
     LayoutInflater
         .from(parent.context)
@@ -43,7 +44,11 @@ class TrackSearchViewHolder(
             Locale.getDefault()
         ).format(track.trackTimeMillis)
         itemView.setOnClickListener{
-            clickListener.onTrackClick(track)
+            clickListener?.onTrackClick(track)
+        }
+        itemView.setOnLongClickListener {
+            longClickListener?.onTrackClick(track)
+            true
         }
     }
 }

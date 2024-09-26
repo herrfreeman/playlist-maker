@@ -49,14 +49,16 @@
     <string name="check_connection_message">Check your internet connection</string>
     <string name="server_error_message">Server error</string>
     <string name="create_playlist_title">New playlist</string>
+    <string name="edit_playlist_title">Edit</string>
     <string name="playlist_name_caption">Name*</string>
     <string name="playlist_description_caption">Description</string>
     <string name="playlist_create_button_caption">Create</string>
+    <string name="playlist_save_button_caption">Save</string>
     <string name="playlist_exit_title">Finish to create playlist?</string>
     <string name="playlist_exit_text">All unsaved data will be lost</string>
     <string name="cancel_button">Cancel</string>
     <string name="finish_button">Finish</string>
-    <string name="add_to_playlist" translatable="false">Add to playlist</string>
+    <string name="add_to_playlist">Add to playlist</string>
     <string name="added_to_playlist">Added to playlist %s</string>
     <string name="added_before">Track has already added to playlist %s</string>
     <string name="playlist_created">Playlist %s created</string>
@@ -65,4 +67,21 @@
     <string name="track_count_1">track</string>
     <string name="track_count_2_4">tracks</string>
     <string name="track_count_5_20">tracks</string>
+
+    <string name="track_duration_0">minutes</string>
+    <string name="track_duration_1">minute</string>
+    <string name="track_duration_2_4">minutes</string>
+    <string name="track_duration_5_20">minutes</string>
+
+    <string name="delete_track_dialog">Do you want to delete track?</string>
+    <string name="delete_playlist_dialog">Do you want to delete playlist \"%s\"?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="no_track_dialog">Here is no track in playlist to share</string>
+    <string name="share">Share</string>
+    <string name="edit_playlist_information">Edit playlist information</string>
+    <string name="delete_playlist">Delete playlist</string>
+    <string name="empty_playlist">No track in playlist</string>
+
 </resources>

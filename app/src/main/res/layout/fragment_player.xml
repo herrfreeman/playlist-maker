@@ -59,7 +59,7 @@
             android:id="@+id/track_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_xxl"
+            android:layout_marginTop="@dimen/margin_5xl"
             android:contentDescription="@string/track_holder_description"
             android:scaleType="centerCrop"
             android:src="@drawable/track_placeholder_236"
@@ -110,7 +110,7 @@
             android:id="@+id/track_play_button_placeholder"
             android:layout_width="@dimen/button_l"
             android:layout_height="@dimen/button_l"
-            android:layout_marginTop="@dimen/margin_xxl"
+            android:layout_marginTop="@dimen/margin_5xl"
             app:layout_constraintBottom_toTopOf="@id/play_timer"
             app:layout_constraintEnd_toStartOf="@id/track_like_button"
             app:layout_constraintStart_toEndOf="@id/track_add_button"
@@ -309,15 +309,9 @@
         app:behavior_peekHeight="500dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <View
-            android:layout_width="50dp"
-            android:layout_height="4dp"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_xs"
-            android:background="@color/yp_light_gray" />
-
         <TextView
             style="@style/Widget.PlayListMaker.MainText"
+            android:layout_marginTop="@dimen/margin_l"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
